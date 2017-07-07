@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Liqiang Fang All Rights Reserved.
+ * Copyright (c) 2017 Liqiang Fang All Rights Reserved.
  */
 package org.ccs.leetcode.linklist.medium;
 
