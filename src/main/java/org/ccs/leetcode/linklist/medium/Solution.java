@@ -6,7 +6,6 @@ package org.ccs.leetcode.linklist.medium;
 import org.ccs.leetcode.bean.ListNode;
 
 import java.math.BigDecimal;
-import java.util.Stack;
 
 /**
  * @author Abel created on 2017/6/29 18:02
