@@ -10,6 +10,12 @@ import org.ccs.leetcode.bean.TreeNode;
  * @version $Id$
  */
 public class Solution {
+
+    /**
+     * todo
+     * @param t
+     * @return
+     */
     public String tree2str(TreeNode t) {
         if (t == null) {
             return "()";
@@ -76,7 +82,7 @@ public class Solution {
      *
      * <P>
      *
-     * https://leetcode.com/problems/add-one-row-to-tree/#/description
+     * https://leetcode.com/problems/add-one-row-to-tree
      *
      * @param root
      * @param v

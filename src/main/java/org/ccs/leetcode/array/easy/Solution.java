@@ -16,7 +16,7 @@ public class Solution {
     /**
      * 349. Intersection of Two Arrays
      * <p>
-     * https://leetcode.com/problems/intersection-of-two-arrays/#/description
+     * https://leetcode.com/problems/intersection-of-two-arrays
      *
      * @param nums1
      * @param nums2

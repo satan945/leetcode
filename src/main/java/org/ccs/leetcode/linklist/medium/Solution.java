@@ -12,6 +12,24 @@ import java.math.BigDecimal;
  * @version $Id$
  */
 public class Solution {
+
+    /**
+     * 2. Add Two Numbers
+     * <p>
+     * https://leetcode.com/problems/add-two-numbersval
+     * <p>
+     * You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse
+     * order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+     * 
+     * You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+     * 
+     * Input: (2 -> 4 -> 3) + (5 -> 6 -> 4) Output: 7 -> 0 -> 8
+     * </p>
+     * 
+     * @param l1
+     * @param l2
+     * @return
+     */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         BigDecimal num1 = new BigDecimal(0);
         BigDecimal num2 = new BigDecimal(0);
@@ -30,7 +48,7 @@ public class Solution {
             l2Cursor = l2Cursor.next;
         }
         BigDecimal sum = num1.add(num2);
-        if(sum.equals(BigDecimal.ZERO)){
+        if (sum.equals(BigDecimal.ZERO)) {
             return new ListNode(0);
         }
         String sumStr = new StringBuilder(sum.toString()).reverse().toString();
@@ -48,13 +66,13 @@ public class Solution {
         ListNode l1 = new ListNode(2);
         ListNode l11 = new ListNode(4);
         ListNode l12 = new ListNode(3);
-        l1.next=l11;
-        l11.next=l12;
+        l1.next = l11;
+        l11.next = l12;
         ListNode l2 = new ListNode(5);
         ListNode l21 = new ListNode(6);
         ListNode l22 = new ListNode(4);
-        l2.next=l21;
-        l21.next=l22;
+        l2.next = l21;
+        l21.next = l22;
 
         new Solution().addTwoNumbers(l1, l2);
     }

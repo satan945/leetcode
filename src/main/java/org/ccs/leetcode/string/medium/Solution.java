@@ -18,7 +18,7 @@ public class Solution {
     /**
      * 8. String to Integer (atoi)
      * <p>
-     * https://leetcode.com/problems/string-to-integer-atoi/#/description
+     * https://leetcode.com/problems/string-to-integer-atoi
      * 
      * @param str
      * @return
