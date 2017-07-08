@@ -17,7 +17,7 @@ import java.util.Stack;
 public class Solution {
 
     /**
-     * 8. String to Integer (atoi)
+     * 8. String to Integer (atoi) Not AC
      * <p>
      * https://leetcode.com/problems/string-to-integer-atoi
      * 
@@ -28,15 +28,26 @@ public class Solution {
         if (str == null || "".equals(str)) {
             return 0;
         }
+        int i = 0;
+        while (str.charAt(i) == '0' || str.charAt(i) == ' ') {
+            i++;
+        }
+        if (i > 0) {
+            str = str.substring(i);
+        }
         if (!checkLegal(str)) {
             return 0;
         }
-        return 0;
+        return Integer.parseInt(str);
     }
 
     private boolean checkLegal(String str) {
-
-        return false;
+        try {
+            Integer.parseInt(str);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -138,9 +149,59 @@ public class Solution {
         return 0;
     }
 
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        String a = "/a/./b///../c/../././../d/..//../e/./f/./g/././//.//h///././/..///";
-        System.out.println(solution.simplifyPath(a));
+    /**
+     * 5. Longest Palindromic Substring
+     * <p>
+     *
+     * https://leetcode.com/problems/longest-palindromic-substring
+     * 
+     * <p>
+     * Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is
+     * 1000.
+     * 
+     * Example:
+     * 
+     * Input: "babad" Output: "bab"
+     * 
+     * Note: "aba" is also a valid answer. Example:
+     * 
+     * Input: "cbbd" Output: "bb"
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public String longestPalindrome(String s) {
+        int i = 0;
+        int step = s.length();
+        String maxStr = "";
+        while (step >= 2) {
+            while (i + step <= s.length()) {
+                String sub = s.substring(i, i + step);
+                if (isPalindrome(sub)) {
+                    maxStr = sub;
+                    break;
+                }
+                i++;
+            }
+            if (!maxStr.equals("")) {
+                return maxStr;
+            }
+            i = 0;
+            step--;
+        }
+        return s.substring(0,1);
     }
+
+    private boolean isPalindrome(String sub) {
+        return new StringBuilder(sub).reverse().toString().equals(sub);
+    }
+
+    public static void main(String[] args) {
+        String a = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
+        System.out.println(new Solution().longestPalindrome(a));
+    }
+
+
+
 }
