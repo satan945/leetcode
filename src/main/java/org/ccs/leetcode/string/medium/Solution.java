@@ -3,7 +3,6 @@
  */
 package org.ccs.leetcode.string.medium;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -172,36 +171,36 @@ public class Solution {
      * @return
      */
     public String longestPalindrome(String s) {
-        int i = 0;
-        int step = s.length();
-        String maxStr = "";
-        while (step >= 2) {
-            while (i + step <= s.length()) {
-                String sub = s.substring(i, i + step);
-                if (isPalindrome(sub)) {
-                    maxStr = sub;
-                    break;
-                }
-                i++;
-            }
-            if (!maxStr.equals("")) {
-                return maxStr;
-            }
-            i = 0;
-            step--;
+        if (s.length() < 2) {
+            return s;
         }
-        return s.substring(0,1);
+        StringBuilder longestBuilder = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            expand(s, longestBuilder, i, i);// odd
+            expand(s, longestBuilder, i, i + 1);// even
+        }
+        return longestBuilder.toString();
     }
 
-    private boolean isPalindrome(String sub) {
-        return new StringBuilder(sub).reverse().toString().equals(sub);
+    private void expand(String s, StringBuilder stringBuilder, int i, int j) {
+        while (i >= 0 && j < s.length()) {
+            if (s.charAt(i) == s.charAt(j)) {
+                if (j - i + 1 > stringBuilder.length()) {
+                    stringBuilder.delete(0, stringBuilder.length());
+                    stringBuilder.append(s.substring(i, j + 1));
+                }
+                i--;
+                j++;
+            } else {
+                break;
+            }
+        }
     }
 
     public static void main(String[] args) {
         String a = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
+        String b = "abcba";
         System.out.println(new Solution().longestPalindrome(a));
     }
-
-
 
 }
