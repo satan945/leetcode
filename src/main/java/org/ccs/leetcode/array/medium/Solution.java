@@ -125,9 +125,64 @@ public class Solution {
         return result;
     }
 
+    /**
+     * 16. 3Sum Closest
+     * <p>
+     * https://leetcode.com/problems/3sum-closest
+     * <p>
+     * Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target.
+     * Return the sum of the three integers. You may assume that each input would have exactly one solution.
+     * 
+     * For example, given array S = {-1 2 1 -4}, and target = 1.
+     * 
+     * The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+     * </p>
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int result = 0;
+        int diff = Integer.MAX_VALUE;
+        for (int i = 0; i + 2 < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int remain = target - nums[i];
+            int j = i + 1, k = nums.length - 1;
+            while (j < k) {
+                if (nums[j] + nums[k] == remain) {
+                    return target;
+                } else {
+                    int curDiff = Math.abs(remain - (nums[j] + nums[k]));
+                    if (curDiff < diff) {
+                        diff = curDiff;
+                        result = nums[i] + nums[j] + nums[k];
+                    }
+                    if (nums[j] + nums[k] > remain) {
+                        k--;
+                        while (j < k && nums[k] == nums[k + 1]) {
+                            k--;
+                        }
+                    } else {
+                        j++;
+                        while (j < k && nums[j] == nums[j - 1]) {
+                            j++;
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[][] matrix = { { 1, 2, }, { 3, 4 } };
         solution.rotate(matrix);
+        int[] array = new int[] { 1, 1, 1, 0 };
+        System.out.println(solution.threeSumClosest(array, -100));
     }
 }
