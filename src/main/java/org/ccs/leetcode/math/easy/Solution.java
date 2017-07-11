@@ -251,9 +251,49 @@ public class Solution {
         }
     }
 
+    /**
+     * 9. Palindrome Number
+     * <p>
+     * https://leetcode.com/problems/palindrome-number
+     *
+     * <p>
+     * Determine whether an integer is a palindrome. Do this without extra space.
+     * 
+     * click to show spoilers.
+     * 
+     * Some hints: Could negative integers be palindromes? (ie, -1)
+     * 
+     * If you are thinking of converting the integer to string, note the restriction of using extra space.
+     * 
+     * You could also try reversing an integer. However, if you have solved the problem "Reverse Integer", you know that
+     * the reversed integer might overflow. How would you handle such case?
+     * 
+     * There is a more generic way of solving this problem.
+     * </p>
+     * 
+     * @param x
+     * @return
+     */
+    public boolean isPalindrome(int x) {
+        if (x < 0) {
+            return false;
+        }
+        long reverse = 0;
+        long xLong = (long) x;
+        while (xLong > 0) {
+            reverse = reverse * 10 + xLong % 10;
+            xLong /= 10;
+        }
+        if (reverse > Integer.MAX_VALUE) {
+            return false;
+        }
+        return reverse == x;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[] { 9 };
         Solution solution = new Solution();
-        System.out.println(solution.plusOne(nums));
+        // System.out.println(solution.plusOne(nums));
+        System.out.println(solution.isPalindrome(10001));
     }
 }
