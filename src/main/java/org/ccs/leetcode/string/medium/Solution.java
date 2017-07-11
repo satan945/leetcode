@@ -171,9 +171,6 @@ public class Solution {
      * @return
      */
     public String longestPalindrome(String s) {
-        if (s.length() < 2) {
-            return s;
-        }
         StringBuilder longestBuilder = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             expand(s, longestBuilder, i, i);// odd
@@ -199,8 +196,8 @@ public class Solution {
 
     public static void main(String[] args) {
         String a = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
-        String b = "abcba";
-        System.out.println(new Solution().longestPalindrome(a));
+        String b = "a";
+        System.out.println(new Solution().longestPalindrome(b));
     }
 
 }
