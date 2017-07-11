@@ -196,6 +196,64 @@ public class Solution {
         } else {
             return pro1 > pro2 ? pro1 * nums[l - 1] : pro2 * nums[l - 1];
         }
+    }
 
+    /**
+     * 66. Plus One
+     * <p>
+     * https://leetcode.com/problems/plus-one
+     *
+     * <p>
+     * Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
+     * 
+     * You may assume the integer do not contain any leading zero, except the number 0 itself.
+     * 
+     * The digits are stored such that the most significant digit is at the head of the list.
+     * </p>
+     * 
+     * @param digits
+     * @return
+     */
+    public int[] plusOne(int[] digits) {
+        boolean needCarrier = false;
+        for (int i = digits.length - 1; i >= 0; i--) {
+            if (i == digits.length - 1) {
+                digits[i] = digits[i] + 1;
+                if (digits[i] >= 10) {
+                    needCarrier = true;
+                    digits[i] = digits[i] % 10;
+                } else {
+                    needCarrier = false;
+                    break;
+                }
+            } else {
+                if (needCarrier) {
+                    digits[i] = digits[i] + 1;
+                    if (digits[i] >= 10) {
+                        digits[i] = digits[i] % 10;
+                    } else {
+                        needCarrier = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (needCarrier) {
+            int[] newDigits = new int[digits.length + 1];
+            for (int i = newDigits.length - 1; i > 0; i--) {
+                newDigits[i] = digits[i - 1];
+            }
+            newDigits[0] = 1;
+            return newDigits;
+        } else {
+            return digits;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] nums = new int[] { 9 };
+        Solution solution = new Solution();
+        System.out.println(solution.plusOne(nums));
     }
 }
