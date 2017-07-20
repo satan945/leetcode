@@ -93,18 +93,64 @@ public class Solution {
         return null;
     }
 
+    /**
+     * 19. Remove Nth Node From End of List
+     * <p>
+     * https://leetcode.com/problems/remove-nth-node-from-end-of-list
+     * <p>
+     * Given a linked list, remove the nth node from the end of list and return its head.
+     * 
+     * For example,
+     * 
+     * Given linked list: 1->2->3->4->5, and n = 2.
+     * 
+     * After removing the second node from the end, the linked list becomes 1->2->3->5. Note: Given n will always be
+     * valid. Try to do this in one pass.
+     * </p>
+     * 
+     * @param head
+     * @param n
+     * @return
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode fakeHead = new ListNode(0);
+        fakeHead.next = head;
+        ListNode slow = fakeHead;
+        ListNode fast = fakeHead;
+        while (n > 0) {
+            if (fast == null) {
+                return head;
+            }
+            fast = fast.next;
+            n--;
+        }
+
+        if (fast.next == null) {
+            slow.next = slow.next.next;
+        } else {
+            while (fast.next != null) {
+                fast = fast.next;
+                slow = slow.next;
+            }
+            slow.next = slow.next.next;
+        }
+        return fakeHead.next;
+    }
+
     public static void main(String[] args) {
+        Solution solution = new Solution();
         ListNode l1 = new ListNode(2);
         ListNode l11 = new ListNode(4);
-        ListNode l12 = new ListNode(3);
+        // ListNode l12 = new ListNode(3);
         l1.next = l11;
-        l11.next = l12;
+        // l11.next = l12;
         ListNode l2 = new ListNode(5);
         ListNode l21 = new ListNode(6);
         ListNode l22 = new ListNode(4);
         l2.next = l21;
         l21.next = l22;
 
-        new Solution().addTwoNumbers(l1, l2);
+        // solution.addTwoNumbers(l1, l2);
+        solution.removeNthFromEnd(l1, 2);
     }
 }

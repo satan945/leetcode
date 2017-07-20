@@ -65,6 +65,17 @@ public class Solution {
         return true;
     }
 
+    /**
+     * 43. Multiply Strings
+     * 
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public String multiply(String num1, String num2) {
+        return null;
+    }
+
     public static void main(String[] args) {
         System.out.println(new Solution().complexNumberMultiply("1+1i", "1+1i"));
     }

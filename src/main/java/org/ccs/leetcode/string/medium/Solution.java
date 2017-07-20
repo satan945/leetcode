@@ -24,29 +24,35 @@ public class Solution {
      * @return
      */
     public int myAtoi(String str) {
-        if (str == null || "".equals(str)) {
+        int index = 0, sign = 1, total = 0;
+        // 1. Empty string
+        if (str.length() == 0)
             return 0;
-        }
-        int i = 0;
-        while (str.charAt(i) == '0' || str.charAt(i) == ' ') {
-            i++;
-        }
-        if (i > 0) {
-            str = str.substring(i);
-        }
-        if (!checkLegal(str)) {
-            return 0;
-        }
-        return Integer.parseInt(str);
-    }
 
-    private boolean checkLegal(String str) {
-        try {
-            Integer.parseInt(str);
-        } catch (Exception e) {
-            return false;
+        // 2. Remove Spaces
+        while (str.charAt(index) == ' ' && index < str.length())
+            index++;
+
+        // 3. Handle signs
+        if (str.charAt(index) == '+' || str.charAt(index) == '-') {
+            sign = str.charAt(index) == '+' ? 1 : -1;
+            index++;
         }
-        return true;
+
+        // 4. Convert number and avoid overflow
+        while (index < str.length()) {
+            int digit = str.charAt(index) - '0';
+            if (digit < 0 || digit > 9)
+                break;
+
+            // check if total will be overflow after 10 times and add digit
+            if (Integer.MAX_VALUE / 10 < total || Integer.MAX_VALUE / 10 == total && Integer.MAX_VALUE % 10 < digit)
+                return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+
+            total = 10 * total + digit;
+            index++;
+        }
+        return total * sign;
     }
 
     /**
@@ -192,6 +198,23 @@ public class Solution {
                 break;
             }
         }
+    }
+
+    /**
+     * 12. Integer to Roman
+     * <p>
+     * https://leetcode.com/problems/integer-to-roman
+     * <p>
+     * Given an integer, convert it to a roman numeral.
+     * 
+     * Input is guaranteed to be within the range from 1 to 3999.
+     * </p>
+     *
+     * @param num
+     * @return
+     */
+    public String intToRoman(int num) {
+        return "";
     }
 
     public static void main(String[] args) {
