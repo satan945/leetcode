@@ -77,24 +77,7 @@ public class Solution {
         }
     }
 
-    /**
-     * 623. Add One Row to Tree
-     *
-     * <P>
-     *
-     * https://leetcode.com/problems/add-one-row-to-tree
-     *
-     * @param root
-     * @param v
-     * @param d
-     * @return
-     */
-    public TreeNode addOneRow(TreeNode root, int v, int d) {
-        TreeNode parent;
-        TreeNode lChild;
-        TreeNode rChild;
-        return null;
-    }
+
 
     /**
      * 100. Same Tree QuestionEditorial Solution My Submissions Total Accepted: 144793 Total Submissions: 329034

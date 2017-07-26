@@ -3,6 +3,7 @@
  */
 package org.ccs.leetcode.backtracking.easy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,9 +35,11 @@ import java.util.List;
  * valid, it should be "1:00". The minute must be consist of two digits and may contain a leading zero, for example
  * "10:2" is not valid, it should be "10:02".
  * </p>
+ * todo
  */
 public class Solution {
     public List<String> readBinaryWatch(int num) {
-
+        List<String> result = new ArrayList<>();
+        return result;
     }
 }

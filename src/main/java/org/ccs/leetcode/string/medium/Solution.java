@@ -218,9 +218,53 @@ public class Solution {
     }
 
     public static void main(String[] args) {
+        Solution solution = new Solution();
         String a = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
-        String b = "a";
-        System.out.println(new Solution().longestPalindrome(b));
+        // String b = "a";
+        // System.out.println(new Solution().longestPalindrome(b));
+        System.out.println(solution.countSubstrings("abaabcaba"));
+    }
+
+    /**
+     * 647. Palindromic Substrings
+     * 
+     * @param s
+     * @return
+     */
+    public int countSubstringsSlow(String s) {
+        int count = s.length();
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = i + 2; j <= s.length(); j++) {
+                String sub = s.substring(i, j);
+                if (isPalindromic(sub)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private boolean isPalindromic(String sub) {
+        return new StringBuilder(sub).reverse().toString().equals(sub);
+    }
+
+    public int countSubstrings(String s) {
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            count += findPalindromicNum(s, i, i);
+            count += findPalindromicNum(s, i, i + 1);
+        }
+        return count;
+    }
+
+    private int findPalindromicNum(String s, int from, int to) {
+        int count = 0;
+        while (from >= 0 && to < s.length() && s.charAt(from) == s.charAt(to)) {
+            count++;
+            from--;
+            to++;
+        }
+        return count;
     }
 
 }
