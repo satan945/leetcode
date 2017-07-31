@@ -1,12 +1,13 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.leetcode.binarytree.easy;
+package org.ccs.leetcode.tree.easy;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 import org.ccs.leetcode.bean.TreeNode;
 
@@ -56,17 +57,6 @@ public class Solution {
         leftStr = tree2str(t.left);
         rightStr = tree2str(t.right);
         return t.val + (t.left == null ? "()" : "(" + leftStr + ")") + (t.right == null ? "" : "(" + rightStr + ")");
-    }
-
-    public static void main(String[] args) {
-        TreeNode root = new TreeNode(1);
-        TreeNode n1 = new TreeNode(2);
-        TreeNode n2 = new TreeNode(3);
-        TreeNode n3 = new TreeNode(4);
-        root.left = n1;
-        root.right = n2;
-        n1.right = n3;
-        System.out.println(new Solution().tree2str(root));
     }
 
     /**
@@ -382,6 +372,182 @@ public class Solution {
             }
         }
         return num;
+    }
+
+    /**
+     * 572. Subtree of Another Tree
+     * <p>
+     * https://leetcode.com/problems/subtree-of-another-tree/description/
+     * <p>
+     * Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values
+     * with a subtree of s. A subtree of s is a tree consists of a node in s and all of this node's descendants. The
+     * tree s could also be considered as a subtree of itself.
+     * 
+     * Example 1: Given tree s:
+     * 
+     * 3 / \ 4 5 / \ 1 2 Given tree t: 4 / \ 1 2 Return true, because t has the same structure and node values with a
+     * subtree of s.
+     * 
+     * Example 2: Given tree s:
+     * 
+     * 3 / \ 4 5 / \ 1 2 / 0 Given tree t: 4 / \ 1 2 Return false.
+     * </p>
+     * 
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isSubtreeDFS(TreeNode s, TreeNode t) {
+        Queue<TreeNode> treeNodeQueue = new LinkedList<>();
+        if (s == null && t == null) {
+            return true;
+        }
+        if (s == null || t == null) {
+            return false;
+        }
+        treeNodeQueue.add(s);
+        while (!treeNodeQueue.isEmpty()) {
+            int size = treeNodeQueue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = treeNodeQueue.poll();
+                if (isSameTree(node, t)) {
+                    return true;
+                }
+                if (node.left != null) {
+                    treeNodeQueue.offer(node.left);
+                }
+                if (node.right != null) {
+                    treeNodeQueue.offer(node.right);
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 563. Binary Tree Tilt
+     * <p>
+     * https://leetcode.com/problems/binary-tree-tilt
+     * <p>
+     * Given a binary tree, return the tilt of the whole tree.
+     * 
+     * The tilt of a tree node is defined as the absolute difference between the sum of all left subtree node values and
+     * the sum of all right subtree node values. Null node has tilt 0.
+     * 
+     * The tilt of the whole tree is defined as the sum of all nodes' tilt.
+     * 
+     * Example:
+     * 
+     * Input: 1 / \ 2 3
+     * 
+     * Output: 1
+     * 
+     * Explanation:
+     * 
+     * Tilt of node 2 : 0
+     * 
+     * Tilt of node 3 : 0
+     * 
+     * Tilt of node 1 : |2-3| = 1
+     * 
+     * Tilt of binary tree : 0 + 0 + 1 = 1
+     * 
+     * Note:
+     * 
+     * The sum of node values in any subtree won't exceed the range of 32-bit integer. All the tilt values won't exceed
+     * the range of 32-bit integer.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public int findTiltPreOrder(TreeNode root) {
+        /*Time*/
+        if (root == null || root.left == null && root.right == null) {
+            return 0;
+        }
+        int sum = 0;
+        int leftSum = calNodeSum(root.left);
+        int rightSum = calNodeSum(root.right);
+        sum += Math.abs(leftSum-rightSum);
+        sum += findTiltPreOrder(root.left);
+        sum += findTiltPreOrder(root.right);
+        return sum;
+    }
+
+    /**
+     *
+     * @param node
+     * @return
+     */
+    public int calNodeSum(TreeNode node) {
+        int sum = 0;
+        if (node == null) {
+            return 0;
+        }
+        sum += (node.val + calNodeSum(node.left) + calNodeSum(node.right));
+        return sum;
+    }
+
+    /* using variable PostOrder */
+    int tilt = 0;
+
+    public int findTiltPostOrder(TreeNode root) {
+        postOrder(root);
+        return tilt;
+    }
+
+    private int postOrder(TreeNode root) {
+        if (root == null)
+            return 0;
+
+        int left = postOrder(root.left);
+        int right = postOrder(root.right);
+
+        tilt += Math.abs(left - right);
+
+        return left + right + root.val;
+    }
+
+    /**
+     * 94. Binary Tree Inorder Traversal
+     * 
+     * <p>
+     * https://leetcode.com/problems/binary-tree-inorder-traversal
+     * <p>
+     * Given a binary tree, return the inorder traversal of its nodes' values.
+     * 
+     * For example: Given binary tree [1,null,2,3], 1 \ 2 / 3 return [1,3,2].
+     * 
+     * Note: Recursive solution is trivial, could you do it iteratively?
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            while (!stack.isEmpty()) {
+                node = stack.peek();
+                result.add(node.val);
+                stack.pop();
+                node = node.right;
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
     }
 
 }

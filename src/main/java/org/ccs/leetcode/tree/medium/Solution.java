@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.leetcode.binarytree.medium;
+package org.ccs.leetcode.tree.medium;
 
 import org.ccs.leetcode.bean.TreeNode;
 
