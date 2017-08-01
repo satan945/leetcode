@@ -4,8 +4,10 @@
 package org.ccs.leetcode.tree.easy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -462,14 +464,14 @@ public class Solution {
      * @return
      */
     public int findTiltPreOrder(TreeNode root) {
-        /*Time*/
+        /* Time */
         if (root == null || root.left == null && root.right == null) {
             return 0;
         }
         int sum = 0;
         int leftSum = calNodeSum(root.left);
         int rightSum = calNodeSum(root.right);
-        sum += Math.abs(leftSum-rightSum);
+        sum += Math.abs(leftSum - rightSum);
         sum += findTiltPreOrder(root.left);
         sum += findTiltPreOrder(root.right);
         return sum;
@@ -545,6 +547,106 @@ public class Solution {
             }
         }
         return result;
+    }
+
+    /**
+     * 101. Symmetric Tree
+     * <p>
+     * https://leetcode.com/problems/symmetric-tree
+     * <p>
+     * Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+     * 
+     * For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
+     * 
+     * 1 / \ 2 2 / \ / \ 3 4 4 3 But the following [1,2,2,null,3,null,3] is not: 1 / \ 2 2 \ \ 3 3 Note: Bonus points if
+     * you could solve it both recursively and iteratively.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public boolean isSymmetric(TreeNode root) {
+        return true;
+    }
+
+    /**
+     * 105. Construct Binary Tree from Preorder and Inorder Traversal
+     * <p>
+     * https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/discuss/
+     * <p>
+     * Given preorder and inorder traversal of a tree, construct the binary tree.
+     * 
+     * Note: You may assume that duplicates do not exist in the tree.
+     * </p>
+     * 
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public TreeNode buildTreeByPreAndInOrder(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            indexMap.put(inorder[i], i);
+        }
+        TreeNode root = buildTreeRecursiveByPreAndInOrder(preorder, 0, preorder.length - 1, inorder, 0,
+                inorder.length - 1, indexMap);
+        return root;
+    }
+
+    private TreeNode buildTreeRecursiveByPreAndInOrder(int[] preorder, int preStart, int preEnd, int[] inorder,
+            int inStart, int inEnd, Map<Integer, Integer> indexMap) {
+        if (preStart > preEnd || inStart > inEnd) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[preStart]);
+        int inRoot = indexMap.get(preorder[preStart]);
+        int nodenums = inRoot - inStart;
+        root.left = buildTreeRecursiveByPreAndInOrder(preorder, preStart + 1, preStart + nodenums, inorder, inStart,
+                inRoot - 1, indexMap);
+        root.right = buildTreeRecursiveByPreAndInOrder(preorder, preStart + nodenums, preEnd, inorder, inRoot + 1,
+                inEnd, indexMap);
+        return root;
+    }
+
+    /**
+     * 106. Construct Binary Tree from Inorder and Postorder Traversal
+     * 
+     * <p>
+     * https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal
+     * 
+     * <p>
+     * Given inorder and postorder traversal of a tree, construct the binary tree.
+     * 
+     * </p>
+     * 
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public TreeNode buildTreeByInAndPostOrder(int[] inorder, int[] postorder) {
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            indexMap.put(inorder[i], i);
+        }
+        TreeNode root = buildTreeRecursiveByInAndPostOrder(inorder, 0, inorder.length - 1, postorder, 0,
+                postorder.length - 1, indexMap);
+        return root;
+    }
+
+    private TreeNode buildTreeRecursiveByInAndPostOrder(int[] inorder, int inStart, int inEnd, int[] postorder,
+            int postStart, int postEnd, Map<Integer, Integer> indexMap) {
+        if (inStart > inEnd || postStart > postEnd) {
+            return null;
+        }
+        TreeNode root = new TreeNode(postorder[postEnd]);
+
+        int inRoot = indexMap.get(postorder[postEnd]);
+        int nodeNums = inRoot - inStart;
+        root.left = buildTreeRecursiveByInAndPostOrder(inorder, inStart, inRoot - 1, postorder, postStart,
+                postStart + nodeNums - 1, indexMap);
+        root.right = buildTreeRecursiveByInAndPostOrder(inorder, inRoot + 1, inEnd, postorder, postStart + nodeNums,
+                postEnd - 1, indexMap);
+        return root;
     }
 
     public static void main(String[] args) {
