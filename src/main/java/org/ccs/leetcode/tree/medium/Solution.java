@@ -5,6 +5,12 @@ package org.ccs.leetcode.tree.medium;
 
 import org.ccs.leetcode.bean.TreeNode;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+
 /**
  * @author Abel created on 2017/7/19 17:12
  * @version $Id$
@@ -53,5 +59,153 @@ public class Solution {
     public TreeNode addOneRow(TreeNode root, int v, int d) {
 
         return null;
+    }
+
+    /**
+     * 144. Binary Tree Preorder Traversal
+     * <p>
+     * https://leetcode.com/problems/binary-tree-preorder-traversal
+     * 
+     * <p>
+     * Given a binary tree, return the preorder traversal of its nodes' values.
+     * 
+     * For example: Given binary tree {1,#,2,3}, 1 \ 2 / 3 return [1,2,3].
+     * 
+     * Note: Recursive solution is trivial, could you do it iteratively?
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        List<Integer> result = new ArrayList<>();
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            if (node != null) {
+                result.add(node.val);
+                stack.push(node.right);
+                stack.push(node.left);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 94. Binary Tree Inorder Traversal
+     *
+     * <p>
+     * https://leetcode.com/problems/binary-tree-inorder-traversal
+     * <p>
+     * Given a binary tree, return the inorder traversal of its nodes' values.
+     *
+     * For example: Given binary tree [1,null,2,3], 1 \ 2 / 3 return [1,3,2].
+     *
+     * Note: Recursive solution is trivial, could you do it iteratively?
+     * </p>
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            if (!stack.isEmpty()) {
+                node = stack.pop();
+                result.add(node.val);
+                node = node.right;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 106. Construct Binary Tree from Inorder and Postorder Traversal
+     *
+     * <p>
+     * https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal
+     *
+     * <p>
+     * Given inorder and postorder traversal of a tree, construct the binary tree.
+     *
+     * </p>
+     *
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public TreeNode buildTreeByInAndPostOrder(int[] inorder, int[] postorder) {
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            indexMap.put(inorder[i], i);
+        }
+        TreeNode root = buildTreeRecursiveByInAndPostOrder(inorder, 0, inorder.length - 1, postorder, 0,
+                postorder.length - 1, indexMap);
+        return root;
+    }
+
+    private TreeNode buildTreeRecursiveByInAndPostOrder(int[] inorder, int inStart, int inEnd, int[] postorder,
+            int postStart, int postEnd, Map<Integer, Integer> indexMap) {
+        if (inStart > inEnd || postStart > postEnd) {
+            return null;
+        }
+        TreeNode root = new TreeNode(postorder[postEnd]);
+
+        int inRoot = indexMap.get(postorder[postEnd]);
+        int nodeNums = inRoot - inStart;
+        root.left = buildTreeRecursiveByInAndPostOrder(inorder, inStart, inRoot - 1, postorder, postStart,
+                postStart + nodeNums - 1, indexMap);
+        root.right = buildTreeRecursiveByInAndPostOrder(inorder, inRoot + 1, inEnd, postorder, postStart + nodeNums,
+                postEnd - 1, indexMap);
+        return root;
+    }
+
+    /**
+     * 105. Construct Binary Tree from Preorder and Inorder Traversal
+     * <p>
+     * https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/discuss/
+     * <p>
+     * Given preorder and inorder traversal of a tree, construct the binary tree.
+     *
+     * Note: You may assume that duplicates do not exist in the tree.
+     * </p>
+     *
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+    public TreeNode buildTreeByPreAndInOrder(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            indexMap.put(inorder[i], i);
+        }
+        TreeNode root = buildTreeRecursiveByPreAndInOrder(preorder, 0, preorder.length - 1, inorder, 0,
+                inorder.length - 1, indexMap);
+        return root;
+    }
+
+    private TreeNode buildTreeRecursiveByPreAndInOrder(int[] preorder, int preStart, int preEnd, int[] inorder,
+            int inStart, int inEnd, Map<Integer, Integer> indexMap) {
+        if (preStart > preEnd || inStart > inEnd) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[preStart]);
+        int inRoot = indexMap.get(preorder[preStart]);
+        int nodenums = inRoot - inStart;
+        root.left = buildTreeRecursiveByPreAndInOrder(preorder, preStart + 1, preStart + nodenums, inorder, inStart,
+                inRoot - 1, indexMap);
+        root.right = buildTreeRecursiveByPreAndInOrder(preorder, preStart + nodenums, preEnd, inorder, inRoot + 1,
+                inEnd, indexMap);
+        return root;
     }
 }

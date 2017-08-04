@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 Liqiang Fang All Rights Reserved.
  */
-package org.ccs.leetcode.linklist.medium;
+package org.ccs.leetcode.linkedlist.medium;
 
 import org.ccs.leetcode.bean.ListNode;
 
@@ -137,20 +137,78 @@ public class Solution {
         return fakeHead.next;
     }
 
+    /**
+     * 142. Linked List Cycle II
+     * <p>
+     * https://leetcode.com/problems/linked-list-cycle-ii/description/
+     * <p>
+     * Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+     *
+     * Note: Do not modify the linked list.
+     *
+     * Follow up: Can you solve it without using extra space?
+     * </p>
+     *
+     * @param head
+     * @return
+     */
+    public ListNode detectCycle(ListNode head) {
+        return null;
+
+    }
+
+    /**
+     * 92. Reverse Linked List II
+     * <p>
+     * https://leetcode.com/problems/reverse-linked-list-ii
+     * <p>
+     * Reverse a linked list from position m to n. Do it in-place and in one-pass.
+     * 
+     * For example: Given 1->2->3->4->5->NULL, m = 2 and n = 4,
+     * 
+     * return 1->4->3->2->5->NULL.
+     * 
+     * Note: Given m, n satisfy the following condition: 1 ? m ? n ? length of list.
+     * </p>
+     * 
+     * @param head
+     * @param m
+     * @param n
+     * @return
+     */
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        int sub = n - m;
+        if (sub == 0 || head == null) {
+            return head;
+        }
+        ListNode fakeHead = new ListNode(0);
+        fakeHead.next = head;
+        ListNode pre = fakeHead;
+        for (int i = 1; i < m; i++) {
+            pre = pre.next;
+        }
+        ListNode start = pre.next;
+        ListNode then = start.next;
+        for (int i = 0; i < sub; i++) {
+            start.next = then.next;
+            then.next = pre.next;
+            pre.next = then;
+            then = start.next;
+        }
+        return fakeHead.next;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        ListNode l1 = new ListNode(2);
-        ListNode l11 = new ListNode(4);
-        // ListNode l12 = new ListNode(3);
-        l1.next = l11;
-        // l11.next = l12;
-        ListNode l2 = new ListNode(5);
-        ListNode l21 = new ListNode(6);
-        ListNode l22 = new ListNode(4);
-        l2.next = l21;
-        l21.next = l22;
+        ListNode l1 = new ListNode(1);
+        ListNode l2 = new ListNode(2);
+        ListNode l3 = new ListNode(3);
+        l1.next = l2;
+        l2.next = l3;
+        solution.reverseBetween(l1, 1, 2);
 
         // solution.addTwoNumbers(l1, l2);
-        solution.removeNthFromEnd(l1, 2);
+        // solution.removeNthFromEnd(l1, 2);
     }
 }

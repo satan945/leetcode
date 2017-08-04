@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.leetcode.linklist.easy;
+package org.ccs.leetcode.linkedlist.easy;
 
 import org.ccs.leetcode.bean.ListNode;
 
@@ -103,4 +103,34 @@ public class Solution {
         }
         return true;
     }
+
+    /**
+     * 206. Reverse Linked List
+     * <p>
+     * https://leetcode.com/problems/reverse-linked-list
+     * <p>
+     * Reverse a singly linked list.
+     * </p>
+     * 
+     * @param head
+     * @return
+     */
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode pre = null;
+        ListNode next = head;
+        ListNode record;
+        while (next != null) {
+            record = next.next;
+            next.next = pre;
+            pre = next;
+            next = record;
+        }
+        return next;
+    }
+
+
+
 }
