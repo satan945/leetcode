@@ -207,6 +207,40 @@ public class Solution {
         return result;
     }
 
+    /**
+     * 11. Container With Most Water
+     * 
+     * <p>
+     * https://leetcode.com/problems/container-with-most-water *
+     * <p>
+     * Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical
+     * lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together
+     * with x-axis forms a container, such that the container contains the most water.
+     * 
+     * Note: You may not slant the container and n is at least 2.
+     * </p>
+     * 
+     * @param height
+     * @return
+     */
+    public int maxArea(int[] height) {
+        int i = 0, j = height.length - 1;
+        int max = 0;
+        while (j > i) {
+            int l = j - i;
+            int w = Math.min(height[i], height[j]);
+            if (l * w > max) {
+                max = l * w;
+            }
+            if (w == height[i]) {
+                i++;
+            } else if (w == height[j]) {
+                j--;
+            }
+        }
+        return max;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[][] matrix = { { 1, 2, }, { 3, 4 } };

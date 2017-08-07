@@ -76,7 +76,54 @@ public class Solution {
         return null;
     }
 
+    /**
+     * 640. Solve the Equation
+     * <p>
+     * https://leetcode.com/problems/solve-the-equation
+     * <p>
+     *
+     * Solve a given equation and return the value of x in the form of string "x=#value". The equation contains only
+     * '+', '-' operation, the variable x and its coefficient.
+     * 
+     * If there is no solution for the equation, return "No solution".
+     * 
+     * If there are infinite solutions for the equation, return "Infinite solutions".
+     * 
+     * If there is exactly one solution for the equation, we ensure that the value of x is an integer.
+     * 
+     * Example 1: Input: "x+5-3+x=6+x-2" Output: "x=2"
+     * 
+     * Example 2: Input: "x=x" Output: "Infinite solutions"
+     * 
+     * Example 3: Input: "2x=x" Output: "x=0"
+     * 
+     * Example 4: Input: "2x+3x-6x=x+2" Output: "x=-1"
+     * 
+     * Example 5: Input: "x=x+2" Output: "No solution"
+     * </p>
+     * 
+     * @param equation
+     * @return
+     */
+    public String solveEquation(String equation) {
+        if (equation == null || equation.isEmpty()) {
+            return null;
+        }
+        String[] equationArray = equation.split("=");
+        if (equation.length() == 1) {
+            return null;
+        }
+        String left = equationArray[0];
+        String right = equationArray[1];
+
+        return null;
+    }
+
     public static void main(String[] args) {
+
+        String a = "1+2+3x";
+        String[] b = a.split("(?=\\+)|(?=-)");
+        System.out.println(b);
         System.out.println(new Solution().complexNumberMultiply("1+1i", "1+1i"));
     }
 }

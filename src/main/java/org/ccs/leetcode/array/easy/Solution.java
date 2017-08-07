@@ -132,21 +132,49 @@ public class Solution {
     }
 
     /**
+     * 643. Maximum Average Subarray I
+     * <p>
+     * Given an array consisting of n integers, find the contiguous subarray of given length k that has the maximum
+     * average value. And you need to output the maximum average value.
+     *
+     * Example 1: Input: [1,12,-5,-6,50,3], k = 4 Output: 12.75 Explanation: Maximum average is (12-5-6+50)/4 = 51/4 =
+     * 12.75 Note: 1 <= k <= n <= 30,000. Elements of the given array will be in the range [-10,000, 10,000].
+     * <p>
+     *
+     * </p>
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public double findMaxAverage(int[] nums, int k) {
+        int[] sum = new int[nums.length];
+        sum[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            sum[i] = sum[i - 1] + nums[i];
+        }
+        double res = sum[k - 1] * 1.00 / k;
+        for (int i = k; i < sum.length; i++) {
+            res = Math.max(res, (sum[i] - sum[i - k]) * 1.00 / k);
+        }
+        return res;
+    }
+    /**
      * 27. Remove Element
      * <p>
      * https://leetcode.com/problems/remove-element
      * <p>
      * Given an array and a value, remove all instances of that value in place and return the new length.
-     * 
+     *
      * Do not allocate extra space for another array, you must do this in place with constant memory.
-     * 
+     *
      * The order of elements can be changed. It doesn't matter what you leave beyond the new length.
-     * 
+     *
      * Example: Given input array nums = [3,2,2,3], val = 3
-     * 
+     *
      * Your function should return length = 2, with the first two elements of nums being 2.
      * </p>
-     * 
+     *
      * @param nums
      * @param val
      * @return
@@ -162,18 +190,32 @@ public class Solution {
         return i;
     }
 
+    public double findMaxAverageSlideWindow(int[] nums, int k) {
+        int sum = 0;
+        for (int i = 0; i < k; i++) {
+            sum += nums[i];
+        }
+        double res = sum;
+        for (int i = k; i < nums.length; i++) {
+            sum = sum + nums[i];
+            sum = sum - nums[i - k];
+            res = Math.max(res, sum);
+        }
+        return res / k;
+    }
+
     /**
      * 88. Merge Sorted Array
-     * 
+     *
      * <p>
      * https://leetcode.com/problems/merge-sorted-array
      * <p>
      * Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
-     * 
+     *
      * Note: You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional
      * elements from nums2. The number of elements initialized in nums1 and nums2 are m and n respectively.
      * </p>
-     * 
+     *
      * @param nums1
      * @param m
      * @param nums2
@@ -195,9 +237,10 @@ public class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums1 = new int[] { 1 };
-        int[] nums2 = new int[] { -1, -2, 1, 4, 2, 3 };
+        int[] nums2 = new int[] { 1, 12, -5, -6, 50, 3 };
         // System.out.println(solution.intersection(nums1, nums2));
-        System.out.println(solution.arrayPairSum(nums2));
+        // System.out.println(solution.arrayPairSum(nums2));
+        System.out.println(solution.findMaxAverageSlideWindow(nums2, 4));
     }
 
 }

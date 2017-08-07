@@ -3,8 +3,10 @@
  */
 package org.ccs.leetcode.stack.easy;
 
+import java.util.Stack;
+
 /**
- * @author abel created on 2017/7/31 下午6:10
+ * @author Abel created on 2017/8/2 13:40
  * @version $Id$
  */
 public class Solution {
@@ -49,5 +51,49 @@ public class Solution {
     public int[] nextGreaterElement(int[] findNums, int[] nums) {
         int[] result = new int[findNums.length];
         return result;
+    }
+
+    /**
+     * 20. Valid Parentheses
+     *
+     * <p>
+     * https://leetcode.com/problems/valid-parentheses
+     * <p>
+     * Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is
+     * valid.
+     * 
+     * The brackets must close in the correct order, "()" and "()[]{}" are all valid but "(]" and "([)]" are not.
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char val = s.charAt(i);
+            if (val == '(' || val == '{' || val == '[') {
+                stack.push(val);
+            } else if (val == ')' || val == ']' || val == '}') {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                char top = stack.peek();
+                if (valid(top, val)) {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    private boolean valid(char top, char val) {
+        return (top == '(' && val == ')') || (top == '[' && val == ']') || (top == '{' && val == '}');
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Solution().isValid("[]()"));
     }
 }

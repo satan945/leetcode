@@ -6,6 +6,8 @@ package org.ccs.leetcode.linkedlist.medium;
 import org.ccs.leetcode.bean.ListNode;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Abel created on 2017/6/29 18:02
@@ -163,14 +165,14 @@ public class Solution {
      * https://leetcode.com/problems/reverse-linked-list-ii
      * <p>
      * Reverse a linked list from position m to n. Do it in-place and in one-pass.
-     * 
+     *
      * For example: Given 1->2->3->4->5->NULL, m = 2 and n = 4,
-     * 
+     *
      * return 1->4->3->2->5->NULL.
-     * 
+     *
      * Note: Given m, n satisfy the following condition: 1 ? m ? n ? length of list.
      * </p>
-     * 
+     *
      * @param head
      * @param m
      * @param n
@@ -197,6 +199,33 @@ public class Solution {
         }
         return fakeHead.next;
 
+    }
+
+    /**
+     * 24. Swap Nodes in Pairs
+     * <p>
+     * https://leetcode.com/problems/swap-nodes-in-pairs
+     * <p>
+     * Given a linked list, swap every two adjacent nodes and return its head.
+     *
+     * For example, Given 1->2->3->4, you should return the list as 2->1->4->3.
+     *
+     * Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can
+     * be changed.
+     *
+     * </p>
+     *
+     * @param head
+     * @return
+     */
+    public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode node = head.next;
+        node.next = swapPairs(head.next.next);
+        node.next = head;
+        return node;
     }
 
     public static void main(String[] args) {

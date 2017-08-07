@@ -5,7 +5,9 @@ package org.ccs.leetcode.math.easy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Abel created on 2017/7/7 11:51
@@ -288,6 +290,104 @@ public class Solution {
             return false;
         }
         return reverse == x;
+    }
+
+    /**
+     * 67. Add Binary
+     * <p>
+     * https://leetcode.com/problems/add-binary
+     * <p>
+     * Given two binary strings, return their sum (also a binary string).
+     * 
+     * For example, a = "11" b = "1" Return "100".
+     * 
+     * 
+     * </p>
+     * 
+     * @param a
+     * @param b
+     * @return
+     */
+    public String addBinary(String a, String b) {
+        if (a == null || a.isEmpty()) {
+            return b;
+        }
+        if (b == null || b.isEmpty()) {
+            return a;
+        }
+        StringBuilder sb = new StringBuilder();
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int carry = 0;
+        int result;
+        while (i >= 0 || j >= 0) {
+            int aVal = i <= 0 ? 0 : a.charAt(i--) - '0';
+            int bVal = j <= 0 ? 0 : b.charAt(j--) - '0';
+            result = aVal ^ bVal ^ carry;
+            carry = (aVal + bVal + carry) >= 2 ? 1 : 0;
+            sb.append(result);
+        }
+        return sb.reverse().toString();
+    }
+
+    /**
+     * 12. Integer to Roman
+     * <p>
+     * https://leetcode.com/problems/integer-to-roman
+     * <p>
+     * Given an integer, convert it to a roman numeral.
+     * 
+     * Input is guaranteed to be within the range from 1 to 3999.
+     * </p>
+     * 
+     * @param num
+     * @return
+     */
+    public String intToRoman(int num) {
+        int[] values = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        String[] strs = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < values.length; i++) {
+            while (num >= values[i]) {
+                num -= values[i];
+                sb.append(strs[i]);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 13. Roman to Integer
+     * <p>
+     * https://leetcode.com/problems/roman-to-integer
+     * <p>
+     *
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public int romanToInt(String s) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("M", 1000);
+        map.put("CM", 900);
+        map.put("D", 500);
+        map.put("CD", 400);
+        map.put("XC", 90);
+        map.put("XL", 40);
+        map.put("X", 10);
+        map.put("IX", 9);
+        map.put("V", 5);
+        map.put("IV", 4);
+        map.put("I", 1);
+        int result = 0;
+        for (int i = 0; i < s.length(); i++) {
+            String sub = s.substring(i, i + 1);
+            result += map.get(sub);
+        }
+        return result;
     }
 
     public static void main(String[] args) {
