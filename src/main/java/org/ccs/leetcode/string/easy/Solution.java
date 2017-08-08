@@ -10,25 +10,6 @@ import java.util.Arrays;
  * @version $Id$
  */
 public class Solution {
-    /**
-     * 344 Reverse String
-     * <p>
-     * https://leetcode.com/problems/reverse-string
-     *
-     * @param s
-     * @return
-     */
-    public String reverseString(String s) {
-        int length = s.length();
-        char[] a = s.toCharArray();
-        char[] b = new char[length];
-        int j = 0;
-        for (int i = length - 1; i >= 0; i--) {
-            b[j] = a[i];
-            j++;
-        }
-        return new String(b);
-    }
 
     /**
      * 389 Find the Difference
@@ -108,6 +89,101 @@ public class Solution {
         }
         String[] strings = s.split(" ");
         return strings[strings.length - 1].length();
+    }
+
+    /**
+     * 557. Reverse Words in a String III
+     * <p>
+     * https://leetcode.com/problems/reverse-words-in-a-string-iii
+     *
+     * <p>
+     * Given a string, you need to reverse the order of characters in each word within a sentence while still preserving
+     * whitespace and initial word order.
+     * 
+     * Example 1: Input: "Let's take LeetCode contest"
+     * 
+     * Output: "s'teL ekat edoCteeL tsetnoc"
+     * 
+     * Note: In the string, each word is separated by single space and there will not be any extra space in the string.
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        String[] array = s.split(" ");
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null && !" ".equals(array[i])) {
+                result.append(new StringBuilder(array[i]).reverse().toString());
+            }
+            if (i != array.length - 1) {
+                result.append(" ");
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 344 Reverse String
+     * <p>
+     * https://leetcode.com/problems/reverse-string
+     *
+     * @param s
+     * @return
+     */
+    public String reverseString(String s) {
+        int length = s.length();
+        char[] a = s.toCharArray();
+        char[] b = new char[length];
+        int j = 0;
+        for (int i = length - 1; i >= 0; i--) {
+            b[j] = a[i];
+            j++;
+        }
+        return new String(b);
+    }
+
+    /**
+     * 541. Reverse String II
+     * <p>
+     * https://leetcode.com/problems/reverse-string-ii
+     * <p>
+     * Given a string and an integer k, you need to reverse the first k characters for every 2k characters counting from
+     * the start of the string. If there are less than k characters left, reverse all of them. If there are less than 2k
+     * but greater than or equal to k characters, then reverse the first k characters and left the other as original.
+     * 
+     * Example:
+     * 
+     * Input: s = "abcdefg", k = 2 Output: "bacdfeg"
+     * 
+     * Restrictions: The string consists of lower English letters only. Length of the given string and k will in the
+     * range [1, 10000]
+     * </p>
+     * 
+     * @param s
+     * @param k
+     * @return
+     */
+    public String reverseStr(String s, int k) {
+        char[] array = s.toCharArray();
+        int i = 0;
+        while (i < s.length()) {
+            int j = Math.min(i + k - 1, s.length() - 1);
+            swapCharArray(array, i, j);
+            i += 2 * k;
+        }
+        return String.valueOf(array);
+    }
+
+    private void swapCharArray(char[] array, int i, int j) {
+        while (i < j) {
+            char temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+            i++;
+            j--;
+        }
     }
 
     public static void main(String[] args) {
