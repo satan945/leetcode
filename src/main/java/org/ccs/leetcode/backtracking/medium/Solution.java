@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.backtracking.medium;
 
+import java.util.HashSet;
+
 /**
  * @author Abel created on 2017/8/8 16:05
  * @version $Id$
@@ -29,7 +31,7 @@ public class Solution {
      * @return
      */
     public boolean canWin(String s) {
-
+        return true;
     }
 
 }

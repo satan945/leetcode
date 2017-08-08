@@ -6,6 +6,7 @@ package org.ccs.leetcode.math.easy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -388,6 +389,93 @@ public class Solution {
             result += map.get(sub);
         }
         return result;
+    }
+
+    /**
+     * 202. Happy Number
+     * <p>
+     * https://leetcode.com/problems/happy-number
+     * <p>
+     * Write an algorithm to determine if a number is "happy".
+     * 
+     * A happy number is a number defined by the following process: Starting with any positive integer, replace the
+     * number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will
+     * stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1
+     * are happy numbers.
+     * 
+     * Example: 19 is a happy number
+     * 
+     * 12 + 92 = 82
+     * 
+     * 82 + 22 = 68
+     * 
+     * 62 + 82 = 100
+     * 
+     * 12 + 02 + 02 = 1
+     * 
+     * Credits: Special thanks to @mithmatt and @ts for adding this problem and creating all test cases.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public boolean isHappy(int n) {
+        HashSet<Integer> set = new HashSet<>();
+        while (set.add(n)) {
+            int squareSum = 0;
+            while (n > 0) {
+                int tail = n % 10;
+                squareSum += tail * tail;
+                n /= 10;
+            }
+            if (squareSum == 1) {
+                return true;
+            } else {
+                n = squareSum;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 263. Ugly Number
+     * 
+     * <p>
+     * https://leetcode.com/problems/ugly-number
+     * <p>
+     * Write a program to check whether a given number is an ugly number.
+     * 
+     * Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 6, 8 are ugly while 14
+     * is not ugly since it includes another prime factor 7.
+     * 
+     * Note that 1 is typically treated as an ugly number.
+     * 
+     * Credits: Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
+     * 
+     * 
+     * </p>
+     * 
+     * @param num
+     * @return
+     */
+    public boolean isUgly(int num) {
+        if (num == 1) {
+            return true;
+        }
+        if (num == 0) {
+            return false;
+        }
+        while (num % 2 == 0) {
+            num /= 2;
+            // num=num>>1;
+        }
+        while (num % 3 == 0) {
+            num /= 3;
+        }
+        while (num % 5 == 0) {
+            num /= 5;
+        }
+        return num == 1;
     }
 
     public static void main(String[] args) {
