@@ -3,6 +3,9 @@
  */
 package org.ccs.leetcode.math.medium;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Abel created on 2017/7/7 11:55
  * @version $Id$
@@ -118,6 +121,46 @@ public class Solution {
 
         return null;
     }
+
+    /**
+     * 264. Ugly Number II
+     * <p>
+     * https://leetcode.com/problems/ugly-number-ii
+     * <p>
+     * Write a program to find the n-th ugly number.
+     * 
+     * Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 1, 2, 3, 4, 5, 6, 8, 9,
+     * 10, 12 is the sequence of the first 10 ugly numbers.
+     * 
+     * Note that 1 is typically treated as an ugly number, and n does not exceed 1690.
+     * 
+     * Credits: Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int nthUglyNumber(int n) {
+        int twoCount = 0, threeCount = 0, fiveCount = 0;
+        List<Integer> uglyNumberList = new ArrayList<>();
+        uglyNumberList.add(1);
+        for (int i = 1; i < n; i++) {
+            int nextUgly = Math.min(uglyNumberList.get(twoCount) * 2,
+                    Math.min(uglyNumberList.get(threeCount) * 3, uglyNumberList.get(fiveCount) * 5));
+            uglyNumberList.add(nextUgly);
+            if (uglyNumberList.get(twoCount) * 2 == nextUgly) {
+                twoCount++;
+            }
+            if (uglyNumberList.get(threeCount) * 3 == nextUgly) {
+                threeCount++;
+            }
+            if (uglyNumberList.get(fiveCount) * 5 == nextUgly) {
+                fiveCount++;
+            }
+        }
+        return uglyNumberList.get(n - 1);
+    }
+
 
     public static void main(String[] args) {
 
