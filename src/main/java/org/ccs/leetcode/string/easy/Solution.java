@@ -5,6 +5,7 @@ package org.ccs.leetcode.string.easy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -222,6 +223,44 @@ public class Solution {
         return result;
     }
 
+    /**
+     * 387. First Unique Character in a String
+     * <p>
+     * https://leetcode.com/problems/first-unique-character-in-a-string
+     * <p>
+     * Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return
+     * -1.
+     * 
+     * Examples:
+     * 
+     * s = "leetcode" return 0.
+     * 
+     * s = "loveleetcode", return 2. Note: You may assume the string contain only lowercase letters.
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public int firstUniqChar(String s) {
+        HashMap<Character, Integer> hashMap = new HashMap<>();
+        char[] array = s.toCharArray();
+        for (int i = 0; i < array.length; i++) {
+            Integer count = hashMap.get(array[i]);
+            if (count == null) {
+                hashMap.put(array[i], 1);
+            } else {
+                ++count;
+                hashMap.put(array[i], count);
+            }
+        }
+        for (int i = 0; i < array.length; i++) {
+            Integer count = hashMap.get(array[i]);
+            if (count == 1) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public static void main(String[] args) {
         String a = "123456  123123";
