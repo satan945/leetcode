@@ -348,6 +348,7 @@ public class Solution {
      * 
      * 1,1,5 → 1,5,1
      * </p>
+     * todo
      * 
      * @param nums
      */
@@ -355,11 +356,63 @@ public class Solution {
 
     }
 
+    /**
+     * 229. Majority Element II
+     * <p>
+     * https://leetcode.com/problems/majority-element-ii
+     * <p>
+     * Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times. The algorithm should run
+     * in linear time and in O(1) space.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public List<Integer> majorityElement(int[] nums) {
+        int count1 = 0;
+        int count2 = 0;
+        int res1 = 0;
+        int res2 = 0;
+        for (int num : nums) {
+            if (num == res1) {
+                count1++;
+            } else if (num == res2) {
+                count2++;
+            } else if (count1 == 0) {
+                count1 = 1;
+                res1 = num;
+            } else if (count2 == 0) {
+                count2 = 1;
+                res2 = num;
+            } else {
+                count1--;
+                count2--;
+            }
+        }
+        count1 = 0;
+        count2 = 0;
+        for (int num : nums) {
+            if (num == res1) {
+                count1++;
+            } else if (num == res2) {
+                count2++;
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        if (count1 > nums.length / 3) {
+            result.add(res1);
+        }
+        if (count2 > nums.length / 3) {
+            result.add(res2);
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[][] matrix = { { 1, 2, }, { 3, 4 } };
-        solution.rotate(matrix);
+        // solution.rotate(matrix);
         int[] array = new int[] { 1, 1, 1, 0 };
-        System.out.println(solution.threeSumClosest(array, -100));
+        System.out.println(solution.majorityElement(array));
     }
 }
