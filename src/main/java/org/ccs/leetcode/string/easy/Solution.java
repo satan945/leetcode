@@ -262,6 +262,109 @@ public class Solution {
         return -1;
     }
 
+    /**
+     * 
+     * <p>
+     * The count-and-say sequence is the sequence of integers with the first five terms as following: 1. 1
+     *
+     * 2. 11
+     *
+     * 3. 21
+     *
+     * 4. 1211
+     *
+     * 5. 111221
+     *
+     * 1 is read off as "one 1" or 11.
+     * 
+     * 11 is read off as "two 1s" or 21.
+     * 
+     * 21 is read off as "one 2, then one 1" or 1211.
+     * 
+     * Given an integer n, generate the nth term of the count-and-say sequence.
+     * 
+     * Note: Each term of the sequence of integers will be represented as a string.
+     * 
+     * Example 1:
+     * 
+     * Input: 1 Output: "1" Example 2:
+     * 
+     * Input: 4 Output: "1211"
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public String countAndSay(int n) {
+        return "";
+    }
+
+    /**
+     * 28. Implement strStr()
+     * <p>
+     * https://leetcode.com/problems/implement-strstr
+     *
+     * <p>
+     * Implement strStr().
+     * 
+     * Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+     * </p>
+     * 
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    public int strStr(String haystack, String needle) {
+        for (int i = 0;; i++) {
+            for (int j = 0;; j++) {
+                if (j == needle.length()) {
+                    return i;
+                }
+                if (i + j > haystack.length()) {
+                    return -1;
+                }
+                if (haystack.charAt(i + j) != needle.charAt(j)) {
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 14. Longest Common Prefix
+     * 
+     * <p>
+     * https://leetcode.com/problems/longest-common-prefix
+     * <p>
+     * Write a function to find the longest common prefix string amongst an array of strings.
+     * </p>
+     * https://leetcode.com/problems/longest-common-prefix/solution/
+     * 
+     * @param strs
+     * @return
+     */
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0 || strs[0].length() == 0) {
+            return "";
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0;; i++) {
+            if (strs[0].length() == i) {
+                return res.toString();
+            }
+            char compare = strs[0].charAt(i);
+            for (int j = 1; j < strs.length; j++) {
+                if (strs[j].length() == i) {
+                    return res.toString();
+                }
+                if (strs[j].charAt(i) != compare) {
+                    return res.toString();
+                }
+            }
+            res.append(compare);
+        }
+    }
+
     public static void main(String[] args) {
         String a = "123456  123123";
         Solution solution = new Solution();
