@@ -241,6 +241,120 @@ public class Solution {
         return max;
     }
 
+    /**
+     * 370. Range Addition
+     * <p>
+     * https://leetcode.com/problems/range-addition
+     * <p>
+     * Assume you have an array of length n initialized with all 0's and are given k update operations.
+     * 
+     * Each operation is represented as a triplet: [startIndex, endIndex, inc] which increments each element of subarray
+     * A[startIndex ... endIndex] (startIndex and endIndex inclusive) with inc.
+     * 
+     * Return the modified array after all k operations were executed.
+     * 
+     * Example:
+     * 
+     * Given:
+     * 
+     * length = 5, updates = [ [1, 3, 2], [2, 4, 3], [0, 2, -2] ]
+     * 
+     * Output:
+     * 
+     * [-2, 0, 3, 5, 3]
+     * 
+     * 
+     * Explanation:
+     * 
+     * Initial state: [ 0, 0, 0, 0, 0 ]
+     * 
+     * After applying operation [1, 3, 2]: [ 0, 2, 2, 2, 0 ]
+     * 
+     * After applying operation [2, 4, 3]: [ 0, 2, 5, 5, 3 ]
+     * 
+     * After applying operation [0, 2, -2]: [-2, 0, 3, 5, 3 ]
+     * </p>
+     * https://discuss.leetcode.com/topic/53142/detailed-explanation-if-you-don-t-understand-especially-put-negative-inc-at-endindex-1
+     * 
+     * @param length
+     * @param updates
+     * @return
+     */
+    public int[] getModifiedArray(int length, int[][] updates) {
+        int[] result = new int[length];
+        for (int[] update : updates) {
+            int start = update[0];
+            int end = update[1];
+            int value = update[2];
+
+            result[start] += value;
+            if (end + 1 < length) {
+                result[end + 1] = -value;
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < length; i++) {
+            sum += result[i];
+            result[i] = sum;
+        }
+        return result;
+    }
+
+    /**
+     * 531. Lonely Pixel I
+     * <p>
+     * https://leetcode.com/problems/lonely-pixel-i/description/
+     * <p>
+     * Given a picture consisting of black and white pixels, find the number of black lonely pixels.
+     * 
+     * The picture is represented by a 2D char array consisting of 'B' and 'W', which means black and white pixels
+     * respectively.
+     * 
+     * A black lonely pixel is character 'B' that located at a specific position where the same row and same column
+     * don't have any other black pixels.
+     * 
+     * Example: Input: [['W', 'W', 'B'], ['W', 'B', 'W'], ['B', 'W', 'W']]
+     * 
+     * Output: 3 Explanation: All the three 'B's are black lonely pixels. Note: The range of width and height of the
+     * input 2D array is [1,500].
+     * </p>
+     * 
+     * @param picture
+     * @return
+     */
+    public int findLonelyPixel(char[][] picture) {
+        return 0;
+    }
+
+    /**
+     * 31. Next Permutation
+     * <p>
+     * https://leetcode.com/problems/next-permutation
+     * <p>
+     * Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of
+     * numbers.
+     * 
+     * If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending
+     * order).
+     * 
+     * The replacement must be in-place, do not allocate extra memory.
+     * 
+     * Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand
+     * column.
+     * 
+     * 1,2,3 → 1,3,2
+     * 
+     * 3,2,1 → 1,2,3
+     * 
+     * 1,1,5 → 1,5,1
+     * </p>
+     * 
+     * @param nums
+     */
+    public void nextPermutation(int[] nums) {
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[][] matrix = { { 1, 2, }, { 3, 4 } };
