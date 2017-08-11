@@ -3,8 +3,12 @@
  */
 package org.ccs.leetcode.array.medium;
 
+import org.ccs.leetcode.bean.Interval;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -314,19 +318,166 @@ public class Solution {
     }
 
     /**
+     * 54. Spiral Matrix
+     * <p>
+     * https://leetcode.com/problems/spiral-matrix
+     * <p>
+     * Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+     * 
+     * For example, Given the following matrix:
+     * 
+     * [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ] ] You should return [1,2,3,6,9,8,7,4,5].
+     * </p>
      * 
      * @param matrix
      * @return
      */
     public List<Integer> spiralOrder(int[][] matrix) {
-        return new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
+        if (matrix.length == 0) {
+            return result;
+        }
+        int rowBegin = 0;
+        int colBegin = 0;
+        int rowEnd = matrix.length - 1;
+        int colEnd = matrix[0].length - 1;
+        while (rowBegin <= rowEnd && colBegin <= colEnd) {
+            for (int j = colBegin; j <= colEnd; j++) {
+                result.add(matrix[rowBegin][j]);
+            }
+            rowBegin++;
+            for (int j = rowBegin; j <= rowEnd; j++) {
+                result.add(matrix[j][colEnd]);
+            }
+            colEnd--;
+            if (rowBegin <= rowEnd) {
+                // Traverse Left
+                for (int j = colEnd; j >= colBegin; j--) {
+                    result.add(matrix[rowEnd][j]);
+                }
+            }
+            rowEnd--;
+
+            if (colBegin <= colEnd) {
+                // Traver Up
+                for (int j = rowEnd; j >= rowBegin; j--) {
+                    result.add(matrix[j][colBegin]);
+                }
+            }
+            colBegin++;
+        }
+        return result;
+
+    }
+
+    /**
+     * 
+     * 59. Spiral Matrix II
+     *
+     * <p>
+     * https://leetcode.com/problems/spiral-matrix-ii
+     * <p>
+     * Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+     * 
+     * For example, Given n = 3,
+     * 
+     * You should return the following matrix: [ [ 1, 2, 3 ], [ 8, 9, 4 ], [ 7, 6, 5 ] ]
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int[][] generateMatrix(int n) {
+        int[][] result = new int[n][n];
+        int val = 1;
+        int rowBegin = 0;
+        int colBegin = 0;
+        int rowEnd = n - 1;
+        int colEnd = n - 1;
+        while (rowBegin <= rowEnd && colBegin <= colEnd) {
+            // travel right
+            for (int j = colBegin; j <= colEnd; j++) {
+                result[rowBegin][j] = val++;
+            }
+            rowBegin++;
+            // travel down
+            for (int i = rowBegin; i <= rowEnd; i++) {
+                result[i][colEnd] = val++;
+            }
+            colEnd--;
+            // travel left
+            if (rowBegin <= rowEnd) {
+                for (int j = colEnd; j >= colBegin; j--) {
+                    result[rowEnd][j] = val++;
+                }
+            }
+            rowEnd--;
+            // travel up
+            if (colBegin <= colEnd) {
+                for (int i = rowEnd; i >= rowBegin; i--) {
+                    result[i][colBegin] = val++;
+                }
+            }
+            colBegin++;
+        }
+        return result;
+
+    }
+
+    /**
+     * 56. Merge Intervals
+     * <p>
+     * https://leetcode.com/problems/merge-intervals
+     * 
+     * <p>
+     * Given a collection of intervals, merge all overlapping intervals.
+     * 
+     * For example, Given [1,3],[2,6],[8,10],[15,18], return [1,6],[8,10],[15,18].
+     * </p>
+     * 
+     * @param intervals
+     * @return
+     */
+    public List<Interval> merge(List<Interval> intervals) {
+        Collections.sort(intervals, new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                if (o1.start < o2.start) {
+                    return -1;
+                }
+                if (o1.start > o2.start) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+        if (intervals.size() <= 1) {
+            return intervals;
+        }
+        List<Interval> res = new ArrayList<>();
+        int start = intervals.get(0).start;
+        int end = intervals.get(0).end;
+        for (Interval interval : intervals) {
+            if (end >= interval.start) {
+                end = Math.max(interval.end, end);
+            } else {
+                res.add(new Interval(start, end));
+                start = interval.start;
+                end = interval.end;
+            }
+        }
+        res.add(new Interval(start, end));
+        return res;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[][] matrix = { { 1, 2, }, { 3, 4 } };
+        int[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
         // solution.rotate(matrix);
-        int[] array = new int[] { 2, 2, 3, 4 };
-        System.out.println(solution.triangleNumber(array));
+        System.out.println(solution.spiralOrder(matrix));
+        System.out.println(solution.generateMatrix(3));
+
+        // int[] array = new int[] { 2, 2, 3, 4, };
+        // System.out.println(solution.triangleNumber(array));
     }
 }

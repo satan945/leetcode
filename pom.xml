@@ -31,8 +31,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven_compiler_plugin_version}</version>
                 <configuration>
-                    <source>${java_source_version}</source>
-                    <target>${java_target_version}</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <encoding>${file_encoding}</encoding>
                     <debug>true</debug>
                     <fork>true</fork>

@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.struct.easy;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -43,35 +45,42 @@ import java.util.Stack;
  * @version $Id$
  */
 public class MinStack {
-    private Stack<Integer> minStack;
+    private ArrayList<Integer> stack = new ArrayList<>();
+    private ArrayList<Integer> minStack = new ArrayList<>();
     private int min;
 
     /** initialize your data structure here. */
     public MinStack() {
-        minStack = new Stack<>();
-        min = Integer.MAX_VALUE;
     }
 
     public void push(int x) {
-        minStack.push(x);
-        if (x < min) {
-            min = x;
+        stack.add(x);
+        if (minStack.isEmpty() || x <= minStack.get(minStack.size() - 1)) {
+            minStack.add(x);
         }
     }
 
     public void pop() {
-        minStack.pop();
+        if (stack.isEmpty()) {
+            return;
+        }
+        int ele = stack.remove(stack.size() - 1);
+        if (!minStack.isEmpty() && ele == minStack.get(minStack.size() - 1)) {
+            minStack.remove(minStack.size() - 1);
+        }
     }
 
     public int top() {
-        return minStack.peek();
+        if (stack.isEmpty()) {
+            return 0;
+        }
+        return stack.get(stack.size() - 1);
     }
 
     public int getMin() {
-        if (!minStack.empty()) {
-            return min;
-        } else {
-            return 0;
+        if (!minStack.isEmpty()) {
+            return minStack.get(minStack.size() - 1);
         }
+        return 0;
     }
 }
