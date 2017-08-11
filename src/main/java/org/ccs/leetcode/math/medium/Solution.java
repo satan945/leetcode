@@ -76,7 +76,75 @@ public class Solution {
      * @return
      */
     public String multiply(String num1, String num2) {
-        return null;
+        int m = num1.length(), n = num2.length();
+        int[] pos = new int[m + n];
+
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                int p1 = i + j, p2 = i + j + 1;
+                int sum = mul + pos[p2];
+
+                pos[p1] += sum / 10;
+                pos[p2] = (sum) % 10;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int p : pos)
+            if (!(sb.length() == 0 && p == 0))
+                sb.append(p);
+        return sb.length() == 0 ? "0" : sb.toString();
+    }
+
+    /**
+     * 29. Divide Two Integers
+     *
+     * <p>
+     * Divide two integers without using multiplication, division and mod operator.
+     * 
+     * If it is overflow, return MAX_INT.
+     * </p>
+     * 
+     * @param dividend
+     * @param divisor
+     * @return
+     */
+    public int divide(int dividend, int divisor) {
+        if (divisor == 0) {
+            return Integer.MAX_VALUE;
+        }
+        int sign = 1;
+        if (dividend < 0 && divisor > 0 || dividend > 0 && divisor < 0) {
+            sign = -1;
+        }
+        long absDividend = Math.abs(dividend);
+        long absDivisor = Math.abs(divisor);
+        if (absDividend == 0 || absDividend < absDivisor) {
+            return 0;
+        }
+        long lans = longDivide(absDividend, absDivisor);
+        int ans;
+        if (lans >= Integer.MAX_VALUE) {
+            ans = (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        } else {
+            ans = (int) (sign * lans);
+        }
+
+        return ans;
+    }
+
+    private long longDivide(long absDividend, long absDivisor) {
+        if (absDividend < absDivisor) {
+            return 0;
+        }
+        long sum = absDivisor;
+        long multiple = 1;
+        while ((sum + sum) <= absDividend) {
+            sum += sum;
+            multiple += multiple;
+        }
+        return multiple + longDivide(absDividend - sum, absDivisor);
     }
 
     /**

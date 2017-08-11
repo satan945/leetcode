@@ -299,12 +299,12 @@ public class Solution {
      * https://leetcode.com/problems/add-binary
      * <p>
      * Given two binary strings, return their sum (also a binary string).
-     * 
+     *
      * For example, a = "11" b = "1" Return "100".
-     * 
-     * 
+     *
+     *
      * </p>
-     * 
+     *
      * @param a
      * @param b
      * @return
@@ -337,10 +337,10 @@ public class Solution {
      * https://leetcode.com/problems/integer-to-roman
      * <p>
      * Given an integer, convert it to a roman numeral.
-     * 
+     *
      * Input is guaranteed to be within the range from 1 to 3999.
      * </p>
-     * 
+     *
      * @param num
      * @return
      */
@@ -366,7 +366,7 @@ public class Solution {
      * <p>
      *
      * </p>
-     * 
+     *
      * @param s
      * @return
      */
@@ -397,25 +397,25 @@ public class Solution {
      * https://leetcode.com/problems/happy-number
      * <p>
      * Write an algorithm to determine if a number is "happy".
-     * 
+     *
      * A happy number is a number defined by the following process: Starting with any positive integer, replace the
      * number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will
      * stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1
      * are happy numbers.
-     * 
+     *
      * Example: 19 is a happy number
-     * 
+     *
      * 12 + 92 = 82
-     * 
+     *
      * 82 + 22 = 68
-     * 
+     *
      * 62 + 82 = 100
-     * 
+     *
      * 12 + 02 + 02 = 1
-     * 
+     *
      * Credits: Special thanks to @mithmatt and @ts for adding this problem and creating all test cases.
      * </p>
-     * 
+     *
      * @param n
      * @return
      */
@@ -439,22 +439,22 @@ public class Solution {
 
     /**
      * 263. Ugly Number
-     * 
+     *
      * <p>
      * https://leetcode.com/problems/ugly-number
      * <p>
      * Write a program to check whether a given number is an ugly number.
-     * 
+     *
      * Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 6, 8 are ugly while 14
      * is not ugly since it includes another prime factor 7.
-     * 
+     *
      * Note that 1 is typically treated as an ugly number.
-     * 
+     *
      * Credits: Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
-     * 
+     *
      * https://discuss.leetcode.com/topic/21873/simple-java-solution-with-explanation
      * </p>
-     * 
+     *
      * @param num
      * @return
      */
@@ -480,38 +480,38 @@ public class Solution {
 
     /**
      * 598. Range Addition II
-     * 
+     *
      * <p>
      * https://leetcode.com/problems/range-addition-ii
      * <p>
      * Given an m * n matrix M initialized with all 0's and several update operations.
-     * 
+     *
      * Operations are represented by a 2D array, and each operation is represented by an array with two positive
      * integers a and b, which means M[i][j] should be added by one for all 0 <= i < a and 0 <= j < b.
-     * 
+     *
      * You need to count and return the number of maximum integers in the matrix after performing all the operations.
-     * 
+     *
      * Example 1:
-     * 
+     *
      * Input: m = 3, n = 3 operations = [[2,2],[3,3]]
-     * 
+     *
      * Output: 4 Explanation: Initially, M = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-     * 
+     *
      * After performing [2,2], M = [[1, 1, 0], [1, 1, 0], [0, 0, 0]]
-     * 
+     *
      * After performing [3,3], M = [[2, 2, 1], [2, 2, 1], [1, 1, 1]]
-     * 
+     *
      * So the maximum integer in M is 2, and there are four of it in M. So return 4.
-     * 
+     *
      * Note:
-     * 
+     *
      * The range of m and n is [1,40000].
-     * 
+     *
      * The range of a is [1,m], and the range of b is [1,n].
-     * 
+     *
      * The range of operations size won't exceed 10,000.
      * </p>
-     * 
+     *
      * @param m
      * @param n
      * @param ops
@@ -523,6 +523,30 @@ public class Solution {
             n = Math.min(n, op[1]);
         }
         return m * n;
+    }
+
+    /**
+     * 415. Add Strings
+     * <p>
+     * https://leetcode.com/problems/add-strings
+     * <p>
+     * Given two non-negative integers num1 and num2 represented as string, return the sum of num1 and num2.
+     *
+     * Note:
+     *
+     * The length of both num1 and num2 is < 5100. Both num1 and num2 contains only digits 0-9. Both num1 and num2 does
+     * not contain any leading zero. You must not use any built-in BigInteger library or convert the inputs to integer
+     * directly.
+     * </p>
+     *
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public String addStrings(String num1, String num2) {
+        return "";
+
+
     }
 
     public static void main(String[] args) {
