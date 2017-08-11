@@ -73,8 +73,6 @@ public class Solution {
         }
     }
 
-
-
     /**
      * 11. Container With Most Water
      * 
@@ -276,11 +274,59 @@ public class Solution {
         return result;
     }
 
+    /**
+     * 611. Valid Triangle Number
+     * <p>
+     * https://leetcode.com/problems/valid-triangle-number
+     * <p>
+     * Given an array consists of non-negative integers, your task is to count the number of triplets chosen from the
+     * array that can make triangles if we take them as side lengths of a triangle.
+     * 
+     * Example 1:
+     * 
+     * Input: [2,2,3,4]
+     * 
+     * Output: 3
+     * 
+     * Explanation: Valid combinations are: 2,3,4 (using the first 2) 2,3,4 (using the second 2) 2,2,3 Note: The length
+     * of the given array won't exceed 1000. The integers in the given array are in the range of [0, 1000].
+     * 
+     * </p>
+     * https://leetcode.com/problems/valid-triangle-number/solution/#approach-2-using-binary-search-accepted
+     * 
+     * @param nums
+     * @return
+     */
+    public int triangleNumber(int[] nums) {
+        Arrays.sort(nums);
+        int count = 0;
+        for (int i = 0; i < nums.length - 2; i++) {
+            for (int j = i + 1; j < nums.length - 1; j++) {
+                int k = j + 1;
+                while (k < nums.length && nums[i] + nums[j] > nums[k]) {
+                    k++;
+                }
+                count += k - j - 1;
+            }
+
+        }
+        return count;
+    }
+
+    /**
+     * 
+     * @param matrix
+     * @return
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
+        return new ArrayList<>();
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[][] matrix = { { 1, 2, }, { 3, 4 } };
         // solution.rotate(matrix);
-        int[] array = new int[] { 1, 1, 1, 0 };
-        System.out.println(solution.majorityElement(array));
+        int[] array = new int[] { 2, 2, 3, 4 };
+        System.out.println(solution.triangleNumber(array));
     }
 }
