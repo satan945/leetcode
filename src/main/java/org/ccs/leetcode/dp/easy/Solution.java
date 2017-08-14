@@ -65,22 +65,30 @@ public class Solution {
      * @return
      */
     public int maxSubArray(int[] nums) {
-        int maxSum = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] + maxSum > maxSum) {
-                maxSum = nums[i] + maxSum;
-            } else {
-
-            }
+        if (nums.length == 0) {
+            return 0;
         }
-
-        return 0;
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        int[] sums = new int[nums.length];
+        sums[0] = nums[0];
+        int maxSum = sums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (sums[i - 1] > 0) {
+                sums[i] = nums[i] + sums[i - 1];
+            } else {
+                sums[i] = nums[i];
+            }
+            maxSum = Math.max(maxSum, sums[i]);
+        }
+        return maxSum;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] prices = new int[] { 2, 4, 1 };
-        System.out.println(solution.maxProfit(prices));
+        int[] prices = new int[] { -2, 1, -3, 4, -1, 2, 1, -5, 4 };
+        System.out.println(solution.maxSubArray(prices));
     }
 
     /**
