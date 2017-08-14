@@ -11,8 +11,8 @@
     <properties>
         <skipTests>true</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java_source_version>1.7</java_source_version>
-        <java_target_version>1.7</java_target_version>
+        <java_source_version>1.8</java_source_version>
+        <java_target_version>1.8</java_target_version>
         <maven_compiler_plugin_version>3.2</maven_compiler_plugin_version>
     </properties>
 
