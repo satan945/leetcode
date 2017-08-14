@@ -3,6 +3,7 @@
  */
 package org.ccs.leetcode.backtracking.medium;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -56,6 +57,55 @@ public class Solution {
      */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         return null;
+    }
+
+    /**
+     * 22. Generate Parentheses
+     * <p>
+     * https://leetcode.com/problems/generate-parentheses
+     * <p>
+     * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+     * 
+     * For example, given n = 3, a solution set is:
+     * 
+     * [ "((()))", "(()())", "(())()", "()(())", "()()()" ]
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        if (n == 0) {
+            return res;
+        }
+        doGenerate(res, "", 0, 0, n);
+        return res;
+    }
+
+    /**
+     * @param res
+     * @param str
+     * @param open
+     * @param close
+     * @param n
+     */
+    private void doGenerate(List<String> res, String str, int open, int close, int n) {
+        if (open == n && close == n) {
+            res.add(str);
+            return;
+        }
+        if (open < n) {
+            doGenerate(res, str + "(", open + 1, close, n);
+        }
+        if (close < open) {
+            doGenerate(res, str + ")", open, close + 1, n);
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        solution.generateParenthesis(4);
     }
 
 }
