@@ -50,17 +50,17 @@ public class Solution {
      * https://leetcode.com/problems/maximum-subarray
      * <p>
      * Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
-     * 
+     *
      * For example, given the array [-2,1,-3,4,-1,2,1,-5,4], the contiguous subarray [4,-1,2,1] has the largest sum = 6.
-     * 
+     *
      * click to show more practice.
-     * 
+     *
      * More practice: If you have figured out the O(n) solution, try coding another solution using the divide and
      * conquer approach, which is more subtle.
-     * 
-     * 
+     *
+     *
      * </p>
-     * 
+     *
      * @param nums
      * @return
      */
@@ -91,11 +91,46 @@ public class Solution {
         System.out.println(solution.maxSubArray(prices));
     }
 
+
+    /**
+     * 70. Climbing Stairs
+     * <p>
+     * https://leetcode.com/problems/climbing-stairs
+     * <p>
+     * You are climbing a stair case. It takes n steps to reach to the top.
+     *
+     * Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+     *
+     * Note: Given n will be a positive integer.
+     * </p>
+     *
+     * @param n
+     * @return
+     */
+    public int climbStairs(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int f1 = 1;
+        int f2 = 2;
+        int res = 0;
+        for (int i = 3; i <= n; i++) {
+            res = f1 + f2;
+            f1 = f2;
+            f2 = res;
+        }
+        return res;
+
+    }
+
     /**
      * Given a list of N coins, their values (V1, V2, … , VN), and the total sum S. Find the minimum number of coins the
      * sum of which is S (we can use as many coins of one type as we want), or report that it’s not possible to select
      * coins in such a way that they sum up to S.
-     * 
+     *
      * @param coins
      * @param sum
      * @return
