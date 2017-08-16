@@ -104,6 +104,39 @@ public class Solution {
         }
     }
 
+    /**
+     * 17. Letter Combinations of a Phone Number
+     * <p>
+     * https://leetcode.com/problems/letter-combinations-of-a-phone-number
+     * <p>
+     * Given a digit string, return all possible letter combinations that the number could represent.
+     * 
+     * A mapping of digit to letters (just like on the telephone buttons) is given below.
+     * 
+     * 
+     * 
+     * Input:Digit string "23" Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]. Note: Although the above
+     * answer is in lexicographical order, your answer could be in any order you want.
+     * 
+     * 
+     * </p>
+     * 
+     * @param digits
+     * @return
+     */
+    public List<String> letterCombinations(String digits) {
+        String[] buttons = new String[] { "0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+        List<String> res = new ArrayList<>();
+        if (digits == null || digits.length() == 0) {
+            return res;
+        }
+        for (int i = 0; i < digits.length(); i++) {
+
+        }
+        return res;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         solution.generateParenthesis(4);

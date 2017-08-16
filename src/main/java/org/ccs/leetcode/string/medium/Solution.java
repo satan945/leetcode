@@ -217,14 +217,6 @@ public class Solution {
         return "";
     }
 
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        String a = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
-        // String b = "a";
-        // System.out.println(new Solution().longestPalindrome(b));
-        System.out.println(solution.countSubstrings("abaabcaba"));
-    }
-
     /**
      * 647. Palindromic Substrings
      * 
@@ -265,6 +257,117 @@ public class Solution {
             to++;
         }
         return count;
+    }
+
+    /**
+     * 151. Reverse Words in a String
+     * <p>
+     * https://leetcode.com/problems/reverse-words-in-a-string
+     * <p>
+     * Given an input string, reverse the string word by word.
+     * 
+     * For example, Given s = "the sky is blue", return "blue is sky the".
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        s = s.trim();
+        if (s.length() <= 1) {
+            return s;
+        }
+        String[] strs = s.split(" ");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = strs.length - 1; i > 0; i--) {
+            String append = strs[i];
+            if (!"".equals(append)) {
+                stringBuilder.append(append).append(" ");
+            }
+        }
+        stringBuilder.append(strs[0]);
+        return stringBuilder.toString();
+    }
+
+    public String reverseWordsWith2Pointers(String s) {
+        if (s.length() <= 1) {
+            return s;
+        }
+        char[] charArray = s.toCharArray();
+        // step1. reverse all
+        reverseAll(charArray, 0, charArray.length - 1);
+
+        // step2. reverse each word
+        reverseEach(charArray, charArray.length);
+
+        // step3. clear spaces
+        return clearSpaces(charArray);
+    }
+
+    private String clearSpaces(char[] charArray) {
+        int length = charArray.length;
+        int i = 0, j = 0;
+        while (j < length) {
+            while (j < length && charArray[j] == ' ') {
+                j++;
+            }
+            while (j < length && charArray[j] != ' ') {
+                charArray[i] = charArray[j];
+                i++;
+                j++;
+            }
+            while (j < length && charArray[j] == ' ') {
+                j++;
+            }
+            if (j < length) {
+                charArray[i] = ' ';
+                i++;
+            }
+
+        }
+        return String.valueOf(charArray, 0, i);
+
+    }
+
+    private void reverseEach(char[] charArray, int length) {
+        int i = 0;
+        int j = 0;
+        while (i < length) {
+            while (i < j || i < length && charArray[i] == ' ') {
+                i++;
+            }
+            while (j < i || j < length && charArray[j] != ' ') {
+                j++;
+            }
+            reverseAll(charArray, i, j - 1);
+        }
+    }
+
+    private void reverseAll(char[] charArray, int start, int end) {
+        while (start < end) {
+            char temp = charArray[start];
+            charArray[start] = charArray[end];
+            charArray[end] = temp;
+            start++;
+            end--;
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        String a = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
+        // String b = "a";
+        // System.out.println(new Solution().longestPalindrome(b));
+        // System.out.println(solution.countSubstrings("abaabcaba"));
+        String split = "hello world!";
+
+        System.out.println(" ".length());
+        System.out.println(" ".trim());
+        String split2 = "   a  b  ";
+        System.out.println(split.trim());
+        System.out.println(solution.reverseWords(split));
+
+        System.out.println(solution.reverseWordsWith2Pointers(split));
     }
 
 }
