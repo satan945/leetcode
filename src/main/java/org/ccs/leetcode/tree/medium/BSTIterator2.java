@@ -28,7 +28,7 @@ import org.ccs.leetcode.bean.TreeNode;
 public class BSTIterator2 {
     private Stack<TreeNode> stack = new Stack<TreeNode>();
 
-    public BSTIterator(TreeNode root) {
+    public BSTIterator2(TreeNode root) {
         pushAllNodes(root);
     }
 
