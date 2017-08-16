@@ -125,15 +125,25 @@ public class Solution {
      * @return
      */
     public List<String> letterCombinations(String digits) {
-        String[] buttons = new String[] { "0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+        String[] BUTTONS = new String[] { "0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
         List<String> res = new ArrayList<>();
         if (digits == null || digits.length() == 0) {
             return res;
         }
-        for (int i = 0; i < digits.length(); i++) {
-
-        }
+        combine(res, "", 0, digits, BUTTONS);
         return res;
+
+    }
+
+    private void combine(List<String> solutions, String prefix, int offset, String digits, String[] buttons) {
+        if (offset >= digits.length()) {
+            solutions.add(prefix);
+            return;
+        }
+        String letters = buttons[digits.charAt(offset) - '0'];
+        for (int i = 0; i < letters.length(); i++) {
+            combine(solutions, prefix + letters.charAt(i), offset + 1, digits, buttons);
+        }
 
     }
 

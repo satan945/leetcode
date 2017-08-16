@@ -562,6 +562,72 @@ public class Solution {
         return true;
     }
 
+    /**
+     * 235. Lowest Common Ancestor of a Binary Search Tree
+     * <p>
+     * <p>
+     * Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+     * 
+     * According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w
+     * as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of
+     * itself).”
+     * 
+     * _______6______
+     * 
+     * 
+     * / \
+     *
+     * ___2__ ___8__
+     *
+     * / \ / \
+     *
+     * 0 _4 7 9
+     *
+     * / \
+     *
+     * 3 5
+     * 
+     * For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is
+     * 2, since a node can be a descendant of itself according to the LCA definition.
+     * </p>
+     * 
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || p == root || q == root) {
+            return root;
+        }
+        while ((root.val - p.val) * (root.val - q.val) > 0) {
+            root = root.val > p.val ? root.left : root.right;
+        }
+        return root;
+    }
+
+    /**
+     * 538. Convert BST to Greater Tree
+     * <p>
+     * https://leetcode.com/problems/convert-bst-to-greater-tree
+     * <p>
+     * Given a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed
+     * to the original key plus sum of all keys greater than the original key in BST.
+     * 
+     * Example:
+     * 
+     * Input: The root of a Binary Search Tree like this: 5 / \ 2 13
+     * 
+     * Output: The root of a Greater Tree like this: 18 / \ 20 13
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public TreeNode convertBST(TreeNode root) {
+        return null;
+    }
+
     public static void main(String[] args) {
     }
 

@@ -3,10 +3,13 @@
  */
 package org.ccs.leetcode.tree.medium;
 
+import apple.laf.JRSUIUtils;
 import org.ccs.leetcode.bean.TreeNode;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -207,5 +210,78 @@ public class Solution {
         root.right = buildTreeRecursiveByPreAndInOrder(preorder, preStart + nodenums, preEnd, inorder, inRoot + 1,
                 inEnd, indexMap);
         return root;
+    }
+
+    /**
+     * 236. Lowest Common Ancestor of a Binary Tree
+     * <p>
+     * <p>
+     * Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+     * 
+     * According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w
+     * as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of
+     * itself).”
+     * 
+     * _______3______
+     *
+     * / \
+     * 
+     * ___5__ ___1__
+     *
+     * / \ / \
+     * 
+     * 6 _2 0 8
+     * 
+     * / \
+     * 
+     * 7 4
+     * 
+     * For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is
+     * 5, since a node can be a descendant of itself according to the LCA definition.
+     * </p>
+     * 
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || p == root || q == root) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        return left == null ? right : right == null ? left : root;
+    }
+
+    public TreeNode lowestCommonAncestorIterate(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || p == root || q == root) {
+            return root;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        HashMap<TreeNode, TreeNode> parentMap = new HashMap<>();
+        stack.push(root);
+        parentMap.put(root, null);
+        while (!parentMap.containsKey(p) || !parentMap.containsKey(q)) {
+            TreeNode node = stack.pop();
+            if (node.left != null) {
+                parentMap.put(node.left, node);
+                stack.push(node.left);
+            }
+            if (node.right != null) {
+                parentMap.put(node.right, node);
+                stack.push(node.right);
+            }
+        }
+
+        HashSet<TreeNode> ancestorSet = new HashSet<>();
+        while (p != null) {
+            ancestorSet.add(p);
+            p = parentMap.get(p);
+        }
+        while (!ancestorSet.contains(q)) {
+            q = parentMap.get(q);
+        }
+        return q;
     }
 }
