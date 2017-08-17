@@ -339,24 +339,45 @@ public class Solution {
      * 
      * 1 / \ 2 5 / \ \ 3 4 6 The flattened tree should look like: 1 \ 2 \ 3 \ 4 \ 5 \ 6
      * </p>
-     * 
+     * ???
      * @param root
      */
+    public void flattenRecursive(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        TreeNode left = root.left;
+        TreeNode right = root.right;
+        root.left = null;
+        flattenRecursive(left);
+        flattenRecursive(right);
+
+        root.right = left;
+        TreeNode node = root;
+        while (node.right != null) {
+            node = node.right;
+        }
+        node.right = right;
+    }
+
     public void flatten(TreeNode root) {
-        List<TreeNode> treeNodeList = new ArrayList<>();
+        if (root == null) {
+            return;
+        }
         Stack<TreeNode> stack = new Stack<>();
         stack.push(root);
         while (!stack.isEmpty()) {
-            TreeNode node = stack.pop();
-            if (node != null) {
-                treeNodeList.add(node);
-                stack.push(node.left);
-                stack.push(node.right);
+            TreeNode curr = stack.pop();
+            if (curr.right != null) {
+                stack.push(curr.right);
             }
-        }
-        TreeNode node = root;
-        for (int i = 1; i < treeNodeList.size(); i++) {
-            node.right = treeNodeList.get(i);
+            if (curr.left != null) {
+                stack.push(curr.left);
+            }
+            if (!stack.isEmpty()) {
+                curr.right = stack.peek();
+            }
+            curr.left = null; // dont forget this!!
         }
     }
 }
