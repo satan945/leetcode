@@ -30,8 +30,8 @@ public class Solution {
         }
         int max1 = 0;
         int max2 = 0;
-        List<Integer> result = new ArrayList<Integer>();
-        Set<Integer> allElements = new HashSet<Integer>();
+        List<Integer> result = new ArrayList<>();
+        Set<Integer> allElements = new HashSet<>();
         for (int i = 0; i < nums1.length; i++) {
             if (nums1[i] > max1) {
                 max1 = nums1[i];
@@ -161,6 +161,20 @@ public class Solution {
         return res;
     }
 
+    public double findMaxAverageSlideWindow(int[] nums, int k) {
+        int sum = 0;
+        for (int i = 0; i < k; i++) {
+            sum += nums[i];
+        }
+        double res = sum;
+        for (int i = k; i < nums.length; i++) {
+            sum = sum + nums[i];
+            sum = sum - nums[i - k];
+            res = Math.max(res, sum);
+        }
+        return res / k;
+    }
+
     /**
      * 27. Remove Element
      * <p>
@@ -192,20 +206,6 @@ public class Solution {
         return i;
     }
 
-    public double findMaxAverageSlideWindow(int[] nums, int k) {
-        int sum = 0;
-        for (int i = 0; i < k; i++) {
-            sum += nums[i];
-        }
-        double res = sum;
-        for (int i = k; i < nums.length; i++) {
-            sum = sum + nums[i];
-            sum = sum - nums[i - k];
-            res = Math.max(res, sum);
-        }
-        return res / k;
-    }
-
     /**
      * 88. Merge Sorted Array
      *
@@ -233,7 +233,6 @@ public class Solution {
         while (j >= 0) {
             nums1[k--] = nums2[j--];
         }
-
     }
 
     /**
