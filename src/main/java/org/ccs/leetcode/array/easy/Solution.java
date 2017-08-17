@@ -5,6 +5,7 @@ package org.ccs.leetcode.array.easy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -274,6 +275,61 @@ public class Solution {
             }
         }
         return left;
+    }
+
+    /**
+     * 217. Contains Duplicate
+     * <p>
+     * https://leetcode.com/problems/contains-duplicate
+     * <p>
+     * Given an array of integers, find if the array contains any duplicates. Your function should return true if any
+     * value appears at least twice in the array, and it should return false if every element is distinct.
+     * </p>
+     * Array HashTable
+     * 
+     * @param nums
+     * @return
+     */
+    public boolean containsDuplicate(int[] nums) {
+        if (nums.length <= 1) {
+            return false;
+        }
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (!set.add(num)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    /**
+     * 219. Contains Duplicate II
+     * <p>
+     * https://leetcode.com/problems/contains-duplicate-ii
+     * <p>
+     * Given an array of integers and an integer k, find out whether there are two distinct indices i and j in the array
+     * such that nums[i] = nums[j] and the absolute difference between i and j is at most k.
+     * </p>
+     * 
+     * @param nums
+     * @param k
+     * @return Array HashTable
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            Integer existIndex = map.get(nums[i]);
+            if (existIndex == null) {
+                map.put(nums[i], i);
+            } else {
+                if (i - existIndex <= k) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {

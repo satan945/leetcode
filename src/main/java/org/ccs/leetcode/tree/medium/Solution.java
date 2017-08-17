@@ -4,6 +4,7 @@
 package org.ccs.leetcode.tree.medium;
 
 import apple.laf.JRSUIUtils;
+import org.ccs.leetcode.bean.TreeLinkNode;
 import org.ccs.leetcode.bean.TreeNode;
 
 import java.util.ArrayList;
@@ -283,5 +284,79 @@ public class Solution {
             q = parentMap.get(q);
         }
         return q;
+    }
+
+    /**
+     * 116. Populating Next Right Pointers in Each Node
+     * <p>
+     * https://leetcode.com/problems/populating-next-right-pointers-in-each-node
+     * <p>
+     * 
+     * Given a binary tree
+     * 
+     * struct TreeLinkNode { TreeLinkNode *left; TreeLinkNode *right; TreeLinkNode *next; } Populate each next pointer
+     * to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+     * 
+     * Initially, all next pointers are set to NULL.
+     * 
+     * Note:
+     * 
+     * You may only use constant extra space. You may assume that it is a perfect binary tree (ie, all leaves are at the
+     * same level, and every parent has two children). For example, Given the following perfect binary tree, 1 / \ 2 3 /
+     * \ / \ 4 5 6 7 After calling your function, the tree should look like: 1 -> NULL / \ 2 -> 3 -> NULL / \ / \
+     * 4->5->6->7 -> NULL
+     * </p>
+     * 
+     * @param root
+     */
+    public void connect(TreeLinkNode root) {
+        if (root == null) {
+            return;
+        }
+        TreeLinkNode pre = root;
+        TreeLinkNode node;
+        while (pre.left != null) {
+            node = pre;
+            while (node != null) {
+                node.left.next = node.right;
+                if (node.next != null) {
+                    node.right.next = node.next.left;
+                }
+                node = node.next;
+            }
+            pre = pre.left;
+        }
+    }
+
+    /**
+     * 114. Flatten Binary Tree to Linked List
+     * <p>
+     * https://leetcode.com/problems/flatten-binary-tree-to-linked-list
+     * <p>
+     * Given a binary tree, flatten it to a linked list in-place.
+     * 
+     * For example, Given
+     * 
+     * 1 / \ 2 5 / \ \ 3 4 6 The flattened tree should look like: 1 \ 2 \ 3 \ 4 \ 5 \ 6
+     * </p>
+     * 
+     * @param root
+     */
+    public void flatten(TreeNode root) {
+        List<TreeNode> treeNodeList = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            if (node != null) {
+                treeNodeList.add(node);
+                stack.push(node.left);
+                stack.push(node.right);
+            }
+        }
+        TreeNode node = root;
+        for (int i = 1; i < treeNodeList.size(); i++) {
+            node.right = treeNodeList.get(i);
+        }
     }
 }

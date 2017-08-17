@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
+import apple.laf.JRSUIUtils;
 import org.ccs.leetcode.bean.TreeNode;
 
 /**
@@ -628,7 +629,168 @@ public class Solution {
         return null;
     }
 
+    /**
+     * 110. Balanced Binary Tree
+     * <p>
+     * https://leetcode.com/problems/balanced-binary-tree
+     * <p>
+     * Given a binary tree, determine if it is height-balanced.
+     * 
+     * For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two
+     * subtrees of every node never differ by more than 1.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        int heightLeft = getHeight(root.left);
+        int heightRight = getHeight(root.right);
+        if (Math.abs(heightLeft - heightRight) > 1) {
+            return false;
+        }
+        boolean isBalancedLeft = isBalanced(root.left);
+        boolean isBalancedRight = isBalanced(root.right);
+        return isBalancedLeft && isBalancedRight;
+    }
+
+    private int getHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        } else {
+            return 1 + Math.max(getHeight(root.left), getHeight(root.right));
+        }
+    }
+
+    /**
+     * 112. Path Sum
+     * <p>
+     * https://leetcode.com/problems/path-sum
+     *
+     * Tree DFS
+     * <p>
+     * Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values
+     * along the path equals the given sum.
+     * 
+     * For example: Given the below binary tree and sum = 22, 5 / \ 4 8 / / \ 11 13 4 / \ \ 7 2 1 return true, as there
+     * exist a root-to-leaf path 5->4->11->2 which sum is 22.
+     * </p>
+     * 
+     * @param root
+     * @param sum
+     * @return
+     */
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null && root.right == null && root.val == sum) {
+            return true;
+        }
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
+
+    /**
+     * 108. Convert Sorted Array to Binary Search Tree
+     * <p>
+     * https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree
+     * <p>
+     * Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+     * 
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums.length == 0) {
+            return null;
+        }
+        int pos = nums.length / 2;
+        TreeNode root = new TreeNode(nums[pos]);
+        root.left = convertArrayToBST(nums, 0, pos - 1);
+        root.right = convertArrayToBST(nums, pos + 1, nums.length - 1);
+        return root;
+
+    }
+
+    private TreeNode convertArrayToBST(int[] nums, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+        if (start == end) {
+            return new TreeNode(nums[start]);
+        }
+        int pos = (start + end) / 2;
+        TreeNode root = new TreeNode(nums[pos]);
+        root.left = convertArrayToBST(nums, start, pos - 1);
+        root.right = convertArrayToBST(nums, pos + 1, end);
+        return root;
+    }
+
+    /**
+     * 257. Binary Tree Paths
+     * <p>
+     * https://leetcode.com/problems/binary-tree-paths
+     * <p>
+     * Given a binary tree, return all root-to-leaf paths.
+     * 
+     * For example, given the following binary tree:
+     * 
+     * 1
+     * 
+     * / \
+     * 
+     * 2 3
+     * 
+     * \
+     * 
+     * 5
+     * 
+     * All root-to-leaf paths are:
+     * 
+     * ["1->2->5", "1->3"] Credits: Special thanks to @jianchao.li.fighter for adding this problem and creating all test
+     * cases.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> pathList = new ArrayList<>();
+        if (root == null) {
+            return pathList;
+        }
+        genPaths("", root, pathList);
+        return pathList;
+    }
+
+    private void genPaths(String preFix, TreeNode root, List<String> pathList) {
+        if (root.left == null && root.right == null) {
+            pathList.add(preFix + (!"".equals(preFix) ? "->" : "") + root.val);
+            return;
+        }
+        if (root.left != null) {
+            genPaths(preFix + (!"".equals(preFix) ? "->" : "") + String.valueOf(root.val), root.left, pathList);
+        }
+        if (root.right != null) {
+            genPaths(preFix + (!"".equals(preFix) ? "->" : "") + String.valueOf(root.val), root.right, pathList);
+        }
+
+    }
+
     public static void main(String[] args) {
+        TreeNode root = new TreeNode(1);
+        TreeNode node1 = new TreeNode(2);
+        TreeNode node2 = new TreeNode(3);
+        TreeNode node3 = new TreeNode(5);
+        root.left = node1;
+        node1.right = node3;
+        root.right = node2;
+        System.out.println(new Solution().binaryTreePaths(root));
     }
 
 }
