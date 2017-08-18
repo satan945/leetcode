@@ -3,12 +3,10 @@
  */
 package org.ccs.leetcode.tree.medium;
 
-import apple.laf.JRSUIUtils;
 import org.ccs.leetcode.bean.TreeLinkNode;
 import org.ccs.leetcode.bean.TreeNode;
 
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -61,8 +59,19 @@ public class Solution {
      * @return
      */
     public TreeNode addOneRow(TreeNode root, int v, int d) {
-
-        return null;
+        if (d <= 1) {
+            TreeNode newRoot = new TreeNode(v);
+            if (d == 1) {
+                newRoot.left = root;
+            }
+            if (d == 0) {
+                newRoot.right = root;
+            }
+        }
+        if (root != null && d >= 2) {
+            root.left = addOneRow(root.left,v,d-1);
+        }
+        return root;
     }
 
     /**
@@ -340,6 +349,7 @@ public class Solution {
      * 1 / \ 2 5 / \ \ 3 4 6 The flattened tree should look like: 1 \ 2 \ 3 \ 4 \ 5 \ 6
      * </p>
      * ???
+     * 
      * @param root
      */
     public void flattenRecursive(TreeNode root) {
@@ -379,5 +389,25 @@ public class Solution {
             }
             curr.left = null; // dont forget this!!
         }
+    }
+
+    /**
+     * 96. Unique Binary Search Trees
+     * <p>
+     * https://leetcode.com/problems/unique-binary-search-trees
+     * <p>
+     * Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
+     * 
+     * For example, Given n = 3, there are a total of 5 unique BST's.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        return 0;
     }
 }
