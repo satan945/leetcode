@@ -69,7 +69,7 @@ public class Solution {
             }
         }
         if (root != null && d >= 2) {
-            root.left = addOneRow(root.left,v,d-1);
+            root.left = addOneRow(root.left, v, d - 1);
         }
         return root;
     }
@@ -400,13 +400,23 @@ public class Solution {
      *
      * For example, Given n = 3, there are a total of 5 unique BST's.
      * </p>
+     * https://zh.wikipedia.org/wiki/卡塔兰数
      *
+     * http://blog.csdn.net/linhuanmars/article/details/24761459
+     *
+     * https://discuss.leetcode.com/topic/8398/dp-solution-in-6-lines-with-explanation-f-i-n-g-i-1-g-n-i
+     * 
      * @param n
      * @return
      */
     public int numTrees(int n) {
-        if (n == 0) {
-            return 0;
+        int[] result = new int[n + 1];
+        result[0] = 1;
+        result[1] = 1;
+        for (int i = 2; i < n; i++) {
+            for (int j = 1; j < i; j++) {
+
+            }
         }
         return 0;
     }
