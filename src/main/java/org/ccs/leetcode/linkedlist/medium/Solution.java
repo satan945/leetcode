@@ -4,10 +4,14 @@
 package org.ccs.leetcode.linkedlist.medium;
 
 import org.ccs.leetcode.bean.ListNode;
+import org.ccs.leetcode.bean.RandomListNode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Abel created on 2017/6/29 18:02
@@ -228,14 +232,83 @@ public class Solution {
         return node;
     }
 
+    /**
+     * 138. Copy List with Random Pointer
+     * <p>
+     * https://leetcode.com/problems/copy-list-with-random-pointer
+     * <p>
+     * A linked list is given such that each node contains an additional random pointer which could point to any node in
+     * the list or null.
+     * 
+     * Return a deep copy of the list.
+     * </p>
+     * 
+     * @param head
+     * @return
+     */
+    public RandomListNode copyRandomList(RandomListNode head) {
+        if (head == null) {
+            return null;
+        }
+        RandomListNode newHead = new RandomListNode(head.label);
+        RandomListNode newNode = newHead;
+        RandomListNode node = head.next;
+        HashMap<RandomListNode, RandomListNode> mapping = new HashMap<>();
+        mapping.put(head, newHead);
+        newHead.random = head.random;
+        while (node != null) {
+            newNode.next = new RandomListNode(node.label);
+            mapping.put(node, newNode.next);
+            newNode.next.random = node.random;
+            newNode = newNode.next;
+            node = node.next;
+        }
+
+        newNode = newHead;
+        while (newNode != null) {
+            newNode.random = mapping.get(newNode.random);
+            newNode = newNode.next;
+        }
+        return newHead;
+    }
+
+    public RandomListNode copyRandomList2(RandomListNode head) {
+        if (head == null)
+            return null;
+
+        Map<RandomListNode, RandomListNode> map = new HashMap<RandomListNode, RandomListNode>();
+
+        // loop 1. copy all the nodes
+        RandomListNode node = head;
+        while (node != null) {
+            map.put(node, new RandomListNode(node.label));
+            node = node.next;
+        }
+
+        // loop 2. assign next and random pointers
+        node = head;
+        while (node != null) {
+            map.get(node).next = map.get(node.next);
+            map.get(node).random = map.get(node.random);
+            node = node.next;
+        }
+
+        return map.get(head);
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        ListNode l1 = new ListNode(1);
+        ListNode l1 = new ListNode(-1);
         ListNode l2 = new ListNode(2);
         ListNode l3 = new ListNode(3);
         l1.next = l2;
         l2.next = l3;
         solution.reverseBetween(l1, 1, 2);
+
+        RandomListNode head = new RandomListNode(-1);
+        RandomListNode n1 = new RandomListNode(-1);
+        head.next = n1;
+        System.out.println(solution.copyRandomList(head));
 
         // solution.addTwoNumbers(l1, l2);
         // solution.removeNthFromEnd(l1, 2);

@@ -349,7 +349,7 @@ public class Solution {
      * 1 / \ 2 5 / \ \ 3 4 6 The flattened tree should look like: 1 \ 2 \ 3 \ 4 \ 5 \ 6
      * </p>
      * ???
-     * 
+     *
      * @param root
      */
     public void flattenRecursive(TreeNode root) {
@@ -397,10 +397,10 @@ public class Solution {
      * https://leetcode.com/problems/unique-binary-search-trees
      * <p>
      * Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
-     * 
+     *
      * For example, Given n = 3, there are a total of 5 unique BST's.
      * </p>
-     * 
+     *
      * @param n
      * @return
      */
