@@ -4,14 +4,10 @@
 package org.ccs.leetcode.tree.easy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
-import java.util.Stack;
 
-import apple.laf.JRSUIUtils;
 import org.ccs.leetcode.bean.TreeNode;
 
 /**
@@ -779,41 +775,6 @@ public class Solution {
         if (root.right != null) {
             genPaths(preFix + (!"".equals(preFix) ? "->" : "") + String.valueOf(root.val), root.right, pathList);
         }
-
-    }
-
-    /**
-     * 538. Convert BST to Greater Tree
-     * <p>
-     * https://leetcode.com/problems/convert-bst-to-greater-tree
-     * <p>
-     * 
-     * Given a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed
-     * to the original key plus sum of all keys greater than the original key in BST.
-     * 
-     * Example:
-     * 
-     * Input: The root of a Binary Search Tree like this:
-     * 
-     * 5
-     * 
-     * / \
-     * 
-     * 2 13
-     * 
-     * Output: The root of a Greater Tree like this:
-     * 
-     * 18
-     * 
-     * / \
-     * 
-     * 20 13
-     * </p>
-     * 
-     * @param root
-     * @return
-     */
-    public TreeNode convertBST(TreeNode root) {
 
     }
 

@@ -296,7 +296,31 @@ public class Solution {
      * @return
      */
     public String countAndSay(int n) {
-        return "";
+        String str = "1";
+        if (n == 1) {
+            return str;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 2; i <= n; i++) {
+            sb.delete(0, sb.length());
+            char[] seq = str.toCharArray();
+            int count = 1;
+            for (int j = 0; j < seq.length; j++) {
+                if (j > 0) {
+                    if (seq[j] == seq[j - 1]) {
+                        count++;
+                    } else {
+                        sb.append(count).append(seq[j - 1]);
+                        count = 1;
+                    }
+                }
+                if (j == seq.length - 1) {
+                    sb.append(count).append(seq[j]);
+                }
+            }
+            str = sb.toString();
+        }
+        return str;
     }
 
     /**
@@ -414,6 +438,7 @@ public class Solution {
         // System.out.println(solution.reverseString(a));
         // System.out.println(solution.lengthOfLastWord(a));
         String move = "UD";
-        System.out.println(solution.judgeCircle(move));
+        // System.out.println(solution.judgeCircle(move));
+        System.out.println(solution.countAndSay(5));
     }
 }
