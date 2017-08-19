@@ -622,7 +622,21 @@ public class Solution {
      * @return
      */
     public TreeNode convertBST(TreeNode root) {
-        return null;
+        helper(root, 0);
+        return root;
+    }
+
+    private void helper(TreeNode root, int value) {
+        if (root == null) {
+            return;
+        }
+        if (root.right != null) {
+            helper(root.right, 0);
+            root.val += root.right.val;
+        }
+        if (root.left != null) {
+            helper(root.left, root.val);
+        }
     }
 
     /**
