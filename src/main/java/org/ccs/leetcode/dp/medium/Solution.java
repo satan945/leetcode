@@ -32,4 +32,59 @@ public class Solution {
         return 0;
 
     }
+
+    /**
+     * 152. Maximum Product Subarray
+     * <p>
+     * https://leetcode.com/problems/maximum-product-subarray
+     * <p>
+     * Find the contiguous subarray within an array (containing at least one number) which has the largest product.
+     *
+     * For example, given the array [2,3,-2,4], the contiguous subarray [2,3] has the largest product = 6.
+     * </p>
+     * https://discuss.leetcode.com/category/160/maximum-product-subarray
+     * 
+     * @param nums
+     * @return
+     */
+    public int maxProduct(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int maxPro = nums[0];
+        int maxCur, minCur;
+        int maxPre = nums[0];
+        int minPre = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            maxCur = Math.max(Math.max(maxPre * nums[i], minPre * nums[i]), nums[i]);
+            minCur = Math.min(Math.min(minPre * nums[i], maxPre * nums[i]), nums[i]);
+            maxPro = Math.max(maxCur, maxPro);
+            maxPre = maxCur;
+            minPre = minCur;
+        }
+        return maxPro;
+    }
+
+    /**
+     * 96. Unique Binary Search Trees
+     * <p>
+     * https://leetcode.com/problems/unique-binary-search-trees
+     * <p>
+     * Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
+     *
+     * For example, Given n = 3, there are a total of 5 unique BST's.
+     * </p>
+     * https://zh.wikipedia.org/wiki/卡塔兰数
+     *
+     * http://blog.csdn.net/linhuanmars/article/details/24761459
+     *
+     * https://discuss.leetcode.com/topic/8398/dp-solution-in-6-lines-with-explanation-f-i-n-g-i-1-g-n-i
+     *
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        // return org.ccs.leetcode.tree.medium.Solution.numTrees();
+        return 0;
+    }
 }
