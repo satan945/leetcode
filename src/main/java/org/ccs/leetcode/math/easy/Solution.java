@@ -518,7 +518,7 @@ public class Solution {
      * @return
      */
     public int maxCount(int m, int n, int[][] ops) {
-        for (int[] op: ops) {
+        for (int[] op : ops) {
             m = Math.min(m, op[0]);
             n = Math.min(n, op[1]);
         }
@@ -545,14 +545,159 @@ public class Solution {
      */
     public String addStrings(String num1, String num2) {
         return "";
+    }
 
+    /**
+     * 172. Factorial Trailing Zeroes
+     * <p>
+     * https://leetcode.com/problems/factorial-trailing-zeroes
+     * <p>
+     * Given an integer n, return the number of trailing zeroes in n!.
+     * 
+     * Note: Your solution should be in logarithmic time complexity.
+     * </p>
+     * <p>
+     * This question is pretty straightforward.
+     * 
+     * Because all trailing 0 is from factors 5 * 2.
+     * 
+     * But sometimes one number may have several 5 factors, for example, 25 have two 5 factors, 125 have three 5
+     * factors. In the n! operation, factors 2 is always ample. So we just count how many 5 factors in all number from 1
+     * to n.
+     * </p>
+     * 
+     * <p>
+     * 10 is the product of 2 and 5. In n!, we need to know how many 2 and 5, and the number of zeros is the minimum of
+     * the number of 2 and the number of 5.
+     * 
+     * Since multiple of 2 is more than multiple of 5, the number of zeros is dominant by the number of 5.
+     * 
+     * Here we expand
+     * 
+     * 2147483647! =2 * 3 * ...* 5 ... *10 ... 15* ... * 25 ... * 50 ... * 125 ... * 250... =2 * 3 * ...* 5 ... *
+     * (5^1*2)...(5^1*3)...*(5^2*1)...*(5^2*2)...*(5^3*1)...*(5^3*2)... (Equation 1) We just count the number of 5 in
+     * Equation 1.
+     * 
+     * Multiple of 5 provides one 5, multiple of 25 provides two 5 and so on.
+     * 
+     * Note the duplication: multiple of 25 is also multiple of 5, so multiple of 25 only provides one extra 5.
+     * 
+     * Here is the basic solution:
+     * 
+     * return n/5 + n/25 + n/125 + n/625 + n/3125+...; You can easily rewrite it to a loop.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int trailingZeroes(int n) {
+        return n == 0 ? 0 : n / 5 + trailingZeroes(n / 5);
+    }
 
+    /**
+     * 326. Power of Three
+     * <p>
+     * https://leetcode.com/problems/power-of-three
+     * <p>
+     * Given an integer, write a function to determine if it is a power of three.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public boolean isPowerOfThree(int n) {
+        double a = Math.log(n) / Math.log(3);
+        return Math.abs(a - Math.rint(a)) <= 0.00000000000001;
+    }
+
+    public boolean isPowerOfThree2(int n) {
+        return (n > 0 && 1162261467 % n == 0);
+
+    }
+
+    /**
+     * 231. Power of Two
+     * <p>
+     * https://leetcode.com/problems/power-of-two
+     * <p>
+     * Given an integer, write a function to determine if it is a power of two.
+     * 
+     * </p>
+     * https://leetcode.com/problems/power-of-two/discuss/
+     * 
+     * @param n
+     * @return
+     */
+    public boolean isPowerOfTwo(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        return (n & (n - 1)) == 0;
+    }
+
+    /**
+     * 342. Power of Four
+     * <p>
+     * https://leetcode.com/problems/power-of-four
+     * <p>
+     * Given an integer (signed 32 bits), write a function to check whether it is a power of 4.
+     * 
+     * Example: Given num = 16, return true. Given num = 5, return false.
+     * 
+     * Follow up: Could you solve it without loops/recursion?
+     * </p>
+     * 
+     * @param num
+     * @return
+     */
+    public boolean isPowerOfFour(int num) {
+        if (num <= 0) {
+            return false;
+        }
+        String string = Integer.toBinaryString(num).substring(1);
+        return string.length() % 2 == 0 && !string.contains("1");
+
+    }
+
+    public boolean isPowerOfFour2(int num) {
+        return num > 0 && (num & (num - 1)) == 0 && (num - 1) % 3 == 0;
+    }
+
+    /**
+     * 319. Bulb Switcher
+     * <p>
+     * https://leetcode.com/problems/bulb-switcher
+     * <p>
+     * There are n bulbs that are initially off. You first turn on all the bulbs. Then, you turn off every second bulb.
+     * On the third round, you toggle every third bulb (turning on if it's off or turning off if it's on). For the ith
+     * round, you toggle every i bulb. For the nth round, you only toggle the last bulb. Find how many bulbs are on
+     * after n rounds.
+     * 
+     * Example:
+     * 
+     * Given n = 3.
+     * 
+     * At first, the three bulbs are [off, off, off]. After first round, the three bulbs are [on, on, on]. After second
+     * round, the three bulbs are [on, off, on]. After third round, the three bulbs are [on, off, off].
+     * 
+     * So you should return 1, because there is only one bulb is on.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int bulbSwitch(int n) {
+        return (int) Math.sqrt(n);
     }
 
     public static void main(String[] args) {
         int[] nums = new int[] { 9 };
         Solution solution = new Solution();
         // System.out.println(solution.plusOne(nums));
-        System.out.println(solution.isPalindrome(10001));
+        // System.out.println(solution.isPalindrome(10001));
+        // System.out.println(Math.sqrt(9));
+        System.out.println(solution.isPowerOfThree(243));
+        System.out.println(solution.isPowerOfTwo(9));
+
     }
 }

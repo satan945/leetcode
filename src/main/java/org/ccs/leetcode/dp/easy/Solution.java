@@ -85,13 +85,6 @@ public class Solution {
         return maxSum;
     }
 
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        int[] prices = new int[] { -2, 1, -3, 4, -1, 2, 1, -5, 4 };
-        System.out.println(solution.maxSubArray(prices));
-    }
-
-
     /**
      * 70. Climbing Stairs
      * <p>
@@ -124,6 +117,179 @@ public class Solution {
         }
         return res;
 
+    }
+
+    /**
+     * 198. House Robber
+     *
+     * <p>
+     * https://leetcode.com/problems/house-robber
+     * <p>
+     * 
+     * You are a professional robber planning to rob houses along a street. Each house has a certain amount of money
+     * stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system
+     * connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+     * 
+     * Given a list of non-negative integers representing the amount of money of each house, determine the maximum
+     * amount of money you can rob tonight without alerting the police.
+     * 
+     * Credits: Special thanks to @ifanchu for adding this problem and creating all test cases. Also thanks to @ts for
+     * adding additional test cases.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int rob(int[] nums) {
+        int[] sum = new int[nums.length];
+        if (nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        sum[0] = nums[0];
+        sum[1] = nums[1];
+        int maxPre = sum[0];
+        int max = sum[0] > sum[1] ? sum[0] : sum[1];
+        if (nums.length == 2) {
+            return max;
+        }
+        for (int i = 2; i < nums.length; i++) {
+            sum[i] = maxPre + nums[i];
+            maxPre = Math.max(maxPre, sum[i - 1]);
+            max = Math.max(max, sum[i]);
+        }
+        return max;
+    }
+
+    /**
+     * https://leetcode.com/problems/house-robber/solution/
+     * 
+     * @param nums
+     * @return
+     */
+    public int rob2(int[] nums) {
+        int maxCur = 0;
+        int maxPrev = 0;
+        for (int num : nums) {
+            int temp = maxCur;
+            maxCur = Math.max(maxPrev + num, maxPrev);
+            maxPrev = temp;
+
+        }
+        return maxCur;
+    }
+
+    /**
+     * 256. Paint House
+     * <p>
+     * https://leetcode.com/problems/paint-house/description/
+     * <p>
+     * There are a row of n houses, each house can be painted with one of the three colors: red, blue or green. The cost
+     * of painting each house with a certain color is different. You have to paint all the houses such that no two
+     * adjacent houses have the same color.
+     * 
+     * The cost of painting each house with a certain color is represented by a n x 3 cost matrix. For example,
+     * costs[0][0] is the cost of painting house 0 with color red; costs[1][2] is the cost of painting house 1 with
+     * color green, and so on... Find the minimum cost to paint all houses.
+     * 
+     * Note: All costs are positive integers.
+     * </p>
+     * 
+     * @param costs
+     * @return
+     */
+    public int minCost(int[][] costs) {
+        if (costs.length == 0) {
+            return 0;
+        }
+        int houses = costs.length;
+        int[][] estimateCost = new int[costs.length][3];
+        estimateCost[0][0] = costs[0][0];
+        estimateCost[0][1] = costs[0][1];
+        estimateCost[0][2] = costs[0][2];
+        for (int i = 1; i < houses; i++) {
+            for (int j = 0; j < 3; j++) {
+                estimateCost[i][j] = costs[i][j] + calMin(j, estimateCost[i - 1]);
+            }
+        }
+        return Math.min(Math.min(estimateCost[houses - 1][0], estimateCost[houses - 1][1]),
+                estimateCost[houses - 1][2]);
+    }
+
+    public int minCost2(int[][] costs) {
+        if (costs == null || costs.length == 0) {
+            return 0;
+        }
+        for (int i = 1; i < costs.length; i++) {
+            costs[i][0] += Math.min(costs[i - 1][1], costs[i - 1][2]);
+            costs[i][1] += Math.min(costs[i - 1][0], costs[i - 1][2]);
+            costs[i][2] += Math.min(costs[i - 1][1], costs[i - 1][0]);
+        }
+        int n = costs.length - 1;
+        return Math.min(Math.min(costs[n][0], costs[n][1]), costs[n][2]);
+    }
+
+    private int calMin(int j, int[] costs) {
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < costs.length; i++) {
+            if (i != j) {
+                min = Math.min(costs[i], min);
+            }
+        }
+        return min;
+    }
+
+    /**
+     * 276. Paint Fence
+     * <p>
+     * https://leetcode.com/problems/paint-fence
+     * <p>
+     * There is a fence with n posts, each post can be painted with one of the k colors.
+     * 
+     * You have to paint all the posts such that no more than two adjacent fence posts have the same color.
+     * 
+     * Return the total number of ways you can paint the fence.
+     * 
+     * </p>
+     * https://discuss.leetcode.com/topic/31093/easy-to-understand-java-o-n-runtime-o-1-space
+     * https://discuss.leetcode.com/topic/23426/o-n-time-java-solution-o-1-space/2
+     * 
+     * @param n
+     * @param k
+     * @return
+     */
+    public int numWays(int n, int k) {
+        if ((n == 0 || k == 0) || (k == 1 && n >= 3)) {
+            return 0;
+        }
+        int first = k;
+        int second = k * k;
+        int sameCount = 0;
+        int diffCount = 0;
+        if (n == 1) {
+            return first;
+        }
+        if (n == 2) {
+            return second;
+        }
+        int third;
+        for (int i = 3; i <= n; i++) {
+            third = (first + second) * (k - 1);
+            first = second;
+            second = third;
+        }
+
+        return second;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] prices = new int[] { 1, 3, 1 };
+        // System.out.println(solution.maxSubArray(prices));
+        System.out.println(solution.rob(prices));
+        System.out.println(solution.numWays(2, 1));
     }
 
     /**
