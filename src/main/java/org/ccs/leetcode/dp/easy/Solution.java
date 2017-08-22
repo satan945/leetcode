@@ -253,6 +253,7 @@ public class Solution {
      * Return the total number of ways you can paint the fence.
      * 
      * </p>
+     * https://discuss.leetcode.com/topic/31093/easy-to-understand-java-o-n-runtime-o-1-space
      * https://discuss.leetcode.com/topic/23426/o-n-time-java-solution-o-1-space/2
      * 
      * @param n
