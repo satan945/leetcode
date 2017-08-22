@@ -594,11 +594,110 @@ public class Solution {
         return n == 0 ? 0 : n / 5 + trailingZeroes(n / 5);
     }
 
+    /**
+     * 326. Power of Three
+     * <p>
+     * https://leetcode.com/problems/power-of-three
+     * <p>
+     * Given an integer, write a function to determine if it is a power of three.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public boolean isPowerOfThree(int n) {
+        double a = Math.log(n) / Math.log(3);
+        return Math.abs(a - Math.rint(a)) <= 0.00000000000001;
+    }
+
+    public boolean isPowerOfThree2(int n) {
+        return (n > 0 && 1162261467 % n == 0);
+
+    }
+
+    /**
+     * 231. Power of Two
+     * <p>
+     * https://leetcode.com/problems/power-of-two
+     * <p>
+     * Given an integer, write a function to determine if it is a power of two.
+     * 
+     * </p>
+     * https://leetcode.com/problems/power-of-two/discuss/
+     * 
+     * @param n
+     * @return
+     */
+    public boolean isPowerOfTwo(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        return (n & (n - 1)) == 0;
+    }
+
+    /**
+     * 342. Power of Four
+     * <p>
+     * https://leetcode.com/problems/power-of-four
+     * <p>
+     * Given an integer (signed 32 bits), write a function to check whether it is a power of 4.
+     * 
+     * Example: Given num = 16, return true. Given num = 5, return false.
+     * 
+     * Follow up: Could you solve it without loops/recursion?
+     * </p>
+     * 
+     * @param num
+     * @return
+     */
+    public boolean isPowerOfFour(int num) {
+        if (num <= 0) {
+            return false;
+        }
+        String string = Integer.toBinaryString(num).substring(1);
+        return string.length() % 2 == 0 && !string.contains("1");
+
+    }
+
+    public boolean isPowerOfFour2(int num) {
+        return num > 0 && (num & (num - 1)) == 0 && (num - 1) % 3 == 0;
+    }
+
+    /**
+     * 319. Bulb Switcher
+     * <p>
+     * https://leetcode.com/problems/bulb-switcher
+     * <p>
+     * There are n bulbs that are initially off. You first turn on all the bulbs. Then, you turn off every second bulb.
+     * On the third round, you toggle every third bulb (turning on if it's off or turning off if it's on). For the ith
+     * round, you toggle every i bulb. For the nth round, you only toggle the last bulb. Find how many bulbs are on
+     * after n rounds.
+     * 
+     * Example:
+     * 
+     * Given n = 3.
+     * 
+     * At first, the three bulbs are [off, off, off]. After first round, the three bulbs are [on, on, on]. After second
+     * round, the three bulbs are [on, off, on]. After third round, the three bulbs are [on, off, off].
+     * 
+     * So you should return 1, because there is only one bulb is on.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int bulbSwitch(int n) {
+        return (int) Math.sqrt(n);
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[] { 9 };
         Solution solution = new Solution();
         // System.out.println(solution.plusOne(nums));
-        System.out.println(solution.isPalindrome(10001));
-        System.out.println(Math.sqrt(9));
+        // System.out.println(solution.isPalindrome(10001));
+        // System.out.println(Math.sqrt(9));
+        System.out.println(solution.isPowerOfThree(243));
+        System.out.println(solution.isPowerOfTwo(9));
+
     }
 }
