@@ -241,11 +241,54 @@ public class Solution {
         return min;
     }
 
+    /**
+     * 276. Paint Fence
+     * <p>
+     * https://leetcode.com/problems/paint-fence
+     * <p>
+     * There is a fence with n posts, each post can be painted with one of the k colors.
+     * 
+     * You have to paint all the posts such that no more than two adjacent fence posts have the same color.
+     * 
+     * Return the total number of ways you can paint the fence.
+     * 
+     * </p>
+     * https://discuss.leetcode.com/topic/23426/o-n-time-java-solution-o-1-space/2
+     * 
+     * @param n
+     * @param k
+     * @return
+     */
+    public int numWays(int n, int k) {
+        if ((n == 0 || k == 0) || (k == 1 && n >= 3)) {
+            return 0;
+        }
+        int first = k;
+        int second = k * k;
+        int sameCount = 0;
+        int diffCount = 0;
+        if (n == 1) {
+            return first;
+        }
+        if (n == 2) {
+            return second;
+        }
+        int third;
+        for (int i = 3; i <= n; i++) {
+            third = (first + second) * (k - 1);
+            first = second;
+            second = third;
+        }
+
+        return second;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] prices = new int[] { 1, 3, 1 };
         // System.out.println(solution.maxSubArray(prices));
         System.out.println(solution.rob(prices));
+        System.out.println(solution.numWays(2, 1));
     }
 
     /**
