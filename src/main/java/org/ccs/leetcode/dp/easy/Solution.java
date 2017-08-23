@@ -176,7 +176,6 @@ public class Solution {
             int temp = maxCur;
             maxCur = Math.max(maxPrev + num, maxPrev);
             maxPrev = temp;
-
         }
         return maxCur;
     }

@@ -4,8 +4,10 @@
 package org.ccs.leetcode.tree.easy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 import org.ccs.leetcode.bean.TreeNode;
@@ -790,6 +792,99 @@ public class Solution {
             genPaths(preFix + (!"".equals(preFix) ? "->" : "") + String.valueOf(root.val), root.right, pathList);
         }
 
+    }
+
+    /**
+     * 543. Diameter of Binary Tree
+     * <p>
+     * https://leetcode.com/problems/diameter-of-binary-tree
+     * <p>
+     * Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is
+     * the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    int maxDiameter = 0;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        maxDepthDiameter(root);
+        return maxDiameter;
+    }
+
+    private int maxDepthDiameter(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = maxDepthDiameter(root.left);
+        int right = maxDepthDiameter(root.right);
+        maxDiameter = Math.max(left + right, maxDiameter);
+        return Math.max(left, right) + 1;
+    }
+
+    public int diameterOfBinaryTreeLayer(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int max = 0;
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            int value = getHeight(node.left) + getHeight(node.right);
+            max = Math.max(value, max);
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 653. Two Sum IV - Input is a BST
+     * <p>
+     * https://leetcode.com/problems/two-sum-iv-input-is-a-bst
+     * <p>
+     * Given a Binary Search Tree and a target number, return true if there exist two elements in the BST such that
+     * their sum is equal to the given target.
+     * 
+     * </p>
+     * https://leetcode.com/problems/two-sum-iv-input-is-a-bst/solution/#approach-1-using-hashsetaccepted
+     * 
+     * @param root
+     * @param k
+     * @return
+     */
+    public boolean findTarget(TreeNode root, int k) {
+        List<Integer> values = new ArrayList<>();
+        inOrder(root, values);
+        int low = 0, high = values.size() - 1;
+        while (low < high) {
+            int sum = values.get(low) + values.get(high);
+            if (sum == k) {
+                return true;
+            }
+            if (sum < k) {
+                low++;
+            }
+            if (sum > k) {
+                high--;
+            }
+        }
+        return false;
+    }
+
+    private void inOrder(TreeNode root, List<Integer> values) {
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left, values);
+        values.add(root.val);
+        inOrder(root.right, values);
     }
 
     public static void main(String[] args) {

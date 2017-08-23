@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.stack.easy;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -49,8 +51,22 @@ public class Solution {
      * @return
      */
     public int[] nextGreaterElement(int[] findNums, int[] nums) {
-        int[] result = new int[findNums.length];
-        return result;
+        int[] res = new int[findNums.length];
+        Map<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> tempStack = new Stack<>();
+        for (int i = 0; i < nums.length; i++) {
+            while (!tempStack.isEmpty() && nums[i] > tempStack.peek()) {
+                map.put(tempStack.pop(), nums[i]);
+            }
+            tempStack.push(nums[i]);
+        }
+        while (!tempStack.isEmpty()) {
+            map.put(tempStack.pop(), -1);
+        }
+        for(int i=0;i<findNums.length;i++){
+            res[i] = map.get(findNums[i]);
+        }
+        return res;
     }
 
     /**

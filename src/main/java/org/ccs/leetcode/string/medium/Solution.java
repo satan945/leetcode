@@ -418,21 +418,57 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 556. Next Greater Element III
+     *
+     * <p>
+     * https://leetcode.com/problems/next-greater-element-iii
+     * <p>
+     * Given a positive 32-bit integer n, you need to find the smallest 32-bit integer which has exactly the same digits
+     * existing in the integer n and is greater in value than n. If no such positive 32-bit integer exists, you need to
+     * return -1.
+     * 
+     * Example 1:
+     * 
+     * Input: 12 Output: 21
+     * 
+     * Example 2:
+     * 
+     * Input: 21 Output: -1
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int nextGreaterElement(int n) {
+        char[] digits = String.valueOf(n).toCharArray();
+        if (digits.length <= 1) {
+            return -1;
+        }
+        for (int i = digits.length - 1; i >= 1; i--) {
+            int r = digits[i] - '0';
+            for (int j = i - 1; j >= 0; j--) {
+                int l = digits[j] - '0';
+                if (l < r) {
+                    char temp = digits[i];
+                    digits[i] = digits[j];
+                    digits[j] = temp;
+                    long value = Long.parseLong(String.valueOf(digits));
+                    if (value > Integer.MAX_VALUE) {
+                        return -1;
+                    }
+                    return (int)value;
+                }
+            }
+        }
+        return -1;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         String a = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
-        // String b = "a";
-        // System.out.println(new Solution().longestPalindrome(b));
-        // System.out.println(solution.countSubstrings("abaabcaba"));
-        String split = "hello world!";
-
-        System.out.println(" ".length());
-        System.out.println(" ".trim());
-        String split2 = "   a  b  ";
-        System.out.println(split.trim());
-        System.out.println(solution.reverseWords(split));
-
-        System.out.println(solution.reverseWordsWith2Pointers(split));
+        System.out.println(solution.nextGreaterElement(12));
     }
 
 }

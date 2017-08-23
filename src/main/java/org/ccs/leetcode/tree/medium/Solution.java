@@ -7,6 +7,7 @@ import org.ccs.leetcode.bean.TreeLinkNode;
 import org.ccs.leetcode.bean.TreeNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -419,5 +420,105 @@ public class Solution {
             }
         }
         return result[n];
+    }
+
+    /**
+     * 337. House Robber III
+     * <p>
+     * https://leetcode.com/problems/house-robber-iii
+     * <p>
+     * The thief has found himself a new place for his thievery again. There is only one entrance to this area, called
+     * the "root." Besides the root, each house has one and only one parent house. After a tour, the smart thief
+     * realized that "all houses in this place forms a binary tree". It will automatically contact the police if two
+     * directly-linked houses were broken into on the same night.
+     * 
+     * Determine the maximum amount of money the thief can rob tonight without alerting the police.
+     * </p>
+     * https://discuss.leetcode.com/topic/39834/step-by-step-tackling-of-the-problem/2
+     * 
+     * @param root
+     * @return
+     */
+    public int rob(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int res = 0;
+        if (root.left != null) {
+            res += rob(root.left.left) + rob(root.left.right);
+        }
+        if (root.right != null) {
+            res += rob(root.right.left) + rob(root.right.left);
+        }
+        return Math.max(res + root.val, rob(root.left) + rob(root.right));
+    }
+
+    /**
+     * 655. Print Binary Tree
+     * <p>
+     * https://leetcode.com/problems/print-binary-tree
+     * <p>
+     *
+     * Print a binary tree in an m*n 2D string array following these rules:
+     * 
+     * 1. The row number m should be equal to the height of the given binary tree.
+     * 
+     * 2. The column number n should always be an odd number.
+     * 
+     * 3. The root node's value (in string format) should be put in the exactly middle of the first row it can be put.
+     * The column and the row where the root node belongs will separate the rest space into two parts (left-bottom part
+     * and right-bottom part). You should print the left subtree in the left-bottom part and print the right subtree in
+     * the right-bottom part. The left-bottom part and the right-bottom part should have the same size. Even if one
+     * subtree is none while the other is not, you don't need to print anything for the none subtree but still need to
+     * leave the space as large as that for the other subtree. However, if two subtrees are none, then you don't need to
+     * leave space for both of them.
+     * 
+     * 4. Each unused space should contain an empty string "".
+     * 
+     * 5. Print the subtrees following the same rules.
+     * 
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public List<List<String>> printTree(TreeNode root) {
+        List<List<String>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        int height = getHeight(root);
+        String[][] matrix = new String[height][(1 << height) - 1];
+        for (String[] row : matrix) {
+            Arrays.fill(row, "");
+        }
+        fillByTree(matrix, root, 0, 0, matrix[0].length);
+        for (String[] row : matrix) {
+            res.add(Arrays.asList(row));
+        }
+        return res;
+    }
+
+    private void fillByTree(String[][] matrix, TreeNode root, int i, int l, int r) {
+        if (root == null) {
+            return;
+        }
+        matrix[i][(l + r) / 2] = String.valueOf(root.val);
+        fillByTree(matrix, root.left, i + 1, l, (l + r) / 2);
+        fillByTree(matrix, root.right, i + 1, (l + r) / 2 + 1, r);
+    }
+
+    private int getHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(getHeight(root.left), getHeight(root.right)) + 1;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        System.out.println(solution.printTree(root));
     }
 }
