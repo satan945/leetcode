@@ -636,6 +636,7 @@ public class Solution {
             helper(root.right, 0);
             root.val += root.right.val;
         }
+        root.val+=value;
         if (root.left != null) {
             helper(root.left, root.val);
         }
