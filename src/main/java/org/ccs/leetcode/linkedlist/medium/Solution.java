@@ -296,14 +296,116 @@ public class Solution {
         return map.get(head);
     }
 
+    /**
+     * 148. Sort List
+     * <p>
+     * https://leetcode.com/problems/sort-list
+     * <p>
+     * Sort a linked list in O(n log n) time using constant space complexity.
+     * </p>
+     *
+     * Sort
+     * 
+     * @param head
+     * @return
+     */
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode prev = null;
+        ListNode fast = head;
+        ListNode slow = head;
+
+        // cut
+        while (fast != null && fast.next != null) {
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        prev.next = null;
+
+        // merge
+        ListNode p1 = sortList(head);
+        ListNode p2 = sortList(slow);
+
+        return mergeSortList(p1, p2);
+    }
+
+    private ListNode mergeSortList(ListNode p1, ListNode p2) {
+        ListNode fakeHead = new ListNode(0);
+        ListNode cur = fakeHead;
+        while (p1 != null && p2 != null) {
+            if (p1.val < p2.val) {
+                cur.next = p1;
+                p1 = p1.next;
+            } else {
+                cur.next = p2;
+                p2 = p2.next;
+            }
+            cur = cur.next;
+        }
+        if (p1 != null) {
+            cur.next = p1;
+        }
+        if (p2 != null) {
+            cur.next = p2;
+        }
+        return fakeHead.next;
+    }
+
+    /**
+     * 328. Odd Even Linked List
+     * <p>
+     * https://leetcode.com/problems/odd-even-linked-list
+     * <p>
+     * Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are
+     * talking about the node number and not the value in the nodes.
+     * 
+     * You should try to do it in place. The program should run in O(1) space complexity and O(nodes) time complexity.
+     * 
+     * Example: Given 1->2->3->4->5->NULL, return 1->3->5->2->4->NULL.
+     * 
+     * Note: The relative order inside both the even and odd groups should remain as it was in the input. The first node
+     * is considered odd, the second node even and so on ...
+     * </p>
+     * 
+     * @param head
+     * @return
+     */
+    public ListNode oddEvenList(ListNode head) {
+        ListNode evenHead = new ListNode(0);
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode oddNode = head;
+        ListNode evenNode = evenHead;
+        ListNode prev = null;
+        while (oddNode != null && oddNode.next != null) {
+            prev = oddNode;
+            evenNode.next = oddNode.next;
+            evenNode = evenNode.next;
+            oddNode.next = oddNode.next.next;
+            oddNode = oddNode.next;
+        }
+        evenNode.next = null;
+        if (oddNode != null) {
+            prev = oddNode;
+        }
+        prev.next = evenHead.next;
+
+        return head;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        ListNode l1 = new ListNode(-1);
+        ListNode l1 = new ListNode(1);
         ListNode l2 = new ListNode(2);
         ListNode l3 = new ListNode(3);
         l1.next = l2;
         l2.next = l3;
-        solution.reverseBetween(l1, 1, 2);
+        solution.oddEvenList(l1);
+        // solution.reverseBetween(l1, 1, 2);
 
         RandomListNode head = new RandomListNode(-1);
         RandomListNode n1 = new RandomListNode(-1);
