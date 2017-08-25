@@ -499,8 +499,9 @@ public class Solution {
     }
 
     private int postOrder(TreeNode root) {
-        if (root == null)
+        if (root == null) {
             return 0;
+        }
 
         int left = postOrder(root.left);
         int right = postOrder(root.right);
@@ -636,7 +637,7 @@ public class Solution {
             helper(root.right, 0);
             root.val += root.right.val;
         }
-        root.val+=value;
+        root.val += value;
         if (root.left != null) {
             helper(root.left, root.val);
         }
