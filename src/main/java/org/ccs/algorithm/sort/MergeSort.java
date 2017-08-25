@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
-package org.ccs.algrithm.sort;
+package org.ccs.algorithm.sort;
 
 /**
  * Implementation of MergeSort
