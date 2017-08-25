@@ -549,6 +549,40 @@ public class Solution {
         return start;
     }
 
+    /**
+     * 238. Product of Array Except Self
+     * <p>
+     * https://leetcode.com/problems/product-of-array-except-self
+     * <p>
+     * Given an array of n integers where n > 1, nums, return an array output such that output[i] is equal to the
+     * product of all the elements of nums except nums[i].
+     * 
+     * Solve it without division and in O(n).
+     * 
+     * For example, given [1,2,3,4], return [24,12,8,6].
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int[] productExceptSelf(int[] nums) {
+        int[] res = new int[nums.length];
+        if (nums.length == 0) {
+            return res;
+        }
+        int beforeFactor = 1;
+        for (int i = 0; i < nums.length; i++) {
+            res[i] = beforeFactor;
+            beforeFactor *= nums[i];
+        }
+        int afterFactor = 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            res[i] *= afterFactor;
+            afterFactor *= nums[i];
+        }
+        return res;
+
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
