@@ -134,16 +134,52 @@ public class Solution {
             TreeNode node = s1.pop();
             s2.push(node);
 
-            if (node.left != null)
+            if (node.left != null) {
                 s1.push(node.left);
+            }
 
-            if (node.right != null)
+            if (node.right != null) {
                 s1.push(node.right);
+            }
         }
 
-        while (!s2.isEmpty())
+        while (!s2.isEmpty()) {
             res.add(s2.pop().val);
+        }
 
+        return res;
+    }
+
+    /**
+     * http://www.cnblogs.com/rain-lei/p/3705680.html
+     * 
+     * @param root
+     * @return
+     */
+    public List<Integer> postOrderTraversalOneStack(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode node = root;
+        stack.push(node);
+        stack.push(node);
+        while (!stack.isEmpty()) {
+            node = stack.pop();
+            if (!stack.isEmpty() && node == stack.peek()) {
+                if (node.right != null) {
+                    stack.push(node.right);
+                    stack.push(node.right);
+                }
+                if (node.left != null) {
+                    stack.push(node.left);
+                    stack.push(node.left);
+                }
+            } else {
+                res.add(node.val);
+            }
+        }
         return res;
     }
 }
