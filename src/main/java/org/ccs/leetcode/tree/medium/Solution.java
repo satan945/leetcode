@@ -3,9 +3,6 @@
  */
 package org.ccs.leetcode.tree.medium;
 
-import org.ccs.leetcode.bean.TreeLinkNode;
-import org.ccs.leetcode.bean.TreeNode;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+
+import org.ccs.leetcode.bean.TreeLinkNode;
+import org.ccs.leetcode.bean.TreeNode;
 
 /**
  * @author Abel created on 2017/7/19 17:12
@@ -339,6 +339,39 @@ public class Solution {
     }
 
     /**
+     * 117. Populating Next Right Pointers in Each Node II
+     * <p>
+     * https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii
+     * <p>
+     * Follow up for problem "Populating Next Right Pointers in Each Node".
+     *
+     * What if the given tree could be any binary tree? Would your previous solution still work?
+     * </p>
+     *
+     *
+     * @param root
+     */
+    public void connect2(TreeLinkNode root) {
+        if (root == null) {
+            return;
+        }
+        TreeLinkNode pre = root;
+        TreeLinkNode layerStart = pre.left != null ? pre.left : pre.right;
+        TreeLinkNode cur;
+
+        while (layerStart != null) {
+
+        }
+    }
+
+    private TreeLinkNode findNextStart(TreeLinkNode layerStart, TreeLinkNode node) {
+        if (layerStart != null) {
+            return layerStart;
+        }
+        return node.left != null ? node.left : node.right;
+    }
+
+    /**
      * 114. Flatten Binary Tree to Linked List
      * <p>
      * https://leetcode.com/problems/flatten-binary-tree-to-linked-list
@@ -575,6 +608,43 @@ public class Solution {
             node = node.left;
         }
         return node;
+    }
+
+    /**
+     * 156. Binary Tree Upside Down
+     *
+     * <p>
+     * https://leetcode.com/problems/binary-tree-upside-down
+     * <p>
+     * Given a binary tree where all the right nodes are either leaf nodes with a sibling (a left node that shares the
+     * same parent node) or empty, flip it upside down and turn it into a tree where the original right nodes turned
+     * into left leaf nodes. Return the new root.
+     * 
+     * For example: Given a binary tree {1,2,3,4,5}, 1 / \ 2 3 / \ 4 5 return the root of the binary tree
+     * [4,5,2,#,#,3,1]. 4 / \ 5 2 / \ 3 1 confused what "{1,#,2,3}" means? > read more on how binary tree is serialized
+     * on OJ.
+     * 
+     * 
+     * OJ's Binary Tree Serialization: The serialization of a binary tree follows a level order traversal, where '#'
+     * signifies a path terminator where no node exists below.
+     * 
+     * Here's an example: 1 / \ 2 3 / 4 \ 5 The above binary tree is serialized as "{1,2,3,#,#,4,#,#,5}".
+     * </p>
+     * https://discuss.leetcode.com/topic/40924/java-recursive-o-logn-space-and-iterative-solutions-o-1-space-with-explanation-and-figure
+     * 
+     * @param root
+     * @return
+     */
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        if (root == null || root.left == null) {
+            return root;
+        }
+        TreeNode newRoot = upsideDownBinaryTree(root.left);
+        root.left.left = root.right;
+        root.right = null;
+        root.left.right = root;
+        root.left = null;
+        return newRoot;
     }
 
     public static void main(String[] args) {

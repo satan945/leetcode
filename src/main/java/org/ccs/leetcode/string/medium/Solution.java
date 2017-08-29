@@ -526,6 +526,50 @@ public class Solution {
         return max;
     }
 
+    /**
+     * 6. ZigZag Conversion
+     * <p>
+     * https://leetcode.com/problems/zigzag-conversion
+     * <p>
+     * The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to
+     * display this pattern in a fixed font for better legibility)
+     * 
+     * P A H N A P L S I I G Y I R And then read line by line: "PAHNAPLSIIGYIR" Write the code that will take a string
+     * and make this conversion given a number of rows:
+     * 
+     * string convert(string text, int nRows); convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".
+     * </p>
+     * 
+     * @param s
+     * @param numRows
+     * @return
+     */
+    public String convert(String s, int numRows) {
+        if (s == null || s.length() == 0 || numRows <= 1) {
+            return s;
+        }
+        StringBuilder[] stringBuilders = new StringBuilder[numRows];
+        for (int i = 0; i < stringBuilders.length; i++) {
+            stringBuilders[i] = new StringBuilder();
+        }
+        int i = 0;
+        while (i < s.length()) {
+            for (int index = 0; index < numRows && i < s.length(); index++) {
+                stringBuilders[index].append(s.charAt(i));
+                i++;
+            }
+            for (int index = numRows - 2; i < s.length() && index >= 1; index--) {
+                stringBuilders[index].append(s.charAt(i));
+                i++;
+            }
+        }
+        StringBuilder resBuilder = new StringBuilder();
+        for (StringBuilder stringBuilder : stringBuilders) {
+            resBuilder.append(stringBuilder.toString());
+        }
+        return resBuilder.toString();
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         String a = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";

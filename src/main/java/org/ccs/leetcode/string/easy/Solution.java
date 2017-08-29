@@ -432,6 +432,103 @@ public class Solution {
         return x == 0 && y == 0;
     }
 
+    /**
+     * 520. Detect Capital
+     * 
+     * <p>
+     * https://leetcode.com/problems/detect-capital
+     * <p>
+     * Given a word, you need to judge whether the usage of capitals in it is right or not.
+     * 
+     * We define the usage of capitals in a word to be right when one of the following cases holds:
+     * 
+     * All letters in this word are capitals, like "USA". All letters in this word are not capitals, like "leetcode".
+     * Only the first letter in this word is capital if it has more than one letter, like "Google". Otherwise, we define
+     * that this word doesn't use capitals in a right way.
+     * 
+     * Example 1:
+     * 
+     * Input: "USA" Output: True
+     * 
+     * Example 2:
+     * 
+     * Input: "FlaG" Output: False
+     * 
+     * Note: The input will be a non-empty word consisting of uppercase and lowercase latin letters.
+     * </p>
+     * 
+     * @param word
+     * @return
+     */
+    public boolean detectCapitalUse(String word) {
+        if (null == word || word.length() == 0) {
+            return false;
+        }
+        char firstChar = word.charAt(0);
+        boolean firstUpper = (firstChar < 'Z' && firstChar > 'A');
+        int upperCount = firstUpper ? 1 : 0;
+        int lowerCount = !firstUpper ? 1 : 0;
+
+        for (int i = 1; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            if (ch <= 'Z' && ch >= 'A') {
+                upperCount++;
+            }
+            if (ch <= 'z' && ch >= 'a') {
+                lowerCount++;
+            }
+        }
+        if (firstUpper && upperCount == 1) {
+            return true;
+        }
+        if (lowerCount == word.length()) {
+            return true;
+        }
+        if (upperCount == word.length()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 383. Ransom Note
+     * <p>
+     * https://leetcode.com/problems/ransom-note
+     * <p>
+     * Given an arbitrary ransom note string and another string containing letters from all the magazines, write a
+     * function that will return true if the ransom note can be constructed from the magazines ; otherwise, it will
+     * return false.
+     * 
+     * Each letter in the magazine string can only be used once in your ransom note.
+     * 
+     * Note: You may assume that both strings contain only lowercase letters.
+     * 
+     * canConstruct("a", "b") -> false
+     * 
+     * canConstruct("aa", "ab") -> false
+     * 
+     * canConstruct("aa", "aab") -> true
+     * </p>
+     * 
+     * @param ransomNote
+     * @param magazine
+     * @return
+     */
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int[] counts = new int[26];
+        for (int i = 0; i < magazine.length(); i++) {
+            counts[magazine.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            counts[ransomNote.charAt(i) - 'a']--;
+            if (counts[ransomNote.charAt(i) - 'a'] < 0) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
     public static void main(String[] args) {
         String a = "123456  123123";
         Solution solution = new Solution();
