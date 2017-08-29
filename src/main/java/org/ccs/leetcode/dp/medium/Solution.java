@@ -5,8 +5,11 @@ package org.ccs.leetcode.dp.medium;
 
 import org.ccs.leetcode.bean.TreeNode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * @author abel created on 2017/8/11 下午5:15
@@ -184,16 +187,16 @@ public class Solution {
      * @return
      */
     public int robDP(TreeNode root) {
-        int res[] = robSub2(root);
+        int res[] = robSubDP(root);
         return Math.max(res[0], res[1]);
     }
 
-    private int[] robSub2(TreeNode root) {
+    private int[] robSubDP(TreeNode root) {
         if (root == null) {
             return new int[2];
         }
-        int[] left = robSub2(root.left);
-        int[] right = robSub2(root.right);
+        int[] left = robSubDP(root.left);
+        int[] right = robSubDP(root.right);
         int[] res = new int[2];
         res[0] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
         res[1] = root.val + left[0] + right[0];
@@ -221,5 +224,86 @@ public class Solution {
     public int numTrees(int n) {
         // return org.ccs.leetcode.tree.medium.Solution.numTrees();
         return 0;
+    }
+
+    /**
+     * 139. Word Break
+     * <p>
+     * https://leetcode.com/problems/word-break
+     * <p>
+     * Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be
+     * segmented into a space-separated sequence of one or more dictionary words. You may assume the dictionary does not
+     * contain duplicate words.
+     * 
+     * For example, given s = "leetcode", dict = ["leet", "code"].
+     * 
+     * Return true because "leetcode" can be segmented as "leet code".
+     * 
+     * UPDATE (2017/1/4): The wordDict parameter had been changed to a list of strings (instead of a set of strings).
+     * Please reload the code definition to get the latest changes.
+     * 
+     * 
+     * </p>
+     * 
+     * @param s
+     * @param wordDict
+     * @return
+     */
+    public boolean wordBreak(String s, List<String> wordDict) {
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
+        HashSet<String> dict = new HashSet<>(wordDict);
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (dict.contains(s.substring(j, i)) && dp[j]) {
+                    dp[i] = true;
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+
+    public boolean wordBreakTimeExceed(String s, List<String> wordDict) {
+        return breakWordBrute(s, new HashSet<String>(wordDict), 0);
+    }
+
+    private boolean breakWordBrute(String string, HashSet<String> dict, int start) {
+        if (start == string.length()) {
+            return true;
+        }
+        for (int end = start + 1; end <= string.length(); end++) {
+            if (dict.contains(string.substring(start, end)) && breakWordBrute(string, dict, end)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 279. Perfect Squares
+     * <p>
+     * https://leetcode.com/problems/perfect-squares
+     * <p>
+     * Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which
+     * sum to n.
+     * 
+     * For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int numSquares(int n) {
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        List<String> dict = new ArrayList<>();
+        dict.add("aaaa");
+        dict.add("aaa");
+        System.out.println(new Solution().wordBreak("aaaaaaa", dict));
+
+        String a = "abcdefg";
+        System.out.println(a.substring(4, 6));
     }
 }
