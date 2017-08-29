@@ -570,14 +570,88 @@ public class Solution {
         return resBuilder.toString();
     }
 
+    /**
+     * 299. Bulls and Cows
+     * <p>
+     * https://leetcode.com/problems/bulls-and-cows
+     * <p>
+     * You are playing the following Bulls and Cows game with your friend: You write down a number and ask your friend
+     * to guess what the number is. Each time your friend makes a guess, you provide a hint that indicates how many
+     * digits in said guess match your secret number exactly in both digit and position (called "bulls") and how many
+     * digits match the secret number but locate in the wrong position (called "cows"). Your friend will use successive
+     * guesses and hints to eventually derive the secret number.
+     * 
+     * For example:
+     * 
+     * Secret number: "1807"
+     * 
+     * Friend's guess: "7810"
+     * 
+     * Hint: 1 bull and 3 cows. (The bull is 8, the cows are 0, 1 and 7.) Write a function to return a hint according to
+     * the secret number and friend's guess, use A to indicate the bulls and B to indicate the cows. In the above
+     * example, your function should return "1A3B".
+     * 
+     * Please note that both secret number and friend's guess may contain duplicate digits, for example:
+     * 
+     * Secret number: "1123"
+     * 
+     * Friend's guess: "0111"
+     * 
+     * In this case, the 1st 1 in friend's guess is a bull, the 2nd or 3rd 1 is a cow, and your function should return
+     * "1A1B". You may assume that the secret number and your friend's guess only contain digits, and their lengths are
+     * always equal.
+     * 
+     * Credits: Special thanks to @jeantimex for adding this problem and creating all test cases.
+     * </p>
+     * https://en.wikipedia.org/wiki/Bulls_and_Cows
+     * 
+     * @param secret
+     * @param guess
+     * @return
+     */
+    public String getHint(String secret, String guess) {
+        int countA = 0, countB = 0;
+        boolean[] skip = new boolean[secret.length()];
+        Map<Character, Integer> letterMap = new HashMap<>();
+        for (int i = 0; i < secret.length(); i++) {
+            char sKey = secret.charAt(i);
+            char gKey = guess.charAt(i);
+            if (sKey == gKey) {
+                skip[i] = true;
+                countA++;
+            } else {
+                Integer count = letterMap.get(sKey);
+                if (count == null) {
+                    letterMap.put(sKey, 1);
+                } else {
+                    letterMap.put(sKey, ++count);
+                }
+            }
+        }
 
+        for (int i = 0; i < guess.length(); i++) {
+            if (!skip[i]) {
+                char gKey = guess.charAt(i);
+                if (letterMap.containsKey(gKey)) {
+                    int count = letterMap.get(gKey);
+                    if (count > 0) {
+                        countB++;
+                        letterMap.put(gKey, --count);
+                    }
+                }
+            }
+        }
+        return countA + "A" + countB + "B";
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        String a = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
-        System.out.println(solution.nextGreaterElement(12));
-        String path = "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
-        System.out.println(solution.lengthLongestPath(path));
+        // String a =
+        // "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
+        // System.out.println(solution.nextGreaterElement(12));
+        // String path = "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
+        // System.out.println(solution.lengthLongestPath(path));
+        System.out.println(solution.getHint("1807","7810"));
     }
 
 }
