@@ -258,6 +258,52 @@ public class Solution {
         return (int) Math.sqrt(n);
     }
 
+    /**
+     * 223. Rectangle Area
+     * <p>
+     * https://leetcode.com/problems/rectangle-area
+     * <p>
+     * Find the total area covered by two rectilinear rectangles in a 2D plane.
+     * 
+     * Each rectangle is defined by its bottom left corner and top right corner as shown in the figure.
+     * 
+     * Assume that the total area is never beyond the maximum possible value of int.
+     * 
+     * </p>
+     * https://discuss.leetcode.com/topic/15733/my-java-solution-sum-of-areas-overlapped-area
+     * 
+     * @param A
+     * @param B
+     * @param C
+     * @param D
+     * @param E
+     * @param F
+     * @param G
+     * @param H
+     * @return
+     */
+    public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int area1 = Math.abs((D - B) * (C - A));// firstRectangle
+        int area2 = Math.abs((H - F) * (G - E));// secondRectangle
+        if (area1 == 0) {
+            return area2;
+        }
+        if (area2 == 0) {
+            return area1;
+        }
+        // https://discuss.leetcode.com/topic/15733/my-java-solution-sum-of-areas-overlapped-area
+        int left = Math.max(A, E);
+        int down = Math.max(B, F);
+        int right = Math.min(C, G);
+        int up = Math.min(D, H);
+        int area3 = 0;// overlap
+        if (right > left && up > down) {
+            area3 = (up - down) * (right - left);
+        }
+        return area1 + area2 - area3;
+
+    }
+
     public static void main(String[] args) {
 
         String a = "1+2+3x";

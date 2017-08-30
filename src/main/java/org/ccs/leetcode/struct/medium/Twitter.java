@@ -3,7 +3,6 @@
  */
 package org.ccs.leetcode.struct.medium;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -75,6 +74,7 @@ public class Twitter {
         if (!followMap.containsKey(userId)) {
             followMap.put(userId, new HashSet<>());
         }
+        followMap.get(userId).add(userId);
         if (!tweetMap.containsKey(userId)) {
             tweetMap.put(userId, new LinkedList<>());
         }
@@ -92,10 +92,11 @@ public class Twitter {
         PriorityQueue<Tweet> feedQueue = new PriorityQueue<>((o1, o2) -> o2.time - o1.time);
         Set<Integer> userIdSet = followMap.get(userId);
         for (Map.Entry<Integer, LinkedList<Tweet>> entry : tweetMap.entrySet()) {
-            if (entry.getKey() == userId) {
+            if (userIdSet.contains(entry.getKey())) {
                 feedQueue.addAll(entry.getValue());
             }
         }
+
         List<Integer> res = new LinkedList<>();
         while (feedQueue.size() > 0 && res.size() < 10) {
             res.add(feedQueue.poll().id);
@@ -119,6 +120,12 @@ public class Twitter {
         }
         followMap.get(followerId).remove(followeeId);
 
+    }
+
+    public static void main(String[] args) {
+        Twitter twitter = new Twitter();
+        twitter.postTweet(1, 5);
+        twitter.getNewsFeed(1);
     }
     /**
      * Your Twitter object will be instantiated and called as such: Twitter obj = new Twitter();

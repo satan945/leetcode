@@ -627,13 +627,127 @@ public class Solution {
         return nums[l];
     }
 
+    /**
+     * 228. Summary Ranges
+     * <p>
+     * https://leetcode.com/problems/summary-ranges
+     * <p>
+     * Given a sorted integer array without duplicates, return the summary of its ranges.
+     * 
+     * Example 1: Input: [0,1,2,4,5,7] Output: ["0->2","4->5","7"]
+     * 
+     * Example 2: Input: [0,2,3,4,6,8,9] Output: ["0","2->4","6","8->9"]
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public List<String> summaryRanges(int[] nums) {
+        List<String> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return res;
+        }
+        res.add("" + nums[0]);
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] - nums[i - 1] == 1) {
+                String str = res.get(res.size() - 1);
+                if (str.length() == 0) {
+                    str += nums[i];
+                    res.set(res.size() - 1, str);
+                } else {
+                    String sub = str.substring(0, str.contains("->") ? str.indexOf("-") : str.length());
+                    res.set(res.size() - 1, sub + "->" + nums[i]);
+                }
+            } else {
+                res.add("" + nums[i]);
+            }
+        }
+        return res;
+    }
+
+    public List<String> summaryRanges2(int[] nums) {
+        List<String> summary = new ArrayList<>();
+        for (int i = 0, j = 0; j < nums.length; ++j) {
+            // check if j + 1 extends the range [nums[i], nums[j]]
+            if (j + 1 < nums.length && nums[j + 1] == nums[j] + 1)
+                continue;
+            // put the range [nums[i], nums[j]] into the list
+            if (i == j) {
+                summary.add(nums[i] + "");
+            } else {
+                summary.add(nums[i] + "->" + nums[j]);
+            }
+            i = j + 1;
+        }
+        return summary;
+    }
+
+    /**
+     * 163. Missing Ranges
+     * <p>
+     * https://leetcode.com/problems/missing-ranges
+     * <p>
+     * Given a sorted integer array where the range of elements are in the inclusive range [lower, upper], return its
+     * missing ranges.
+     * 
+     * For example, given [0, 1, 3, 50, 75], lower = 0 and upper = 99, return ["2", "4->49", "51->74", "76->99"].
+     * </p>
+     * 
+     * @param nums
+     * @param lower
+     * @param upper
+     * @return
+     */
+    public List<String> findMissingRanges(int[] nums, int lower, int upper) {
+        List<String> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            if (lower == upper) {
+                res.add("" + lower);
+            } else {
+                res.add(lower + "->" + upper);
+            }
+            return res;
+        }
+
+        if (nums[0] > lower) {
+            if (nums[0] - 1 == lower) {
+                res.add("" + lower);
+            } else {
+                res.add(lower + "->" + (nums[0] - 1));
+            }
+        }
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            if ((nums[i + 1] == nums[i] + 1) || nums[i] == nums[i + 1]) {
+                continue;
+            }
+            if (nums[i + 1] - nums[i] == 2) {
+                res.add("" + (nums[i] + 1));
+            } else {
+                res.add((nums[i] + 1) + "->" + (nums[i + 1] - 1));
+            }
+        }
+
+        if (nums[nums.length - 1] < upper) {
+            if (upper - 1 == nums[nums.length - 1]) {
+                res.add("" + upper);
+            } else {
+                res.add((nums[nums.length - 1] + 1) + "->" + upper);
+            }
+        }
+
+        return res;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
         // solution.rotate(matrix);
-        System.out.println(solution.spiralOrder(matrix));
-        System.out.println(solution.generateMatrix(3));
-
+        // System.out.println(solution.spiralOrder(matrix));
+        // System.out.println(solution.generateMatrix(3));
+        // System.out.println(solution.summaryRanges(new int[] { 1, 2, 3, 4, 6, 7, 8, 11 }));
+        System.out.println(solution.findMissingRanges(new int[] { 1, 1, 1 }, 1, 1));
         // int[] array = new int[] { 2, 2, 3, 4, };
         // System.out.println(solution.triangleNumber(array));
     }

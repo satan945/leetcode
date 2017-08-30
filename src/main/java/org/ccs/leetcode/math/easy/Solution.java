@@ -5,10 +5,12 @@ package org.ccs.leetcode.math.easy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Abel created on 2017/7/7 11:51
@@ -738,6 +740,43 @@ public class Solution {
             }
         }
         return sum == num;
+    }
+
+    /**
+     * 367. Valid Perfect Square
+     * <p>
+     * https://leetcode.com/problems/valid-perfect-square
+     * <p>
+     * Given a positive integer num, write a function which returns True if num is a perfect square else False.
+     * 
+     * Note: Do not use any built-in library function such as sqrt.
+     * 
+     * Example 1:
+     * 
+     * Input: 16 Returns: True
+     * 
+     * Example 2:
+     * 
+     * Input: 14 Returns: False
+     * </p>
+     * http://www.cnblogs.com/grandyang/p/5619296.html
+     * 
+     * https://discuss.leetcode.com/topic/49339/o-1-time-c-solution-inspired-by-q_rsqrt/6
+     * 
+     * @param num
+     * @return
+     */
+    public boolean isPerfectSquare(int num) {
+        if (num < 0) {
+            return false;
+        }
+
+        for (int i = 1; i <= num / i; ++i) {
+            if (i * i == num) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
