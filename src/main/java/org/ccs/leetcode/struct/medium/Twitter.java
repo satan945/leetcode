@@ -3,8 +3,14 @@
  */
 package org.ccs.leetcode.struct.medium;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 /**
  * @author abel created on 2017/8/29 下午5:12
@@ -45,7 +51,19 @@ import java.util.Map;
  */
 public class Twitter {
 
-    Map<Integer, List<Integer>> followMap;
+    Map<Integer, Set<Integer>> followMap = new HashMap<>();
+    Map<Integer, LinkedList<Tweet>> tweetMap = new HashMap<>();
+    int time = 0;
+
+    public class Tweet {
+        public int time;
+        public int id;
+
+        public Tweet(int time, int id) {
+            this.time = time;
+            this.id = id;
+        }
+    }
 
     /** Initialize your data structure here. */
     public Twitter() {
@@ -54,7 +72,13 @@ public class Twitter {
 
     /** Compose a new tweet. */
     public void postTweet(int userId, int tweetId) {
-
+        if (!followMap.containsKey(userId)) {
+            followMap.put(userId, new HashSet<>());
+        }
+        if (!tweetMap.containsKey(userId)) {
+            tweetMap.put(userId, new LinkedList<>());
+        }
+        tweetMap.get(userId).push(new Tweet(++time, tweetId));
     }
 
     /**
@@ -62,16 +86,38 @@ public class Twitter {
      * who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
      */
     public List<Integer> getNewsFeed(int userId) {
-        return null;
+        if (!followMap.containsKey(userId)) {
+            return new LinkedList<>();
+        }
+        PriorityQueue<Tweet> feedQueue = new PriorityQueue<>((o1, o2) -> o2.time - o1.time);
+        Set<Integer> userIdSet = followMap.get(userId);
+        for (Map.Entry<Integer, LinkedList<Tweet>> entry : tweetMap.entrySet()) {
+            if (entry.getKey() == userId) {
+                feedQueue.addAll(entry.getValue());
+            }
+        }
+        List<Integer> res = new LinkedList<>();
+        while (feedQueue.size() > 0 && res.size() < 10) {
+            res.add(feedQueue.poll().id);
+        }
+        return res;
     }
 
     /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
     public void follow(int followerId, int followeeId) {
+        if (!followMap.containsKey(followerId)) {
+            followMap.put(followerId, new HashSet<>());
+        }
+        followMap.get(followerId).add(followeeId);
 
     }
 
     /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
     public void unfollow(int followerId, int followeeId) {
+        if (followeeId == followerId || !followMap.containsKey(followerId)) {
+            return;
+        }
+        followMap.get(followerId).remove(followeeId);
 
     }
     /**
