@@ -70,6 +70,6 @@ public class Solution {
      * @return
      */
     public int findContentChildren(int[] g, int[] s) {
-
+        return 0;
     }
 }

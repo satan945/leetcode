@@ -779,6 +779,49 @@ public class Solution {
         return false;
     }
 
+    /**
+     * 168. Excel Sheet Column Title
+     * <p>
+     * https://leetcode.com/problems/excel-sheet-column-title
+     * <p>
+     * Given a positive integer, return its corresponding column title as appear in an Excel sheet.
+     * 
+     * For example:
+     * 
+     * 1 -> A 2 -> B 3 -> C ... 26 -> Z 27 -> AA 28 -> AB
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public String convertToTitle(int n) {
+        StringBuilder sb = new StringBuilder();
+        while (n > 0) {
+            char ch = (char) ((n - 1) % 26 + 'A');
+            n = (n - 1) / 26;
+            sb.insert(0, ch);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 69. Sqrt(x)
+     * <p>
+     * https://leetcode.com/problems/sqrtx
+     * <p>
+     * Implement int sqrt(int x).
+     * 
+     * Compute and return the square root of x.
+     * </p>
+     * 
+     * @param x
+     * @return
+     */
+    public int mySqrt(int x) {
+        return 0;
+
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[] { 9 };
         Solution solution = new Solution();

@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.sort.medium;
 
+import org.ccs.leetcode.bean.ListNode;
+
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -43,6 +45,27 @@ public class Solution {
             sb.append(stringNums[i]);
         }
         return sb.toString();
+    }
+
+    /**
+     * 147. Insertion Sort List
+     * <p>
+     * https://leetcode.com/problems/insertion-sort-list
+     * <p>
+     * Sort a linked list using insertion sort.
+     * </p>
+     * 
+     * @param head
+     * @return
+     */
+    public ListNode insertionSortList(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode fakeHead = new ListNode(0);
+        ListNode cur = head;
+
+        return head;
     }
 
     public String largestNumberJava8(int[] num) {

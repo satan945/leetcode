@@ -289,21 +289,59 @@ public class Solution {
      * 
      * For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
      * </p>
+     * http://www.jianshu.com/p/2925f4d7511b
+     * 
+     * http://www.cnblogs.com/liujinhong/p/6022546.html
+     * 
+     * http://blog.csdn.net/jmspan/article/details/51148344
      * 
      * @param n
      * @return
      */
     public int numSquares(int n) {
+        int[] countArray = new int[n + 1];
+        Arrays.fill(countArray, Integer.MAX_VALUE);
+        countArray[0] = 0;
+        for (int i = 1; i * i <= n; i++) {
+            countArray[i] = 1;
+        }
+        for (int i = 1; i <= n; i++) {
+
+        }
+        return countArray[n];
+    }
+
+    /**
+     * 120. Triangle
+     * <p>
+     * https://leetcode.com/problems/triangle
+     * <p>
+     * Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the
+     * row below.
+     * 
+     * For example, given the following triangle [ [2], [3,4], [6,5,7], [4,1,8,3] ] The minimum path sum from top to
+     * bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+     * 
+     * Note: Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in
+     * the triangle.
+     * </p>
+     * 
+     * @param triangle
+     * @return
+     */
+    public int minimumTotal(List<List<Integer>> triangle) {
         return 0;
     }
 
     public static void main(String[] args) {
+        Solution solution = new Solution();
         List<String> dict = new ArrayList<>();
-        dict.add("aaaa");
-        dict.add("aaa");
-        System.out.println(new Solution().wordBreak("aaaaaaa", dict));
-
-        String a = "abcdefg";
-        System.out.println(a.substring(4, 6));
+        // dict.add("aaaa");
+        // dict.add("aaa");
+        // System.out.println(new Solution().wordBreak("aaaaaaa", dict));
+        //
+        // String a = "abcdefg";
+        // System.out.println(a.substring(4, 6));
+        System.out.println(solution.numSquares(100));
     }
 }

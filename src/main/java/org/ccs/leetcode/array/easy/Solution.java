@@ -92,13 +92,23 @@ public class Solution {
      * 
      * The input array may contain duplicates, so ascending order here means <=.
      * </p>
-     * todo
      * 
      * @param nums
      * @return
+     * 
+     *         https://leetcode.com/problems/shortest-unsorted-continuous-subarray/solution
      */
     public int findUnsortedSubarray(int[] nums) {
-        return 1;
+        int[] nums2 = Arrays.copyOf(nums, nums.length);
+        Arrays.sort(nums2);
+        int start = nums.length - 1, end = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != nums2[i]) {
+                start = Math.min(start, i);
+                end = Math.max(end, i);
+            }
+        }
+        return end > start ? (end - start) + 1 : 0;
     }
 
     /**
