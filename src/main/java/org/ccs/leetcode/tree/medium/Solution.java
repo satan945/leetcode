@@ -647,11 +647,109 @@ public class Solution {
         return newRoot;
     }
 
+    /**
+     * 230. Kth Smallest Element in a BST
+     * <p>
+     * https://leetcode.com/problems/kth-smallest-element-in-a-bst
+     * <p>
+     * Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
+     * 
+     * Note: You may assume k is always valid, 1 ≤ k ≤ BST's total elements.
+     * 
+     * Follow up: What if the BST is modified (insert/delete operations) often and you need to find the kth smallest
+     * frequently? How would you optimize the kthSmallest routine?
+     * 
+     * Credits: Special thanks to @ts for adding this problem and creating all test cases.
+     * 
+     * 
+     * </p>
+     * 
+     * @param root
+     * @param k
+     * @return
+     */
+    public int kthSmallest(TreeNode root, int k) {
+        if (root == null) {
+            return 0;
+        }
+        int count = 0;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            if (!stack.isEmpty()) {
+                node = stack.pop();
+                count++;
+                if (count == k) {
+                    return node.val;
+                }
+                node = node.right;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 98. Validate Binary Search Tree
+     * <p>
+     * https://leetcode.com/problems/validate-binary-search-tree
+     * <p>
+     * Given a binary tree, determine if it is a valid binary search tree (BST).
+     * 
+     * Assume a BST is defined as follows:
+     * 
+     * The left subtree of a node contains only nodes with keys less than the node's key. The right subtree of a node
+     * contains only nodes with keys greater than the node's key. Both the left and right subtrees must also be binary
+     * search trees. Example 1: 2 / \ 1 3 Binary tree [2,1,3], return true. Example 2: 1 / \ 2 3 Binary tree [1,2,3],
+     * return false.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        TreeNode pre = null;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            if (!stack.isEmpty()) {
+                node = stack.pop();
+                if (pre != null && pre.val > node.val) {
+                    return false;
+                }
+                pre = node;
+                node = node.right;
+            }
+        }
+        return true;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        TreeNode root = new TreeNode(1);
-        root.right = new TreeNode(2);
-        root.right.right = new TreeNode(3);
-        System.out.println(solution.deleteNode(root, 2));
+        TreeNode root = new TreeNode(10);
+        TreeNode l = new TreeNode(5);
+        TreeNode r = new TreeNode(15);
+        TreeNode rl = new TreeNode(6);
+        TreeNode rr = new TreeNode(20);
+        root.left = l;
+        root.right = r;
+        r.left = rl;
+        r.right = rr;
+        // root.right = new TreeNode(2);
+        // root.right.right = new TreeNode(3);
+        // System.out.println(solution.deleteNode(root, 2));
+        // System.out.println(solution.kthSmallest(root, 1));
+        System.out.println(solution.isValidBST(root));
     }
 }
