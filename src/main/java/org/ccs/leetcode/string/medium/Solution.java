@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -644,6 +646,104 @@ public class Solution {
         return countA + "A" + countB + "B";
     }
 
+    /**
+     * 165. Compare Version Numbers
+     * <p>
+     * https://leetcode.com/problems/compare-version-numbers
+     * <p>
+     * Compare two version numbers version1 and version2. If version1 > version2 return 1, if version1 < version2 return
+     * -1, otherwise return 0.
+     * 
+     * You may assume that the version strings are non-empty and contain only digits and the . character. The .
+     * character does not represent a decimal point and is used to separate number sequences. For instance, 2.5 is not
+     * "two and a half" or "half way to version three", it is the fifth second-level revision of the second first-level
+     * revision.
+     * 
+     * Here is an example of version numbers ordering:
+     * 
+     * 0.1 < 1.1 < 1.2 < 13.37
+     * </p>
+     * 
+     * @param version1
+     * @param version2
+     * @return
+     */
+    public int compareVersion(String version1, String version2) {
+        String[] levels1 = version1.split("\\.");
+        String[] levels2 = version2.split("\\.");
+
+        int length = Math.max(levels1.length, levels2.length);
+        for (int i = 0; i < length; i++) {
+            Integer v1 = i < levels1.length ? Integer.parseInt(levels1[i]) : 0;
+            Integer v2 = i < levels2.length ? Integer.parseInt(levels2[i]) : 0;
+            int compare = v1.compareTo(v2);
+            if (compare != 0) {
+                return compare;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 522. Longest Uncommon Subsequence II
+     * <p>
+     * https://leetcode.com/problems/longest-uncommon-subsequence-ii
+     * <p>
+     * Given a list of strings, you need to find the longest uncommon subsequence among them. The longest uncommon
+     * subsequence is defined as the longest subsequence of one of these strings and this subsequence should not be any
+     * subsequence of the other strings.
+     * 
+     * A subsequence is a sequence that can be derived from one sequence by deleting some characters without changing
+     * the order of the remaining elements. Trivially, any string is a subsequence of itself and an empty string is a
+     * subsequence of any string.
+     * 
+     * The input will be a list of strings, and the output needs to be the length of the longest uncommon subsequence.
+     * If the longest uncommon subsequence doesn't exist, return -1.
+     * 
+     * Example 1:
+     *
+     * Input: "aba", "cdc", "eae"
+     *
+     * Output: 3
+     *
+     * Note:
+     * 
+     * All the given strings' lengths will not exceed 10. The length of the given list will be in the range of [2, 50].
+     * </p>
+     * 
+     * @param strs
+     * @return
+     */
+    public int findLUSlength(String[] strs) {
+        int res = -1;
+        Map<String, Integer> frequencyMap = new HashMap<>();
+        for (String str : strs) {
+            for (String sub : getSubSeq(str)) {
+                frequencyMap.put(sub, frequencyMap.getOrDefault(sub, 0) + 1);
+            }
+        }
+        for (Map.Entry<String, Integer> entry : frequencyMap.entrySet()) {
+            if (entry.getValue() == 1) {
+                res = Math.max(entry.getKey().length(), res);
+            }
+        }
+        return res;
+    }
+
+    private Set<String> getSubSeq(String str) {
+        Set<String> subSet = new HashSet<>();
+        if (str.length() == 0) {
+            subSet.add("");
+            return subSet;
+        }
+        Set<String> set = getSubSeq(str.substring(1));
+        subSet.addAll(set);
+        for (String sub : set) {
+            subSet.add(str.charAt(0) + sub);
+        }
+        return subSet;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // String a =
@@ -651,7 +751,13 @@ public class Solution {
         // System.out.println(solution.nextGreaterElement(12));
         // String path = "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
         // System.out.println(solution.lengthLongestPath(path));
-        System.out.println(solution.getHint("1807","7810"));
+        String a = "01";
+        String b = "1";
+        System.out.println(solution.compareVersion(a, b));
+
+        Set<String> sbu = solution.getSubSeq("abc");
+        System.out.println(sbu);
+        System.out.println(solution.getHint("1807", "7810"));
     }
 
 }

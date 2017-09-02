@@ -171,12 +171,23 @@ public class Solution {
         if (nums.length == 0) {
             return res;
         }
-        return  res;
+        Arrays.sort(nums);
+        for (int i : nums) {
+            List<List<Integer>> tmp = new ArrayList<>();
+            for (List<Integer> sub : res) {
+                List<Integer> list = new ArrayList<>(sub);
+                list.add(i);
+                tmp.add(list);
+            }
+            res.addAll(tmp);
+        }
+        return res;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
         solution.generateParenthesis(4);
+        solution.subsets(new int[] { 1, 2, 3 });
     }
 
 }
