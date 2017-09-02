@@ -913,7 +913,7 @@ public class Solution {
      * @return
      */
     public int[] findMode(TreeNode root) {
-        
+        return null;
     }
 
     public static void main(String[] args) {

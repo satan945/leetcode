@@ -50,7 +50,50 @@ public class Solution {
             list.add(str);
         }
         res.addAll(map.values());
+        return res;
+    }
 
+    /**
+     * 347. Top K Frequent Elements
+     * <p>
+     * https://leetcode.com/problems/top-k-frequent-elements
+     * <p>
+     * Given a non-empty array of integers, return the k most frequent elements.
+     * 
+     * For example, Given [1,1,1,2,2,3] and k = 2, return [1,2].
+     * 
+     * Note: You may assume k is always valid, 1 ≤ k ≤ number of unique elements. Your algorithm's time complexity must
+     * be better than O(n log n), where n is the array's size.
+     * 
+     * </p>
+     * 
+     * @param nums
+     * @param k
+     * @return
+     */
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        List<Integer> res = new ArrayList<>();
+        if (nums == null || nums.length == 0 || k <= 0) {
+            return res;
+        }
+        List<Integer>[] buckets = new ArrayList[nums.length + 1];
+        Map<Integer, Integer> countMap = new HashMap<>();
+        for (int num : nums) {
+            Integer count = countMap.get(num);
+            countMap.put(num, count == null ? 1 : ++count);
+        }
+
+        for (Map.Entry<Integer, Integer> entry : countMap.entrySet()) {
+            if (buckets[entry.getValue()] == null) {
+                buckets[entry.getValue()] = new ArrayList<>();
+            }
+            buckets[entry.getValue()].add(entry.getKey());
+        }
+        for (int i = buckets.length - 1; i >= 0 && res.size() < k; i--) {
+            if (buckets[i] != null) {
+                res.addAll(buckets[i]);
+            }
+        }
         return res;
     }
 }

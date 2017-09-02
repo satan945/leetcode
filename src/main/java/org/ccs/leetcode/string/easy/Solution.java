@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Abel created on 2017/7/7 11:53
@@ -531,15 +533,173 @@ public class Solution {
 
     }
 
+    /**
+     * 434. Number of Segments in a String
+     * <p>
+     * https://leetcode.com/problems/number-of-segments-in-a-string
+     * <p>
+     * 
+     * Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space
+     * characters.
+     * 
+     * Please note that the string does not contain any non-printable characters.
+     * 
+     * Example:
+     * 
+     * Input: "Hello, my name is John"
+     * 
+     * Output: 5
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public int countSegments(String s) {
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != ' ' && (i == 0 || s.charAt(i - 1) == ' ')) {
+                count++;
+            }
+        }
+        return count;
+    }
 
+    /**
+     * 459. Repeated Substring Pattern
+     * <p>
+     * https://leetcode.com/problems/repeated-substring-pattern
+     * <p>
+     * Given a non-empty string check if it can be constructed by taking a substring of it and appending multiple copies
+     * of the substring together. You may assume the given string consists of lowercase English letters only and its
+     * length will not exceed 10000.
+     * 
+     * Example 1:
+     * 
+     * Input: "abab"
+     * 
+     * Output: True
+     * 
+     * Explanation: It's the substring "ab" twice.
+     * 
+     * Example 2:
+     * 
+     * Input: "aba"
+     * 
+     * Output: False
+     * 
+     * Example 3:
+     * 
+     * Input: "abcabcabcabc"
+     * 
+     * Output: True
+     * 
+     * Explanation: It's the substring "abc" four times. (And the substring "abcabc" twice.)
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public boolean repeatedSubstringPattern(String s) {
+        if (s.length() == 0) {
+            return false;
+        }
+        int length = s.length() / 2;
+        StringBuilder sb = new StringBuilder();
+        while (length > 1) {
+            sb.delete(0, s.length());
+            String sub = s.substring(0, length);
+            for (int i = 0; i + length <= s.length(); i += length) {
+                sb.append(sub);
+            }
+            if (sb.toString().equals(s)) {
+                return true;
+            }
+            length--;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param s
+     * @return
+     */
+    public String reverseVowels(String s) {
+        if (s.length() <= 1) {
+            return s;
+        }
+        List<Character> temp = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (isVowel(s.charAt(i))) {
+                temp.add(s.charAt(i));
+            }
+        }
+        if (temp.size() == 0) {
+            return s;
+        }
+        int j = temp.size() - 1;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (temp.contains(s.charAt(i))) {
+                sb.append(temp.get(j--));
+            } else {
+                sb.append(s.charAt(i));
+            }
+        }
+        return sb.toString();
+    }
+
+    private boolean isVowel(char c) {
+        switch (c) {
+        case 'A':
+        case 'E':
+        case 'I':
+        case 'O':
+        case 'U':
+        case 'a':
+        case 'e':
+        case 'i':
+        case 'o':
+        case 'u':
+            return true;
+        }
+        return false;
+    }
+
+    public String reverseVowels2(String s) {
+        if (s == null || s.length() <= 1) {
+            return s;
+        }
+        char[] chars = s.toCharArray();
+        int start = 0;
+        int end = s.length() - 1;
+        while (start < end) {
+            while (start < end && !isVowel(chars[start])) {
+                start++;
+            }
+            while (start < end && !isVowel(chars[end])) {
+                end--;
+            }
+            char temp = chars[start];
+            chars[start] = chars[end];
+            chars[end] = temp;
+            start++;
+            end--;
+        }
+        return new String(chars);
+    }
 
     public static void main(String[] args) {
         String a = "123456  123123";
+        String b = "123123123";
         Solution solution = new Solution();
         // System.out.println(solution.reverseString(a));
         // System.out.println(solution.lengthOfLastWord(a));
         String move = "UD";
         // System.out.println(solution.judgeCircle(move));
-        System.out.println(solution.countAndSay(5));
+        // System.out.println(solution.countAndSay(5));
+        // System.out.println(solution.countSegments(a));
+        System.out.println(solution.repeatedSubstringPattern(b));
     }
+
 }
