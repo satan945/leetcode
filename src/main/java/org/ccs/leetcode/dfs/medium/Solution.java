@@ -50,6 +50,73 @@ public class Solution {
      * @return
      */
     public int numIslands(char[][] grid) {
-        return 0;
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+        int m = grid.length;
+        int n = grid[0].length;
+        if (n == 0) {
+            return 0;
+        }
+        int res = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    dfsMark(grid, i, j);
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+
+    private void dfsMark(char[][] grid, int i, int j) {
+        int[][] move = new int[][] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        int m = grid.length;
+        int n = grid[0].length;
+        if (i < 0 || j < 0 || i > m || j > n || grid[i][j] != '1') {
+            return;
+        }
+        for (int k = 0; k < move.length; k++) {
+            grid[i][j] = 0;
+            dfsMark(grid, move[k][0], move[k][1]);
+        }
+    }
+
+    /**
+     * 130. Surrounded Regions
+     * <p>
+     * https://leetcode.com/problems/surrounded-regions
+     * <p>
+     * 
+     * Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.
+     * 
+     * A region is captured by flipping all 'O's into 'X's in that surrounded region.
+     * 
+     * For example,
+     * 
+     * X X X X
+     * 
+     * X O O X
+     * 
+     * X X O X
+     * 
+     * X O X X
+     * 
+     * After running your function, the board should be:
+     * 
+     * X X X X
+     * 
+     * X X X X
+     * 
+     * X X X X
+     * 
+     * X O X X
+     * </p>
+     * 
+     * @param board
+     */
+    public void solve(char[][] board) {
+
     }
 }

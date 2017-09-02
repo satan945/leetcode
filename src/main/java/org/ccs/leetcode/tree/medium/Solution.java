@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Stack;
 
 import org.ccs.leetcode.bean.TreeLinkNode;
@@ -732,6 +734,147 @@ public class Solution {
             }
         }
         return true;
+    }
+
+    /**
+     * 654. Maximum Binary Tree
+     * <p>
+     * https://leetcode.com/problems/maximum-binary-tree
+     * <p>
+     * Given an integer array with no duplicates. A maximum tree building on this array is defined as follow:
+     * 
+     * The root is the maximum number in the array. The left subtree is the maximum tree constructed from left part
+     * subarray divided by the maximum number. The right subtree is the maximum tree constructed from right part
+     * subarray divided by the maximum number. Construct the maximum tree by the given array and output the root node of
+     * this tree.
+     * 
+     * Example 1: Input: [3,2,1,6,0,5] Output: return the tree root node representing the following tree:
+     * 
+     * 6 / \ 3 5 \ / 2 0 \ 1 Note: The size of the given array will be in the range [1,1000].
+     * 
+     * </p>
+     *
+     * @param nums
+     * @return
+     */
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        if (nums.length == 0) {
+            return null;
+        }
+        return buildMaximumTree(nums, 0, nums.length - 1);
+    }
+
+    private TreeNode buildMaximumTree(int[] nums, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+        int maxIndex = start;
+        for (int i = start; i < end; i++) {
+            maxIndex = nums[i] > nums[maxIndex] ? i : maxIndex;
+        }
+        TreeNode root = new TreeNode(nums[maxIndex]);
+        root.left = buildMaximumTree(nums, start, maxIndex - 1);
+        root.right = buildMaximumTree(nums, maxIndex + 1, end);
+        return root;
+    }
+
+    /**
+     * 515. Find Largest Value in Each Tree Row
+     * 
+     * <p>
+     * https://leetcode.com/problems/find-largest-value-in-each-tree-row
+     * 
+     * <p>
+     * You need to find the largest value in each row of a binary tree.
+     * 
+     * Example: Input:
+     * 
+     * 1 / \ 3 2 / \ \ 5 3 9
+     * 
+     * Output: [1, 3, 9]
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int queueSize = 1;
+        while (queueSize > 0) {
+            int max = Integer.MIN_VALUE;
+            for (int i = 0; i < queueSize; i++) {
+                TreeNode node = queue.poll();
+                max = Math.max(max, node.val);
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+            queueSize = queue.size();
+            res.add(max);
+        }
+        return res;
+    }
+
+    /**
+     * DFS
+     * 
+     * @param root
+     * @return
+     */
+    public List<Integer> largestValuesdfs(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        helper(root, res, 0);
+        return res;
+    }
+
+    private void helper(TreeNode root, List<Integer> res, int d) {
+        if (root == null) {
+            return;
+        }
+        // expand list size
+        if (d == res.size()) {
+            res.add(root.val);
+        } else {
+            // or set value
+            res.set(d, Math.max(res.get(d), root.val));
+        }
+        helper(root.left, res, d + 1);
+        helper(root.right, res, d + 1);
+    }
+
+    /**
+     * 513. Find Bottom Left Tree Value
+     * <p>
+     * https://leetcode.com/problems/find-bottom-left-tree-value
+     * <p>
+     * Given a binary tree, find the leftmost value in the last row of the tree.
+     * 
+     * Example 1: Input:
+     * 
+     * 2 / \ 1 3
+     * 
+     * Output: 1 Example 2: Input:
+     * 
+     * 1 / \ 2 3 / / \ 4 5 6 / 7
+     * 
+     * Output: 7 Note: You may assume the tree (i.e., the given root node) is not NULL.
+     * 
+     * 
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public int findBottomLeftValue(TreeNode root) {
 
     }
 
