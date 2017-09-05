@@ -154,13 +154,27 @@ public class Solution {
      *
      * Follow up: Can you solve it without using extra space?
      * </p>
-     *
+     * https://leetcode.com/problems/linked-list-cycle-ii/discuss/
+     * 
      * @param head
      * @return
      */
     public ListNode detectCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode node = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (slow == fast) {
+                while (node != slow) {
+                    node = node.next;
+                    slow = slow.next;
+                }
+                return slow;
+            }
+        }
         return null;
-
     }
 
     /**

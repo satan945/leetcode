@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Abel created on 2017/7/10 17:47
@@ -806,15 +808,42 @@ public class Solution {
      * encroaches the border of the array. How would you address these problems?
      * </p>
      * todo
+     * 
      * @param board
      */
     public void gameOfLife(int[][] board) {
 
-
     }
+
+    /**
+     * 287. Find the Duplicate Number
+     * <p>
+     * https://leetcode.com/problems/find-the-duplicate-number/description/
+     * <p>
+     * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at
+     * least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+     *
+     * Note: You must not modify the array (assume the array is read only).
+     *
+     * You must use only constant, O(1) extra space.
+     *
+     * Your runtime complexity should be less than O(n2).
+     *
+     * There is only one duplicate number in the array, but it could be repeated more than once.
+     * </p>
+     *
+     * @param nums
+     * @return
+     */
+    public int findDuplicate(int[] nums) {
+        return 0;
+    }
+
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
+        int[] array = new int[] { 3, 2, 4 };
         int[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
         // solution.rotate(matrix);
         // System.out.println(solution.spiralOrder(matrix));

@@ -727,6 +727,52 @@ public class Solution {
         return a.equals(b) ? -1 : a.length() > b.length() ? a.length() : b.length();
     }
 
+    /**
+     * 415. Add Strings
+     * <p>
+     * https://leetcode.com/problems/add-strings
+     * <p>
+     * Given two non-negative integers num1 and num2 represented as string, return the sum of num1 and num2.
+     * 
+     * Note:
+     * 
+     * The length of both num1 and num2 is < 5100.
+     * 
+     * Both num1 and num2 contains only digits 0-9.
+     * 
+     * Both num1 and num2 does not contain any leading zero.
+     * 
+     * You must not use any built-in BigInteger library or convert the inputs to integer directly.
+     * 
+     * </p>
+     * 
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public String addStrings(String num1, String num2) {
+        if (num1 == null || num1.length() == 0) {
+            return num2;
+        }
+        if (num2 == null || num2.length() == 0) {
+            return num1;
+        }
+        int l1 = num1.length() - 1;
+        int l2 = num2.length() - 1;
+        int carry = 0;
+        StringBuilder res = new StringBuilder();
+        while (l1 >= 0 || l2 >= 0 || carry != 0) {
+            int c1 = l1 >= 0 ? num1.charAt(l1) - '0' : 0;
+            int c2 = l2 >= 0 ? num2.charAt(l2) - '0' : 0;
+            int sum = c1 + c2 + carry;
+            res.insert(0, sum % 10);
+            carry = sum / 10;
+            l1 = l1 < 0 ? -1 : --l1;
+            l2 = l2 < 0 ? -1 : --l2;
+        }
+        return res.toString();
+    }
+
     public static void main(String[] args) {
         String a = "123456  123123";
         String b = "123123123";
