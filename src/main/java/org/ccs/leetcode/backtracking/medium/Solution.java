@@ -184,6 +184,27 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 90. Subsets II
+     * <p>
+     * https://leetcode.com/problems/subsets-ii
+     * <p>
+     * Given a collection of integers that might contain duplicates, nums, return all possible subsets.
+     * 
+     * Note: The solution set must not contain duplicate subsets.
+     * 
+     * For example, If nums = [1,2,2], a solution is:
+     * 
+     * [ [2], [1], [1,2,2], [2,2], [1,2], [] ]
+     * </p>
+     * todo
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        return null;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         solution.generateParenthesis(4);

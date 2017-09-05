@@ -3,6 +3,11 @@
  */
 package org.ccs.leetcode.dfs.medium;
 
+import org.ccs.leetcode.bean.ListNode;
+import org.ccs.leetcode.bean.TreeNode;
+
+import java.util.Arrays;
+
 /**
  * @author Abel created on 2017/9/1 15:06
  * @version $Id$
@@ -117,6 +122,107 @@ public class Solution {
      * @param board
      */
     public void solve(char[][] board) {
+        if (board == null || board.length <= 2 || board[0].length <= 2) {
+            return;
+        }
+        int m = board.length, n = board[0].length;
+        // start from first and last column
+        for (int i = 0; i < m; i++) {
+            if (board[i][0] == 'O') {
+                dfsBoundry(board, i, 0);
+            }
+            if (board[i][n - 1] == 'O') {
+                dfsBoundry(board, i, n - 1);
+            }
+        }
+        // start from first and last row
+        for (int j = 0; j < n; j++) {
+            if (board[0][j] == 'O') {
+                dfsBoundry(board, 0, j);
+            }
+            if (board[m - 1][j] == 'O') {
+                dfsBoundry(board, m - 1, j);
+            }
+        }
 
+        // last loop to change O to X
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                } else if (board[i][j] == '*') {
+                    board[i][j] = 'O';
+                }
+            }
+        }
+    }
+
+    private void dfsBoundry(char[][] board, int i, int j) {
+        int m = board.length;
+        int n = board[0].length;
+        if (i < 0 || j > 0 || i >= m || j >= n) {
+            return;
+        }
+        if (board[i][j] == 'O') {
+            board[i][j] = '*';
+        }
+        if (i > 1 && board[i - 1][j] == 'O') {
+            dfsBoundry(board, i - 1, j);
+        }
+        if (i < m - 2 && board[i + 1][j] == 'O') {
+            dfsBoundry(board, i + 1, j);
+        }
+        if (j > 1 && board[i][j - 1] == 'O') {
+            dfsBoundry(board, i, j - 1);
+        }
+        if (j < n - 2 && board[i][j + 1] == 'O') {
+            dfsBoundry(board, i, j + 1);
+        }
+    }
+
+    /**
+     * 109. Convert Sorted List to Binary Search Tree
+     * <p>
+     * https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree
+     * <p>
+     * Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
+     * 
+     * </p>
+     * 
+     * @param head
+     * @return
+     */
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        if (head.next == null) {
+            return new TreeNode(head.val);
+        }
+        return buildBST(head, null);
+    }
+
+    private TreeNode buildBST(ListNode head, ListNode tail) {
+        ListNode slow = head;
+        ListNode fast = head;
+        if (head == tail) {
+            return null;
+        }
+        while (fast != tail && fast.next != tail) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        TreeNode root = new TreeNode(slow.val);
+        root.left = buildBST(head, slow);
+        root.right = buildBST(slow.next, tail);
+        return root;
+    }
+
+
+
+    public static void main(String[] args) {
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(3);
+        System.out.println(new Solution().sortedListToBST(head));
     }
 }
