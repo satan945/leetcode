@@ -5,7 +5,6 @@ package org.ccs.leetcode.backtracking.medium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -241,17 +240,100 @@ public class Solution {
         }
     }
 
+    public List<List<Integer>> permute2(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        genPermute2(nums, 0, nums.length - 1, res, new ArrayList<>());
+        return res;
+    }
+
+    private void genPermute2(int[] nums, int start, int end, List<List<Integer>> res, List<Integer> tempList) {
+        if (start == end) {
+            res.add(new ArrayList<>(tempList));
+            tempList.remove(tempList.size() - 1);
+            return;
+        }
+        for (int i = start; i <= end; i++) {
+            tempList.add(nums[i]);
+            swap(nums, i, start);
+            genPermute2(nums, i + 1, end, res, tempList);
+            swap(nums, i, start);
+        }
+    }
+
     private void swap(int[] nums, int i, int j) {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
     }
 
+    /**
+     * Permute String
+     * 
+     * @param str
+     * @return
+     */
+    public List<String> permuteString(String str) {
+        List<String> res = new ArrayList<>();
+        if (str == null || str.length() == 0) {
+            return res;
+        }
+        genStrPermute("", str, res);
+        return res;
+    }
+
+    private void genStrPermute(String prefix, String rest, List<String> res) {
+        if (rest.length() == 0) {
+            res.add(prefix);
+            return;
+        }
+        for (int i = 0; i < rest.length(); i++) {
+            char ch = rest.charAt(i);
+            String subLeft = rest.substring(0, i);
+            String subRight = rest.substring(i + 1, rest.length());
+            genStrPermute(prefix + ch, subLeft + subRight, res);
+        }
+    }
+
+    /**
+     * using swap
+     * 
+     * @param str
+     * @return
+     */
+    public List<String> permuteString2(String str) {
+        List<String> res = new ArrayList<>();
+        if (str == null || str.length() == 0) {
+            return res;
+        }
+        char[] charArray = str.toCharArray();
+        genStrPermute2(charArray, 0, charArray.length - 1, res);
+        return res;
+    }
+
+    private void genStrPermute2(char[] charArray, int start, int end, List<String> res) {
+        if (start == end) {
+            res.add(String.valueOf(charArray));
+            return;
+        }
+        for (int i = start; i <= end; i++) {
+            swapChar(charArray, i, start);
+            genStrPermute2(charArray, start + 1, end, res);
+            swapChar(charArray, i, start);
+        }
+    }
+
+    private void swapChar(char[] charArray, int i, int j) {
+        char temp = charArray[i];
+        charArray[i] = charArray[j];
+        charArray[j] = temp;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.generateParenthesis(4);
-        solution.subsets(new int[] { 1, 2, 3 });
-        System.out.println(solution.permute(new int[] { 1, 2, 3, 5, 6, 7 }));
+        // solution.generateParenthesis(4);
+        // solution.subsets(new int[] { 1, 2, 3 });
+        System.out.println(solution.permute2(new int[] { 1, 2, 3 }));
+        System.out.println(solution.permuteString2("abc"));
     }
 
 }
