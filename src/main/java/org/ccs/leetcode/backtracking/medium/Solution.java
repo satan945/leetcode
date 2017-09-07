@@ -240,24 +240,35 @@ public class Solution {
         }
     }
 
+    /**
+     * using swap
+     * @param nums
+     * @return
+     */
     public List<List<Integer>> permute2(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        genPermute2(nums, 0, nums.length - 1, res, new ArrayList<>());
+        genPermute2(nums, 0, nums.length - 1, res);
         return res;
     }
 
-    private void genPermute2(int[] nums, int start, int end, List<List<Integer>> res, List<Integer> tempList) {
+    private void genPermute2(int[] nums, int start, int end, List<List<Integer>> res) {
         if (start == end) {
-            res.add(new ArrayList<>(tempList));
-            tempList.remove(tempList.size() - 1);
+            res.add(transferArrayToList(nums));
             return;
         }
         for (int i = start; i <= end; i++) {
-            tempList.add(nums[i]);
             swap(nums, i, start);
-            genPermute2(nums, i + 1, end, res, tempList);
+            genPermute2(nums, start + 1, end, res);
             swap(nums, i, start);
         }
+    }
+
+    private List<Integer> transferArrayToList(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int num : nums) {
+            res.add(num);
+        }
+        return res;
     }
 
     private void swap(int[] nums, int i, int j) {
