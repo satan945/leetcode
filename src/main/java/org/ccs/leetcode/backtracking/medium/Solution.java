@@ -198,6 +198,7 @@ public class Solution {
      * [ [2], [1], [1,2,2], [2,2], [1,2], [] ]
      * </p>
      * todo
+     * 
      * @param nums
      * @return
      */
@@ -205,10 +206,52 @@ public class Solution {
         return null;
     }
 
+    /**
+     * 46. Permutations
+     * <p>
+     * https://leetcode.com/problems/permutations
+     * <p>
+     * Given a collection of distinct numbers, return all possible permutations.
+     * 
+     * For example, [1,2,3] have the following permutations: [ [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1] ]
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        genPermute(nums, res, new ArrayList<>());
+        return res;
+    }
+
+    private void genPermute(int[] nums, List<List<Integer>> res, List<Integer> tempList) {
+        if (tempList.size() == nums.length) {
+            res.add(new ArrayList<>(tempList));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (tempList.contains(nums[i])) {
+                continue;
+            }
+            tempList.add(nums[i]);
+            genPermute(nums, res, tempList);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         solution.generateParenthesis(4);
         solution.subsets(new int[] { 1, 2, 3 });
+        System.out.println(solution.permute(new int[] { 1, 2, 3, 5, 6, 7 }));
     }
 
 }

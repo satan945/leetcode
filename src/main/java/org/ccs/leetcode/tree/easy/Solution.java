@@ -4,10 +4,8 @@
 package org.ccs.leetcode.tree.easy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 
 import org.ccs.leetcode.bean.TreeNode;
@@ -625,22 +623,21 @@ public class Solution {
      * @return
      */
     public TreeNode convertBST(TreeNode root) {
-        helper(root, 0);
+        if (root == null || (root.left == null && root.right == null)) {
+            return root;
+        }
+        dfsSum(root, 0);
         return root;
     }
 
-    private void helper(TreeNode root, int value) {
+    private int dfsSum(TreeNode root, int value) {
         if (root == null) {
-            return;
+            return value;
         }
-        if (root.right != null) {
-            helper(root.right, 0);
-            root.val += root.right.val;
-        }
-        root.val += value;
-        if (root.left != null) {
-            helper(root.left, root.val);
-        }
+        int right = dfsSum(root.right, value);
+        int left = dfsSum(root.left, root.val + value);
+        root.val = root.val + right;
+        return left;
     }
 
     /**
