@@ -225,7 +225,17 @@ public class Solution {
      * @param nums
      */
     public void nextPermutation(int[] nums) {
+        if (nums.length <= 1) {
+            return;
+        }
 
+        Arrays.sort(nums);
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 
     /**
@@ -839,8 +849,6 @@ public class Solution {
         return 0;
     }
 
-
-
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] array = new int[] { 3, 2, 4 };
@@ -852,5 +860,6 @@ public class Solution {
         System.out.println(solution.findMissingRanges(new int[] { 1, 1, 1 }, 1, 1));
         // int[] array = new int[] { 2, 2, 3, 4, };
         // System.out.println(solution.triangleNumber(array));
+        solution.nextPermutation(new int[] { 1, 2 });
     }
 }

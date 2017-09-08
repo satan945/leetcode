@@ -218,7 +218,6 @@ public class Solution {
      * @param nums
      * @return
      */
-
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         genPermute(nums, res, new ArrayList<>());
@@ -242,6 +241,7 @@ public class Solution {
 
     /**
      * using swap
+     * 
      * @param nums
      * @return
      */
@@ -339,11 +339,16 @@ public class Solution {
         charArray[j] = temp;
     }
 
+
+
+
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // solution.generateParenthesis(4);
         // solution.subsets(new int[] { 1, 2, 3 });
-        System.out.println(solution.permute2(new int[] { 1, 2, 3 }));
+        System.out.println(solution.permute2(new int[] { 1, 2, 3, 4, 5, 6, 7 }));
         System.out.println(solution.permuteString2("abc"));
     }
 
