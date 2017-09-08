@@ -3,11 +3,14 @@
  */
 package org.ccs.leetcode.array.easy;
 
+import sun.rmi.server.InactiveGroupException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -375,17 +378,365 @@ public class Solution {
         return false;
     }
 
+    /**
+     * 119. Pascal's Triangle II
+     * <p>
+     * https://leetcode.com/problems/pascals-triangle-ii
+     * <p>
+     * Given an index k, return the kth row of the Pascal's triangle.
+     * 
+     * For example, given k = 3, Return [1,3,3,1].
+     * 
+     * Note: Could you optimize your algorithm to use only O(k) extra space?
+     * </p>
+     * 
+     * @param rowIndex
+     * @return
+     */
+    public List<Integer> getRow(int rowIndex) {
+        List<List<Integer>> triangle = getTriangle(rowIndex);
+        return triangle.get(triangle.size() - 1);
+    }
 
+    /**
+     * 118. Pascal's Triangle
+     * <p>
+     * rowNum from 0. different from the original question
+     * </p>
+     * 
+     * @param k
+     * @return
+     */
+    public List<List<Integer>> getTriangle(int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i <= k; i++) {
+            genRow(res, i);
+        }
+        return res;
+    }
+
+    private void genRow(List<List<Integer>> res, int rowNo) {
+        List<Integer> curRow = new ArrayList<>();
+        if (rowNo == 0) {
+            curRow.add(1);
+        } else if (rowNo == 1) {
+            curRow.add(1);
+            curRow.add(1);
+        } else {
+            List<Integer> lastRow = res.get(res.size() - 1);
+            curRow.add(1);
+            for (int k = 1; k < rowNo; k++) {
+                curRow.add(lastRow.get(k - 1) + lastRow.get(k));
+            }
+            curRow.add(1);
+        }
+        res.add(curRow);
+    }
+
+    /**
+     * 
+     * @param rowIndex
+     * @return
+     */
+    public List<Integer> getRow2(int rowIndex) {
+        List<Integer> lastRow = null;
+        for (int i = 0; i <= rowIndex; i++) {
+            List<Integer> curRow = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    curRow.add(1);
+                } else {
+                    curRow.add(lastRow.get(j - 1) + lastRow.get(j));
+                }
+            }
+            lastRow = curRow;
+        }
+        return lastRow;
+    }
+
+    /**
+     * 661. Image Smoother
+     * <p>
+     * https://leetcode.com/problems/image-smoother
+     * <p>
+     * 
+     * Given a 2D integer matrix M representing the gray scale of an image, you need to design a smoother to make the
+     * gray scale of each cell becomes the average gray scale (rounding down) of all the 8 surrounding cells and itself.
+     * If a cell has less than 8 surrounding cells, then use as many as you can.
+     * 
+     * Example 1:
+     * 
+     * Input:
+     * 
+     * [[1,1,1], [1,0,1], [1,1,1]]
+     * 
+     * Output:
+     * 
+     * [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+     * 
+     * Explanation:
+     * 
+     * For the point (0,0), (0,2), (2,0), (2,2): floor(3/4) = floor(0.75) = 0
+     * 
+     * For the point (0,1), (1,0), (1,2), (2,1): floor(5/6) = floor(0.83333333) = 0
+     * 
+     * For the point (1,1): floor(8/9) = floor(0.88888889) = 0
+     * 
+     * Note: The value in the given matrix is in the range of [0, 255].
+     * 
+     * The length and width of the given matrix are in the range of [1, 150].
+     * </p>
+     * 
+     * @param M
+     * @return
+     */
+    public int[][] imageSmoother(int[][] M) {
+        int m = M.length;
+        if (m == 0) {
+            return M;
+        }
+        int n = M[0].length;
+        if (n == 0) {
+            return M;
+        }
+        int[][] res = new int[m][n];
+        int[][] moves = { { 0, 0 }, { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { 1, -1 }, { -1, 1 },
+                { -1, -1 } };
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int count = 0;
+                double sum = 0;
+                for (int[] move : moves) {
+                    int x = j + move[1];
+                    int y = i + move[0];
+                    if (x >= 0 && x <= n - 1 && y >= 0 && y <= m - 1) {
+                        count++;
+                        sum += M[y][x];
+                    }
+                }
+                res[i][j] = (int) Math.floor(sum / count);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 485. Max Consecutive Ones
+     * <p>
+     * https://leetcode.com/problems/max-consecutive-ones
+     * <p>
+     * Given a binary array, find the maximum number of consecutive 1s in this array.
+     * 
+     * Example 1: Input: [1,1,0,1,1,1] Output: 3 Explanation: The first two digits or the last three digits are
+     * consecutive 1s. The maximum number of consecutive 1s is 3. Note:
+     * 
+     * The input array will only contain 0 and 1. The length of input array is a positive integer and will not exceed
+     * 10,000
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int findMaxConsecutiveOnes(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 1) {
+                int count = 1;
+                for (int j = i + 1; j < nums.length && nums[j] == 1; j++) {
+                    count++;
+                }
+                max = Math.max(max, count);
+                i += count;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 243. Shortest Word Distance
+     * <p>
+     * https://leetcode.com/problems/shortest-word-distance
+     * <p>
+     * Given a list of words and two words word1 and word2, return the shortest distance between these two words in the
+     * list.
+     * 
+     * For example, Assume that words = ["practice", "makes", "perfect", "coding", "makes"].
+     * 
+     * Given word1 = “coding”, word2 = “practice”, return 3.
+     * 
+     * Given word1 = "makes", word2 = "coding", return 1.
+     * 
+     * Note: You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.
+     * 
+     * </p>
+     * 
+     * @param words
+     * @param word1
+     * @param word2
+     * @return
+     */
+    public int shortestDistnce(String[] words, String word1, String word2) {
+        int min = Integer.MAX_VALUE;
+        int index1 = -1;
+        int index2 = -1;
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].equals(word1)) {
+                index1 = i;
+            } else if (words[i].equals(word2)) {
+                index2 = i;
+            }
+            if (index1 >= 0 && index2 >= 0) {
+                min = Math.min(min, Math.abs(index1 - index2));
+            }
+        }
+        return min;
+    }
+
+    /**
+     * 532. K-diff Pairs in an Array
+     * <p>
+     * https://leetcode.com/problems/k-diff-pairs-in-an-array
+     * <p>
+     * Given an array of integers and an integer k, you need to find the number of unique k-diff pairs in the array.
+     * Here a k-diff pair is defined as an integer pair (i, j), where i and j are both numbers in the array and their
+     * absolute difference is k.
+     * 
+     * Example 1:
+     * 
+     * Input: [3, 1, 4, 1, 5], k = 2
+     * 
+     * Output: 2
+     * 
+     * Explanation: There are two 2-diff pairs in the array, (1, 3) and (3, 5).
+     * 
+     * Although we have two 1s in the input, we should only return the number of unique pairs.
+     * 
+     * Example 2:
+     * 
+     * Input:[1, 2, 3, 4, 5], k = 1
+     * 
+     * Output: 4
+     * 
+     * Explanation: There are four 1-diff pairs in the array, (1, 2), (2, 3), (3, 4) and (4, 5).
+     * 
+     * Example 3: Input: [1, 3, 1, 5, 4], k = 0
+     * 
+     * Output: 1
+     * 
+     * Explanation: There is one 0-diff pair in the array, (1, 1).
+     * 
+     * Note: The pairs (i, j) and (j, i) count as the same pair. The length of the array won't exceed 10,000. All the
+     * integers in the given input belong to the range: [-1e7, 1e7].
+     * </p>
+     * 
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int findPairs(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k < 0) {
+            return 0;
+        }
+        Map<Integer, Integer> countMap = new HashMap<>();
+        int count = 0;
+        for (int num : nums) {
+            countMap.put(num, (countMap.getOrDefault(num, 0) + 1));
+        }
+        for (Map.Entry<Integer, Integer> entry : countMap.entrySet()) {
+            if (k == 0) {
+                if (entry.getValue() >= 2) {
+                    count++;
+                }
+            } else {
+                if (countMap.keySet().contains(entry.getKey() + k)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public int findPairs2(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k < 0) {
+            return 0;
+        }
+        int count = 0;
+        Arrays.sort(nums);
+        for (int i = 0, j = 0; j < nums.length; i++) {
+            for (j = Math.max(i + 1, j); j < nums.length && (nums[j] - nums[i] < k); j++)
+                ;
+            if (j < nums.length && (nums[j] - nums[i] == k)) {
+                count++;
+            }
+            if (i + 1 < nums.length && nums[i] == nums[i + 1]) {
+                i++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 189. Rotate Array
+     * <p>
+     * https://leetcode.com/problems/rotate-array
+     * <p>
+     * Rotate an array of n elements to the right by k steps.
+     * 
+     * For example, with n = 7 and k = 3, the array [1,2,3,4,5,6,7] is rotated to [5,6,7,1,2,3,4].
+     * 
+     * Note: Try to come up as many solutions as you can, there are at least 3 different ways to solve this problem.
+     * 
+     * 
+     * Related problem: Reverse Words in a String II
+     * 
+     * Credits: Special thanks to @Freezen for adding this problem and creating all test cases.
+     * 
+     * 
+     * </p>
+     * 
+     * @param nums
+     * @param k
+     */
+    public void rotate(int[] nums, int k) {
+        if (nums == null || nums.length <= 1 || k <= 0 || k == nums.length) {
+            return;
+        }
+        int pivot = k % nums.length;
+        reversAll(nums, 0, nums.length - 1);
+        reversAll(nums, 0, pivot - 1);
+        reversAll(nums, pivot, nums.length - 1);
+    }
+
+    private void reversAll(int[] nums, int start, int end) {
+        int i = start, j = end;
+        while (i < j) {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
+        }
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums1 = new int[] { 1 };
         int[] nums2 = new int[] { 4, 2, 3 };
+        int[] nums3 = { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 };
+
         // System.out.println(solution.intersection(nums1, nums2));
         // System.out.println(solution.arrayPairSum(nums2));
         // System.out.println(solution.findMaxAverageSlideWindow(nums2, 4));
         // System.out.println(solution.searchInsert(new int[] { 1 }, 0));
-        System.out.println(solution.checkPossibility(nums2));
+        // System.out.println(solution.checkPossibility(nums2));
+        // System.out.println(solution.getTriangle(5));
+        // System.out.println(solution.getRow2(3));
+        // System.out.println(solution.findMaxConsecutiveOnes(nums3));
+        System.out.println(solution.findPairs(new int[] { 1, 2, 3, 4, 5 }, 1));
+        solution.rotate(new int[] { 1, 2 }, 3);
     }
 
 }
