@@ -818,7 +818,7 @@ public class Solution {
     /**
      * 287. Find the Duplicate Number
      * <p>
-     * https://leetcode.com/problems/find-the-duplicate-number/description/
+     * https://leetcode.com/problems/find-the-duplicate-number
      * <p>
      * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at
      * least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
@@ -839,7 +839,49 @@ public class Solution {
         return 0;
     }
 
+    /**
+     * 80. Remove Duplicates from Sorted Array II
+     * <p>
+     * https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii
+     * <p>
+     * Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
+     * 
+     * For example, Given sorted array nums = [1,1,1,2,2,3],
+     * 
+     * Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3. It doesn't
+     * matter what you leave beyond the new length.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int removeDuplicates(int[] nums) {
 
+    }
+
+    /**
+     * 215. Kth Largest Element in an Array
+     * <p>
+     * https://leetcode.com/problems/kth-largest-element-in-an-array
+     * <p>
+     * Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order,
+     * not the kth distinct element.
+     * 
+     * For example, Given [3,2,1,5,6,4] and k = 2, return 5.
+     * 
+     * Note: You may assume k is always valid, 1 ≤ k ≤ array's length.
+     * </p>
+     * https://discuss.leetcode.com/topic/14597/solution-explained
+     * 
+     * @param nums
+     * @param k
+     * @return
+     * 
+     */
+    public int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        return nums[nums.length - k];
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
@@ -849,8 +891,9 @@ public class Solution {
         // System.out.println(solution.spiralOrder(matrix));
         // System.out.println(solution.generateMatrix(3));
         // System.out.println(solution.summaryRanges(new int[] { 1, 2, 3, 4, 6, 7, 8, 11 }));
-        System.out.println(solution.findMissingRanges(new int[] { 1, 1, 1 }, 1, 1));
+        // System.out.println(solution.findMissingRanges(new int[] { 1, 1, 1 }, 1, 1));
         // int[] array = new int[] { 2, 2, 3, 4, };
         // System.out.println(solution.triangleNumber(array));
+        System.out.println(solution.findKthLargest(new int[] { 3, 2, 1, 5, 6, 4 }, 2));
     }
 }

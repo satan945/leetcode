@@ -3,15 +3,12 @@
  */
 package org.ccs.leetcode.linkedlist.medium;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.ccs.leetcode.bean.ListNode;
 import org.ccs.leetcode.bean.RandomListNode;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Abel created on 2017/6/29 18:02
@@ -26,12 +23,12 @@ public class Solution {
      * <p>
      * You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse
      * order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
-     * 
+     *
      * You may assume the two numbers do not contain any leading zero, except the number 0 itself.
-     * 
+     *
      * Input: (2 -> 4 -> 3) + (5 -> 6 -> 4) Output: 7 -> 0 -> 8
      * </p>
-     * 
+     *
      * @param l1
      * @param l2
      * @return
@@ -81,16 +78,16 @@ public class Solution {
      * <p>
      * You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes
      * first and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
-     * 
+     *
      * You may assume the two numbers do not contain any leading zero, except the number 0 itself.
-     * 
+     *
      * Follow up: What if you cannot modify the input lists? In other words, reversing the lists is not allowed.
-     * 
+     *
      * Example:
-     * 
+     *
      * Input: (7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4) Output: 7 -> 8 -> 0 -> 7
      * </p>
-     * 
+     *
      * @param l1
      * @param l2
      * @return
@@ -105,15 +102,15 @@ public class Solution {
      * https://leetcode.com/problems/remove-nth-node-from-end-of-list
      * <p>
      * Given a linked list, remove the nth node from the end of list and return its head.
-     * 
+     *
      * For example,
-     * 
+     *
      * Given linked list: 1->2->3->4->5, and n = 2.
-     * 
+     *
      * After removing the second node from the end, the linked list becomes 1->2->3->5. Note: Given n will always be
      * valid. Try to do this in one pass.
      * </p>
-     * 
+     *
      * @param head
      * @param n
      * @return
@@ -155,7 +152,7 @@ public class Solution {
      * Follow up: Can you solve it without using extra space?
      * </p>
      * https://leetcode.com/problems/linked-list-cycle-ii/discuss/
-     * 
+     *
      * @param head
      * @return
      */
@@ -253,10 +250,10 @@ public class Solution {
      * <p>
      * A linked list is given such that each node contains an additional random pointer which could point to any node in
      * the list or null.
-     * 
+     *
      * Return a deep copy of the list.
      * </p>
-     * 
+     *
      * @param head
      * @return
      */
@@ -319,7 +316,7 @@ public class Solution {
      * </p>
      *
      * Sort
-     * 
+     *
      * @param head
      * @return
      */
@@ -375,15 +372,15 @@ public class Solution {
      * <p>
      * Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are
      * talking about the node number and not the value in the nodes.
-     * 
+     *
      * You should try to do it in place. The program should run in O(1) space complexity and O(nodes) time complexity.
-     * 
+     *
      * Example: Given 1->2->3->4->5->NULL, return 1->3->5->2->4->NULL.
-     * 
+     *
      * Note: The relative order inside both the even and odd groups should remain as it was in the input. The first node
      * is considered odd, the second node even and so on ...
      * </p>
-     * 
+     *
      * @param head
      * @return
      */
@@ -411,20 +408,72 @@ public class Solution {
         return head;
     }
 
+    /**
+     * 61. Rotate List
+     *
+     * <p>
+     * https://leetcode.com/problems/rotate-list
+     * <p>
+     * Given a list, rotate the list to the right by k places, where k is non-negative.
+     *
+     * For example: Given 1->2->3->4->5->NULL and k = 2, return 4->5->1->2->3->NULL.
+     * </p>
+     * https://discuss.leetcode.com/topic/2861/share-my-java-solution-with-explanation/1
+     * 
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || head.next == null || k <= 0) {
+            return head;
+        }
+        ListNode fakeHead = new ListNode(0);
+        fakeHead.next = head;
+        ListNode slow = fakeHead;
+        ListNode fast = head;
+        int size = 0;
+        while (slow.next != null) {
+            size++;
+            slow = slow.next;
+        }
+        int move = k % size;
+        if (move == 0) {
+            return head;
+        }
+        slow = head;
+        while (move > 0 && fast != null) {
+            move--;
+            fast = fast.next;
+        }
+        while (fast.next != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        fakeHead.next = slow.next;
+        slow.next = null;
+        fast.next = head;
+        return fakeHead.next;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         ListNode l1 = new ListNode(1);
         ListNode l2 = new ListNode(2);
         ListNode l3 = new ListNode(3);
+        ListNode l4 = new ListNode(4);
+        ListNode l5 = new ListNode(5);
         l1.next = l2;
         l2.next = l3;
-        solution.oddEvenList(l1);
+        l3.next = l4;
+        l4.next = l5;
+        // solution.oddEvenList(l1);
         // solution.reverseBetween(l1, 1, 2);
-
+        System.out.println(solution.rotateRight(l1, 2));
         RandomListNode head = new RandomListNode(-1);
         RandomListNode n1 = new RandomListNode(-1);
         head.next = n1;
-        System.out.println(solution.copyRandomList(head));
+        // System.out.println(solution.copyRandomList(head));
 
         // solution.addTwoNumbers(l1, l2);
         // solution.removeNthFromEnd(l1, 2);

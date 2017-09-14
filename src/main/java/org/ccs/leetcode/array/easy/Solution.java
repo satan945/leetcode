@@ -721,6 +721,63 @@ public class Solution {
         }
     }
 
+    /**
+     * 414. Third Maximum Number
+     * <p>
+     * https://leetcode.com/problems/third-maximum-number
+     * <p>
+     * Given a non-empty array of integers, return the third maximum number in this array. If it does not exist, return
+     * the maximum number. The time complexity must be in O(n).
+     * 
+     * Example 1:
+     *
+     * Input: [3, 2, 1] Output: 1
+     * 
+     * Explanation:
+     * 
+     * The third maximum is 1.
+     * 
+     * Example 2:
+     *
+     * Input: [1, 2] Output: 2
+     * 
+     * Explanation:
+     * 
+     * The third maximum does not exist, so the maximum (2) is returned instead.
+     * 
+     * Example 3:
+     *
+     * Input: [2, 2, 3, 1] Output: 1
+     * 
+     * Explanation:
+     * 
+     * Note that the third maximum here means the third maximum distinct number. Both numbers with value 2 are both
+     * considered as second maximum.
+     * 
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int thirdMax(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        Arrays.sort(nums);
+        if (nums.length < 3) {
+            return nums[nums.length - 1];
+        }
+        int count = 2;
+        for (int i = nums.length - 2; i >= 0; i--) {
+            if (nums[i] != nums[i + 1]) {
+                if (--count == 0) {
+                    return nums[i];
+                }
+            }
+        }
+        return count == 0 ? nums[0] : nums[nums.length - 1];
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums1 = new int[] { 1 };
@@ -737,6 +794,7 @@ public class Solution {
         // System.out.println(solution.findMaxConsecutiveOnes(nums3));
         System.out.println(solution.findPairs(new int[] { 1, 2, 3, 4, 5 }, 1));
         solution.rotate(new int[] { 1, 2 }, 3);
+        System.out.println(solution.thirdMax(new int[] { 1, 2, 2, 5, 3, 5 }));
     }
 
 }

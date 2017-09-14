@@ -875,7 +875,22 @@ public class Solution {
      * @return
      */
     public int findBottomLeftValue(TreeNode root) {
-        return 0;
+        int[] res = new int[] { 0, 0 };
+        return findBottomLeftValueLevel(root, 1, res);
+    }
+
+    private int findBottomLeftValueLevel(TreeNode root, int depth, int[] res) {
+        if (depth > res[1]) {
+            res[0] = root.val;
+            res[1] = depth;
+        }
+        if (root.left != null) {
+            findBottomLeftValueLevel(root.left, depth + 1, res);
+        }
+        if (root.right != null) {
+            findBottomLeftValueLevel(root.right, depth + 1, res);
+        }
+        return res[0];
     }
 
     public static void main(String[] args) {

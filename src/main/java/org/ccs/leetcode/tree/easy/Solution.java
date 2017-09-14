@@ -4,8 +4,11 @@
 package org.ccs.leetcode.tree.easy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 import org.ccs.leetcode.bean.TreeNode;
@@ -905,12 +908,42 @@ public class Solution {
      * Follow up: Could you do that without using any extra space? (Assume that the implicit stack space incurred due to
      * recursion does not count).
      * </p>
+     * https://discuss.leetcode.com/category/650/find-mode-in-binary-search-tree
      * 
      * @param root
      * @return
+     * 
      */
+    private int maxCount = 0;
+
     public int[] findMode(TreeNode root) {
-        return null;
+        if (root == null) {
+            return new int[0];
+        }
+        HashMap<Integer, Integer> map = new HashMap<>();
+        inOrderCountTravel(root, map);
+        List<Integer> list = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == maxCount) {
+                list.add(entry.getKey());
+            }
+        }
+        int[] res = new int[list.size()];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = list.get(i);
+        }
+        return res;
+    }
+
+    private void inOrderCountTravel(TreeNode root, HashMap<Integer, Integer> map) {
+        if (root.left != null) {
+            inOrderCountTravel(root.left, map);
+        }
+        map.put(root.val, map.getOrDefault(root.val, 0) + 1);
+        maxCount = Math.max(map.get(root.val), maxCount);
+        if (root.right != null) {
+            inOrderCountTravel(root.right, map);
+        }
     }
 
     public static void main(String[] args) {
