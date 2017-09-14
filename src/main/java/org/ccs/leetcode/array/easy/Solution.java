@@ -778,11 +778,63 @@ public class Solution {
         return count == 0 ? nums[0] : nums[nums.length - 1];
     }
 
+    /**
+     * 605. Can Place Flowers
+     * <p>
+     * https://leetcode.com/problems/can-place-flowers
+     * <p>
+     * Suppose you have a long flowerbed in which some of the plots are planted and some are not. However, flowers
+     * cannot be planted in adjacent plots - they would compete for water and both would die.
+     * 
+     * Given a flowerbed (represented as an array containing 0 and 1, where 0 means empty and 1 means not empty), and a
+     * number n, return if n new flowers can be planted in it without violating the no-adjacent-flowers rule.
+     * 
+     * Example 1:
+     * 
+     * Input: flowerbed = [1,0,0,0,1], n = 1
+     * 
+     * Output: True
+     * 
+     * Example 2:
+     * 
+     * Input: flowerbed = [1,0,0,0,1], n = 2
+     * 
+     * Output: False
+     * 
+     * Note: The input array won't violate no-adjacent-flowers rule. The input array size is in the range of [1, 20000].
+     * n is a non-negative integer which won't exceed the input array size.
+     * </p>
+     * 
+     * @param flowerbed
+     * @param n
+     * @return
+     */
+    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+        if (flowerbed == null || flowerbed.length == 0) {
+            return false;
+        }
+        int count = 0;
+        for (int i = 0; i < flowerbed.length && count < n; i++) {
+            if (flowerbed[i] == 0) {
+                boolean left = (i - 1 >= 0 && flowerbed[i - 1] == 0) || i == 0;
+                boolean right = (i + 1 <= flowerbed.length - 1 && flowerbed[i + 1] == 0) || i == flowerbed.length - 1;
+                if (left && right) {
+                    flowerbed[i] = 1;
+                    count++;
+                    if (count >= n) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return count >= n;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums1 = new int[] { 1 };
         int[] nums2 = new int[] { 4, 2, 3 };
-        int[] nums3 = { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 };
+        int[] nums3 = { 1, 0, 0, 0, 0, 1 };
 
         // System.out.println(solution.intersection(nums1, nums2));
         // System.out.println(solution.arrayPairSum(nums2));
@@ -792,9 +844,10 @@ public class Solution {
         // System.out.println(solution.getTriangle(5));
         // System.out.println(solution.getRow2(3));
         // System.out.println(solution.findMaxConsecutiveOnes(nums3));
-        System.out.println(solution.findPairs(new int[] { 1, 2, 3, 4, 5 }, 1));
-        solution.rotate(new int[] { 1, 2 }, 3);
-        System.out.println(solution.thirdMax(new int[] { 1, 2, 2, 5, 3, 5 }));
+        // System.out.println(solution.findPairs(new int[] { 1, 2, 3, 4, 5 }, 1));
+        // solution.rotate(new int[] { 1, 2 }, 3);
+        // System.out.println(solution.thirdMax(new int[] { 1, 2, 2, 5, 3, 5 }));
+        System.out.println(solution.canPlaceFlowers(nums3, 2));
     }
 
 }

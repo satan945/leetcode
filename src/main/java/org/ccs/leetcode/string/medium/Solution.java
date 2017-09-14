@@ -6,6 +6,7 @@ package org.ccs.leetcode.string.medium;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -775,6 +776,45 @@ public class Solution {
         return subSet;
     }
 
+    /**
+     * 539. Minimum Time Difference
+     * <p>
+     * https://leetcode.com/problems/minimum-time-difference
+     * <p>
+     * Given a list of 24-hour clock time points in "Hour:Minutes" format, find the minimum minutes difference between
+     * any two time points in the list.
+     * 
+     * Example 1:
+     * 
+     * Input: ["23:59","00:00"]
+     * 
+     * Output: 1
+     * 
+     * Note: The number of time points in the given list is at least 2 and won't exceed 20000. The input time is legal
+     * and ranges from 00:00 to 23:59.
+     * </p>
+     * 
+     * @param timePoints
+     * @return
+     */
+    public int findMinDifference(List<String> timePoints) {
+        List<Integer> points = new ArrayList<>();
+        int minDiff = Integer.MAX_VALUE;
+        for (String timePoint : timePoints) {
+            int hour = Integer.parseInt(timePoint.substring(0, timePoint.indexOf(":")));
+            int minute = Integer.parseInt(timePoint.substring(timePoint.indexOf(":") + 1));
+            points.add(hour * 60 + minute);
+        }
+        points.sort((o1, o2) -> o1 - o2);
+        for (int i = 0; i < points.size() - 1; i++) {
+            minDiff = Math.min(minDiff, points.get(i + 1) - points.get(i));
+        }
+        int corner = points.get(0) + 1440 - points.get(points.size() - 1);
+        return Math.min(corner, minDiff);
+    }
+
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // String a =
@@ -789,6 +829,10 @@ public class Solution {
         Set<String> sbu = solution.getSubSeq("abc");
         System.out.println(sbu);
         System.out.println(solution.getHint("1807", "7810"));
+        String timePoint = "23:59";
+        int hour = Integer.parseInt(timePoint.substring(0, timePoint.indexOf(":")));
+        int minute = Integer.parseInt(timePoint.substring(timePoint.indexOf(":") + 1));
+        System.out.println(hour + ":" + minute);
     }
 
 }

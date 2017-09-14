@@ -325,11 +325,42 @@ public class Solution {
      * Note: Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in
      * the triangle.
      * </p>
+     * todo
      * 
      * @param triangle
      * @return
      */
     public int minimumTotal(List<List<Integer>> triangle) {
+        return 0;
+    }
+
+    /**
+     * 91. Decode Ways
+     * <p>
+     * https://leetcode.com/problems/decode-ways
+     * <p>
+     * A message containing letters from A-Z is being encoded to numbers using the following mapping:
+     *
+     * 'A' -> 1 'B' -> 2 ... 'Z' -> 26
+     *
+     * Given an encoded message containing digits, determine the total number of ways to decode it.
+     *
+     * For example, Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
+     *
+     * The number of ways decoding "12" is 2.
+     * </p>
+     * todo
+     * 
+     * @param s
+     * @return
+     */
+    public int numDecodings(String s) {
+        char[] chars = new char[] { '0', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+        if (s == null && s.length() == 0) {
+            return 0;
+        }
+
         return 0;
     }
 

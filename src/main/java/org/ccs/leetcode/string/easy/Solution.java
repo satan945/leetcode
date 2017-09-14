@@ -829,6 +829,95 @@ public class Solution {
         return (i == word.length()) && (j == abbr.length());
     }
 
+    /**
+     * 551. Student Attendance Record I
+     * <p>
+     * https://leetcode.com/problems/student-attendance-record-i
+     * <p>
+     * You are given a string representing an attendance record for a student. The record only contains the following
+     * three characters:
+     * 
+     * 'A' : Absent.
+     * 
+     * 'L' : Late.
+     * 
+     * 'P' : Present.
+     * 
+     * A student could be rewarded if his attendance record doesn't contain more than one 'A' (absent) or more than two
+     * continuous 'L' (late). You need to return whether the student could be rewarded according to his attendance
+     * record.
+     * 
+     * Example 1:
+     * 
+     * Input: "PPALLP"
+     * 
+     * Output: True
+     * 
+     * Example 2:
+     * 
+     * Input: "PPALLL"
+     * 
+     * Output: False
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public boolean checkRecord(String s) {
+        int aCount = 0;
+        int lCount = 0;
+        int continuousLCount = 0;
+        char[] array = s.toCharArray();
+        for (int i = 0; i < array.length; i++) {
+            if (aCount > 1 || lCount > 2) {
+                return false;
+            }
+            if (array[i] == 'A') {
+                aCount++;
+            }
+            if (array[i] == 'L') {
+                lCount++;
+            }
+            if (array[i] != 'L' || i == array.length - 1) {
+                continuousLCount = Math.max(continuousLCount, lCount);
+                lCount = 0;
+            }
+        }
+        return aCount <= 1 && continuousLCount <= 2;
+    }
+
+    /**
+     * 125. Valid Palindrome
+     * <p>
+     * https://leetcode.com/problems/valid-palindrome
+     * <p>
+     * Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+     * 
+     * For example, "A man, a plan, a canal: Panama" is a palindrome. "race a car" is not a palindrome.
+     * 
+     * Note: Have you consider that the string might be empty? This is a good question to ask during an interview.
+     * 
+     * For the purpose of this problem, we define empty string as valid palindrome.
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public boolean isPalindrome(String s) {
+        if (s == null || s.length() == 0) {
+            return true;
+        }
+        String lowerS = s.toLowerCase();
+        StringBuilder sb = new StringBuilder();
+        char[] array = lowerS.toCharArray();
+        for (int i = 0; i < array.length; i++) {
+            if ((array[i] >= 'a' && array[i] <= 'z') || (array[i] >= '0' && array[i] <= '9')) {
+                sb.append(array[i]);
+            }
+        }
+        return sb.toString().equals(sb.reverse().toString());
+    }
+
     public static void main(String[] args) {
         String a = "123456  123123";
         String b = "123123123";
@@ -840,7 +929,8 @@ public class Solution {
         // System.out.println(solution.countAndSay(5));
         // System.out.println(solution.countSegments(a));
         // System.out.println(solution.repeatedSubstringPattern(b));
-        System.out.println(solution.validWordAbbreviation("a", "01"));
+        // System.out.println(solution.validWordAbbreviation("a", "01"));
+        solution.checkRecord("PPALLL");
     }
 
 }
