@@ -225,7 +225,17 @@ public class Solution {
      * @param nums
      */
     public void nextPermutation(int[] nums) {
+        if (nums.length <= 1) {
+            return;
+        }
 
+        Arrays.sort(nums);
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 
     /**
@@ -845,13 +855,13 @@ public class Solution {
      * https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii
      * <p>
      * Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
-     * 
+     *
      * For example, Given sorted array nums = [1,1,1,2,2,3],
-     * 
+     *
      * Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3. It doesn't
      * matter what you leave beyond the new length.
      * </p>
-     * 
+     *
      * @param nums
      * @return
      */
@@ -866,17 +876,17 @@ public class Solution {
      * <p>
      * Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order,
      * not the kth distinct element.
-     * 
+     *
      * For example, Given [3,2,1,5,6,4] and k = 2, return 5.
-     * 
+     *
      * Note: You may assume k is always valid, 1 ≤ k ≤ array's length.
      * </p>
      * https://discuss.leetcode.com/topic/14597/solution-explained
-     * 
+     *
      * @param nums
      * @param k
      * @return
-     * 
+     *
      */
     public int findKthLargest(int[] nums, int k) {
         Arrays.sort(nums);
@@ -894,6 +904,7 @@ public class Solution {
         // System.out.println(solution.findMissingRanges(new int[] { 1, 1, 1 }, 1, 1));
         // int[] array = new int[] { 2, 2, 3, 4, };
         // System.out.println(solution.triangleNumber(array));
+        solution.nextPermutation(new int[] { 1, 2 });
         System.out.println(solution.findKthLargest(new int[] { 3, 2, 1, 5, 6, 4 }, 2));
     }
 }
