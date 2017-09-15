@@ -128,7 +128,7 @@ public class Solution {
             pre = next;
             next = record;
         }
-        return next;
+        return pre;
     }
 
     /**

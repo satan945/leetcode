@@ -456,26 +456,125 @@ public class Solution {
         return fakeHead.next;
     }
 
+    /**
+     * 86. Partition List
+     * <p>
+     * https://leetcode.com/problems/partition-list
+     * <p>
+     * Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or
+     * equal to x.
+     * 
+     * You should preserve the original relative order of the nodes in each of the two partitions.
+     * 
+     * For example, Given 1->4->3->2->5->2 and x = 3, return 1->2->2->4->3->5.
+     * </p>
+     * 
+     * @param head
+     * @param x
+     * @return
+     */
+    public ListNode partition(ListNode head, int x) {
+        if (head == null) {
+            return null;
+        }
+        ListNode fakeLessHead = new ListNode(0);
+        ListNode fakeOtherHead = new ListNode(0);
+        ListNode node = head;
+        ListNode lessNode = fakeLessHead;
+        ListNode otherNode = fakeOtherHead;
+        while (node != null) {
+            if (node.val < x) {
+                lessNode.next = node;
+                lessNode = lessNode.next;
+            } else {
+                otherNode.next = node;
+                otherNode = otherNode.next;
+            }
+            node = node.next;
+        }
+        lessNode.next = fakeOtherHead.next;
+        otherNode.next = null;
+        return fakeLessHead.next;
+    }
+
+    /**
+     * 369. Plus One Linked List
+     * <p>
+     * https://leetcode.com/problems/plus-one-linked-list
+     * <p>
+     * Given a non-negative integer represented as non-empty a singly linked list of digits, plus one to the integer.
+     * 
+     * You may assume the integer do not contain any leading zero, except the number 0 itself.
+     * 
+     * The digits are stored such that the most significant digit is at the head of the list.
+     * </p>
+     * 
+     * @param head
+     * @return
+     */
+    public ListNode plusOne(ListNode head) {
+        ListNode reverseHead = reverseList(head);
+        int carry = 0;
+        ListNode node = reverseHead;
+        while (node != null || carry != 0) {
+            int val;
+            if (node == reverseHead) {
+                val = node.val + 1;
+            } else {
+                val = node.val + carry;
+            }
+            node.val = val % 10;
+            carry = val / 10;
+            if (node.next == null) {
+                if (carry > 0) {
+                    node.next = new ListNode(carry);
+                    break;
+                } else {
+                    break;
+                }
+            }
+            node = node.next;
+        }
+        return reverseList(reverseHead);
+    }
+
+    private ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode pre = null;
+        ListNode next = head;
+        ListNode record;
+        while (next != null) {
+            record = next.next;
+            next.next = pre;
+            pre = next;
+            next = record;
+        }
+        return pre;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         ListNode l1 = new ListNode(1);
         ListNode l2 = new ListNode(2);
         ListNode l3 = new ListNode(3);
-        ListNode l4 = new ListNode(4);
-        ListNode l5 = new ListNode(5);
+        ListNode l4 = new ListNode(2);
+        ListNode l5 = new ListNode(9);
+        ListNode l6 = new ListNode(2);
         l1.next = l2;
         l2.next = l3;
-        l3.next = l4;
-        l4.next = l5;
+
         // solution.oddEvenList(l1);
         // solution.reverseBetween(l1, 1, 2);
-        System.out.println(solution.rotateRight(l1, 2));
-        RandomListNode head = new RandomListNode(-1);
-        RandomListNode n1 = new RandomListNode(-1);
-        head.next = n1;
+        // System.out.println(solution.rotateRight(l1, 2));
+        // RandomListNode head = new RandomListNode(-1);
+        // RandomListNode n1 = new RandomListNode(-1);
+        // head.next = n1;
         // System.out.println(solution.copyRandomList(head));
-
         // solution.addTwoNumbers(l1, l2);
         // solution.removeNthFromEnd(l1, 2);
+        // System.out.println(solution.partition(l1, 3));
+        solution.plusOne(l1);
     }
 }

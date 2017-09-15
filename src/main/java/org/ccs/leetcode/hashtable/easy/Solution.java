@@ -103,7 +103,15 @@ public class Solution {
         int m = grid.length;
         int n = grid[0].length;
         int res = 0;
-        return 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
 
+
+                }
+            }
+        }
+        return 0;
     }
 }
