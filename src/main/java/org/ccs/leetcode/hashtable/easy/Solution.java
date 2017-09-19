@@ -4,6 +4,7 @@
 package org.ccs.leetcode.hashtable.easy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -102,16 +103,105 @@ public class Solution {
         }
         int m = grid.length;
         int n = grid[0].length;
-        int res = 0;
-        HashMap<Integer, Integer> map = new HashMap<>();
+        int islandCount = 0;
+        int neighborCount = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == 1) {
-
-
+                    islandCount++;
+                    if (i + 1 < m && grid[i + 1][j] == 1) {
+                        neighborCount++;
+                    }
+                    if (j + 1 < n && grid[i][j + 1] == 1) {
+                        neighborCount++;
+                    }
                 }
             }
         }
-        return 0;
+        return islandCount * 4 - neighborCount * 2;
+    }
+
+    /**
+     * 594. Longest Harmonious Subsequence
+     * <p>
+     * https://leetcode.com/problems/longest-harmonious-subsequence
+     * <p>
+     * We define a harmonious array is an array where the difference between its maximum value and its minimum value is
+     * exactly 1.
+     * 
+     * Now, given an integer array, you need to find the length of its longest harmonious subsequence among all its
+     * possible subsequences.
+     * 
+     * Example 1:
+     * 
+     * Input: [1,3,2,2,5,2,3,7]
+     * 
+     * Output: 5
+     * 
+     * Explanation: The longest harmonious subsequence is [3,2,2,2,3]. Note: The length of the input array will not
+     * exceed 20,000.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int findLHS(int[] nums) {
+        if (nums == null || nums.length <= 1) {
+            return 0;
+        }
+        Arrays.sort(nums);
+        int res = 0;
+        int prevCount = 1;
+        for (int i = 0; i < nums.length; i++) {
+            int count = 1;
+            if (i > 0 && nums[i] - 1 == nums[i - 1]) {
+                while (i < nums.length - 1 && nums[i] == nums[i + 1]) {
+                    count++;
+                    i++;
+                }
+                res = Math.max(res, count + prevCount);
+                prevCount = count;
+            } else {
+                while (i < nums.length - 1 && nums[i] == nums[i + 1]) {
+                    count++;
+                    i++;
+                }
+                prevCount = count;
+            }
+        }
+        return res;
+    }
+
+    public int findLHSHashMap(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (int num : nums) {
+            if (map.containsKey(num + 1)) {
+                res = Math.max(res, map.get(num) + map.get(num + 1));
+            }
+        }
+        return res;
+    }
+
+    public int findLHSHashMapOneLoop(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+            if (map.containsKey(num + 1)) {
+                res = Math.max(res, map.get(num) + map.get(num + 1));
+            }
+            if (map.containsKey(num - 1)) {
+                res = Math.max(res, map.get(num - 1) + map.get(num));
+            }
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Solution().findLHS(new int[] { 1, 3, 2, 2, 5, 2, 3, 7 }));
     }
 }

@@ -867,7 +867,27 @@ public class Solution {
      * @return
      */
     public int removeDuplicates(int[] nums) {
-        return 0;
+        int repeat = 2;
+        if (nums.length <= 2) {
+            return nums.length;
+        }
+        int i = 1, j = 1;
+        int count = 1;
+        while (j < nums.length) {
+            if (nums[j] != nums[j - 1]) {
+                count = 1;
+                nums[i] = nums[j];
+                i++;
+            } else {
+                if (count < repeat) {
+                    nums[i] = nums[j];
+                    i++;
+                    count++;
+                }
+            }
+            j++;
+        }
+        return i;
     }
 
     /**

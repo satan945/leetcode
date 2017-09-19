@@ -214,4 +214,62 @@ public class Solution {
     public int findMaxConsecutiveOnes(int[] nums) {
         return 0;
     }
+
+    /**
+     * 75. Sort Colors
+     * <p>
+     * https://leetcode.com/problems/sort-colors
+     * <p>
+     * Given an array with n objects colored red, white or blue, sort them so that objects of the same color are
+     * adjacent, with the colors in the order red, white and blue.
+     * 
+     * Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
+     * 
+     * Note: You are not suppose to use the library's sort function for this problem.
+     * </p>
+     * 
+     * @param nums
+     */
+    public void sortColors(int[] nums) {
+        int zero = 0, two = nums.length - 1;
+        for (int i = 0; i <= two; i++) {
+            while (nums[i] == 2 && i < two) {
+                swap(nums, i, two);
+                two--;
+            }
+            while (nums[i] == 0 && i > zero) {
+                swap(nums, i, zero);
+                zero++;
+            }
+        }
+
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    public void sortColors1(int[] nums) {
+        int[] counts = new int[3];
+        for (int num : nums) {
+            counts[num]++;
+        }
+        int i = 0;
+        for (int j = 0; j < counts.length; j++) {
+            int count = counts[j];
+            while (count > 0 && i < nums.length) {
+                nums[i] = j;
+                count--;
+                i++;
+            }
+        }
+    }
+
+
+    public static void main(String[] args) {
+        int[] colors = new int[] { 0, 1 };
+        new Solution().sortColors1(colors);
+    }
 }
