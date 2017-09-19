@@ -339,10 +339,132 @@ public class Solution {
         charArray[j] = temp;
     }
 
+    /**
+     * 39. Combination Sum
+     * <p>
+     * https://leetcode.com/problems/combination-sum
+     * <p>
+     * Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations
+     * in C where the candidate numbers sums to T.
+     * 
+     * The same repeated number may be chosen from C unlimited number of times.
+     * 
+     * Note: All numbers (including target) will be positive integers. The solution set must not contain duplicate
+     * combinations. For example, given candidate set [2, 3, 6, 7] and target 7, A solution set is: [ [7], [2, 2, 3] ]
+     * </p>
+     * todo
+     * 
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
 
+    }
 
+    /**
+     * 40. Combination Sum II
+     * <p>
+     * https://leetcode.com/problems/combination-sum-ii
+     * <p>
+     * Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the
+     * candidate numbers sums to T.
+     * 
+     * Each number in C may only be used once in the combination.
+     * 
+     * Note: All numbers (including target) will be positive integers. The solution set must not contain duplicate
+     * combinations. For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8, A solution set is: [ [1, 7],
+     * [1, 2, 5], [2, 6], [1, 1, 6] ]
+     * </p>
+     * 
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
 
+    }
 
+    /**
+     *
+     * 216. Combination Sum III
+     * <p>
+     * https://leetcode.com/problems/combination-sum-iii
+     * <p>
+     * Find all possible combinations of k numbers that add up to a number n, given that only numbers from 1 to 9 can be
+     * used and each combination should be a unique set of numbers.
+     * 
+     * 
+     * Example 1:
+     * 
+     * Input: k = 3, n = 7
+     * 
+     * Output:
+     * 
+     * [[1,2,4]]
+     * 
+     * Example 2:
+     * 
+     * Input: k = 3, n = 9
+     * 
+     * Output:
+     * 
+     * [[1,2,6], [1,3,5], [2,3,4]] Credits: Special thanks to @mithmatt for adding this problem and creating all test
+     * cases.
+     * </p>
+     * todo
+     * 
+     * @param k
+     * @param n
+     * @return
+     */
+    public List<List<Integer>> combinationSum3(int k, int n) {
+
+    }
+
+    /**
+     * 77. Combinations
+     * <p>
+     * https://leetcode.com/problems/combinations
+     * <p>
+     * Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+     * 
+     * For example, If n = 4 and k = 2, a solution is:
+     * 
+     * [ [2,4], [3,4], [2,3], [1,2], [1,3], [1,4], ]
+     * </p>
+     * todo
+     * 
+     * @param n
+     * @param k
+     * @return
+     */
+    public List<List<Integer>> combine(int n, int k) {
+
+    }
+
+    /**
+     * 254. Factor Combinations
+     * <p>
+     * https://leetcode.com/problems/factor-combinations
+     * <p>
+     * Numbers can be regarded as product of its factors. For example,
+     * 
+     * 8 = 2 x 2 x 2; = 2 x 4. Write a function that takes an integer n and return all possible combinations of its
+     * factors.
+     * 
+     * Note: You may assume that n is always positive. Factors should be greater than 1 and less than n. Examples:
+     * input: 1 output: [] input: 37 output: [] input: 12 output: [ [2, 6], [2, 2, 3], [3, 4] ] input: 32 output: [ [2,
+     * 16], [2, 2, 8], [2, 2, 2, 4], [2, 2, 2, 2, 2], [2, 4, 4], [4, 8] ]
+     * </p>
+     * todo
+     * 
+     * @param n
+     * @return
+     */
+    public List<List<Integer>> getFactors(int n) {
+
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
