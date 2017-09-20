@@ -409,14 +409,30 @@ public class Solution {
      * 
      * [ [2,4], [3,4], [2,3], [1,2], [1,3], [1,4], ]
      * </p>
-     * todo
      * 
      * @param n
      * @param k
      * @return
      */
     public List<List<Integer>> combine(int n, int k) {
-        return null;
+        List<List<Integer>> res = new ArrayList<>();
+        if (k == 0 || n == 0) {
+            return res;
+        }
+        combineKinN(n, 1, k, res, new ArrayList<>());
+        return res;
+    }
+
+    private void combineKinN(int n, int start, int k, List<List<Integer>> res, ArrayList<Integer> list) {
+        if (k == 0) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = start; i < n; i++) {
+            list.add(i);
+            combineKinN(n, i + 1, k - 1, res, list);
+            list.remove(list.size() - 1);
+        }
     }
 
     /**
@@ -433,7 +449,7 @@ public class Solution {
      * input: 1 output: [] input: 37 output: [] input: 12 output: [ [2, 6], [2, 2, 3], [3, 4] ] input: 32 output: [ [2,
      * 16], [2, 2, 8], [2, 2, 2, 4], [2, 2, 2, 2, 2], [2, 4, 4], [4, 8] ]
      * </p>
-     * todo
+     *
      * 
      * @param n
      * @return
@@ -443,19 +459,22 @@ public class Solution {
         if (n <= 1) {
             return res;
         }
-        calFactorCombinations(n, res, new ArrayList<>());
+        calFactors(n, 2, res, new ArrayList<>());
         return res;
     }
 
-    private void calFactorCombinations(int n, List<List<Integer>> res, ArrayList<Integer> list) {
+    private void calFactors(int n, int start, List<List<Integer>> res, ArrayList<Integer> list) {
         if (n == 1) {
-            res.add(list);
-            return;
+            if (list.size() > 1) {
+                res.add(new ArrayList<>(list));
+                return;
+            }
         }
-        for (int i = 2; i <= n; i++) {
+        for (int i = start; i <= n; i++) {
             if (n % i == 0) {
                 list.add(i);
-                calFactorCombinations(n / i, res, list);
+                calFactors(n / i, i, res, list);
+                list.remove(list.size() - 1);
             }
         }
     }
