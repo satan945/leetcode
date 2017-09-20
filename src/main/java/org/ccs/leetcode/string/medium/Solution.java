@@ -813,7 +813,108 @@ public class Solution {
         return Math.min(corner, minDiff);
     }
 
+    /**
+     * 468. Validate IP Address
+     * <p>
+     * https://leetcode.com/problems/validate-ip-address
+     * <p>
+     * Write a function to check whether an input string is a valid IPv4 address or IPv6 address or neither.
+     * 
+     * IPv4 addresses are canonically represented in dot-decimal notation, which consists of four decimal numbers, each
+     * ranging from 0 to 255, separated by dots ("."), e.g.,172.16.254.1;
+     * 
+     * Besides, leading zeros in the IPv4 is invalid. For example, the address 172.16.254.01 is invalid.
+     * 
+     * IPv6 addresses are represented as eight groups of four hexadecimal digits, each group representing 16 bits. The
+     * groups are separated by colons (":"). For example, the address 2001:0db8:85a3:0000:0000:8a2e:0370:7334 is a valid
+     * one. Also, we could omit some leading zeros among four hexadecimal digits and some low-case characters in the
+     * address to upper-case ones, so 2001:db8:85a3:0:0:8A2E:0370:7334 is also a valid IPv6 address(Omit leading zeros
+     * and using upper cases).
+     * 
+     * However, we don't replace a consecutive group of zero value with a single empty group using two consecutive
+     * colons (::) to pursue simplicity. For example, 2001:0db8:85a3::8A2E:0370:7334 is an invalid IPv6 address.
+     * 
+     * Besides, extra leading zeros in the IPv6 is also invalid. For example, the address
+     * 02001:0db8:85a3:0000:0000:8a2e:0370:7334 is invalid.
+     * 
+     * Note: You may assume there is no extra space or special characters in the input string.
+     * 
+     * Example 1: Input: "172.16.254.1"
+     * 
+     * Output: "IPv4"
+     * 
+     * Explanation: This is a valid IPv4 address, return "IPv4". Example 2: Input: "2001:0db8:85a3:0:0:8A2E:0370:7334"
+     * 
+     * Output: "IPv6"
+     * 
+     * Explanation: This is a valid IPv6 address, return "IPv6". Example 3: Input: "256.256.256.256"
+     * 
+     * Output: "Neither"
+     * 
+     * Explanation: This is neither a IPv4 address nor a IPv6 address.
+     * </p>
+     * 
+     * @param IP
+     * @return
+     */
+    public String validIPAddress(String IP) {
+        String IPV4 = "IPV4";
+        String IPV6 = "IPV4";
+        String NEITHER = "Neither";
+        if (IP == null || IP.length() == 0) {
+            return NEITHER;
+        }
+        if (IP.contains(".") && !IP.endsWith(".")) {
+            if (isIPv4Address(IP)) {
+                return IPV4;
+            }
+        }
+        if (IP.contains(":") && !IP.endsWith(":")) {
+            if (isIPv6Address(IP)) {
+                return IPV6;
+            }
+        }
+        return NEITHER;
+    }
 
+    private boolean isIPv6Address(String ip) {
+        String[] ipSections = ip.split(":");
+
+        if (ipSections.length != 8) {
+            return false;
+        }
+        for (String section : ipSections) {
+            if (section == null || section.length() == 0 || section.length() > 4 || section.equals("")) {
+                return false;
+            }
+            if (!section.matches("[0-9a-fA-F]+")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isIPv4Address(String ip) {
+        String[] ipSections = ip.split("\\.");
+        if (ipSections.length != 4) {
+            return false;
+        }
+        for (String section : ipSections) {
+            if (!section.matches("[0-9]+") || (section.startsWith("0") && section.length() > 1)) {
+                return false;
+            }
+            int val;
+            try {
+                val = Integer.parseInt(section);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+            if (val < 0 || val > 255) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
@@ -822,17 +923,19 @@ public class Solution {
         // System.out.println(solution.nextGreaterElement(12));
         // String path = "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
         // System.out.println(solution.lengthLongestPath(path));
-        String a = "01";
-        String b = "1";
-        System.out.println(solution.compareVersion(a, b));
-
-        Set<String> sbu = solution.getSubSeq("abc");
-        System.out.println(sbu);
-        System.out.println(solution.getHint("1807", "7810"));
-        String timePoint = "23:59";
-        int hour = Integer.parseInt(timePoint.substring(0, timePoint.indexOf(":")));
-        int minute = Integer.parseInt(timePoint.substring(timePoint.indexOf(":") + 1));
-        System.out.println(hour + ":" + minute);
+        // String a = "01";
+        // String b = "1";
+        // System.out.println(solution.compareVersion(a, b));
+        //
+        // Set<String> sbu = solution.getSubSeq("abc");
+        // System.out.println(sbu);
+        // System.out.println(solution.getHint("1807", "7810"));
+        // String timePoint = "23:59";
+        // int hour = Integer.parseInt(timePoint.substring(0, timePoint.indexOf(":")));
+        // int minute = Integer.parseInt(timePoint.substring(timePoint.indexOf(":") + 1));
+        // System.out.println(hour + ":" + minute);
+        String addr = "2001:0db8:85a3:0:0:8A2E:0370:7334:";
+        System.out.println(solution.isIPv6Address(addr));
     }
 
 }

@@ -37,30 +37,6 @@ public class Solution {
     }
 
     /**
-     * 39. Combination Sum
-     *
-     * <p>
-     * https://leetcode.com/problems/combination-sum
-     * <p>
-     * Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations
-     * in C where the candidate numbers sums to T.
-     * 
-     * The same repeated number may be chosen from C unlimited number of times.
-     * 
-     * Note: All numbers (including target) will be positive integers. The solution set must not contain duplicate
-     * combinations. For example, given candidate set [2, 3, 6, 7] and target 7, A solution set is: [ [7], [2, 2, 3] ]
-     * </p>
-     * 
-     * @param candidates
-     * @param target
-     * @return
-     */
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-
-        return null;
-    }
-
-    /**
      * 22. Generate Parentheses
      * <p>
      * https://leetcode.com/problems/generate-parentheses
@@ -359,7 +335,7 @@ public class Solution {
      * @return
      */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-
+        return null;
     }
 
     /**
@@ -382,7 +358,7 @@ public class Solution {
      * @return
      */
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-
+        return null;
     }
 
     /**
@@ -419,7 +395,7 @@ public class Solution {
      * @return
      */
     public List<List<Integer>> combinationSum3(int k, int n) {
-
+        return null;
     }
 
     /**
@@ -440,7 +416,7 @@ public class Solution {
      * @return
      */
     public List<List<Integer>> combine(int n, int k) {
-
+        return null;
     }
 
     /**
@@ -463,15 +439,34 @@ public class Solution {
      * @return
      */
     public List<List<Integer>> getFactors(int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (n <= 1) {
+            return res;
+        }
+        calFactorCombinations(n, res, new ArrayList<>());
+        return res;
+    }
 
+    private void calFactorCombinations(int n, List<List<Integer>> res, ArrayList<Integer> list) {
+        if (n == 1) {
+            res.add(list);
+            return;
+        }
+        for (int i = 2; i <= n; i++) {
+            if (n % i == 0) {
+                list.add(i);
+                calFactorCombinations(n / i, res, list);
+            }
+        }
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
         // solution.generateParenthesis(4);
         // solution.subsets(new int[] { 1, 2, 3 });
-        System.out.println(solution.permute2(new int[] { 1, 2, 3, 4, 5, 6, 7 }));
-        System.out.println(solution.permuteString2("abc"));
+        // System.out.println(solution.permute2(new int[] { 1, 2, 3, 4, 5, 6, 7 }));
+        // System.out.println(solution.permuteString2("abc"));
+        System.out.println(solution.getFactors(12));
     }
 
 }

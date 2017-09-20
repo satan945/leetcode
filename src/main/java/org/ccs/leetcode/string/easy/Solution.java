@@ -918,9 +918,97 @@ public class Solution {
         return sb.toString().equals(sb.reverse().toString());
     }
 
+    /**
+     * 680. Valid Palindrome II
+     * <p>
+     * https://leetcode.com/problems/valid-palindrome-ii
+     * <p>
+     * Given a non-empty string s, you may delete at most one character. Judge whether you can make it a palindrome.
+     * 
+     * Example 1: Input: "aba" Output: True Example 2: Input: "abca" Output: True Explanation: You could delete the
+     * character 'c'. Note: The string will only contain lowercase characters a-z. The maximum length of the string is
+     * 50000.
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public boolean validPalindrome(String s) {
+        if (s.length() <= 1) {
+            return true;
+        }
+        boolean countTail = validTail(s);
+        boolean countHead = validHead(s);
+        return countTail || countHead;
+    }
+
+    private boolean validHead(String s) {
+        int head = 0, tail = s.length() - 1;
+        int count = 0;
+        while (head < tail) {
+            if (s.charAt(head) != s.charAt(tail)) {
+                if (++count > 1) {
+                    return false;
+                }
+                if (s.charAt(head + 1) == s.charAt(tail)) {
+                    head++;
+                } else if (s.charAt(head) == s.charAt(tail - 1)) {
+                    tail--;
+                } else {
+                    return false;
+                }
+            }
+            head++;
+            tail--;
+        }
+        return count <= 1;
+    }
+
+    private boolean validTail(String s) {
+        int head = 0, tail = s.length() - 1;
+        int count = 0;
+        while (head < tail) {
+            if (s.charAt(head) != s.charAt(tail)) {
+                if (++count > 1) {
+                    return false;
+                }
+                if (s.charAt(head) == s.charAt(tail - 1)) {
+                    tail--;
+                } else if (s.charAt(head + 1) == s.charAt(tail)) {
+                    head++;
+                } else {
+                    return false;
+                }
+            }
+            head++;
+            tail--;
+        }
+        return count <= 1;
+    }
+
+    public boolean validPalindrome2(String s) {
+        int l = -1, r = s.length();
+        while (++l < --r) {
+            if (s.charAt(l) != s.charAt(r)) {
+                return isPalindromic(s, l, r + 1) || isPalindromic(s, l - 1, r);
+            }
+        }
+        return true;
+    }
+
+    public boolean isPalindromic(String s, int l, int r) {
+        while (++l < --r) {
+            if (s.charAt(l) != s.charAt(r)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         String a = "123456  123123";
         String b = "123123123";
+        String c = "cupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupucu";
         Solution solution = new Solution();
         // System.out.println(solution.reverseString(a));
         // System.out.println(solution.lengthOfLastWord(a));
@@ -930,7 +1018,9 @@ public class Solution {
         // System.out.println(solution.countSegments(a));
         // System.out.println(solution.repeatedSubstringPattern(b));
         // System.out.println(solution.validWordAbbreviation("a", "01"));
-        solution.checkRecord("PPALLL");
+        // solution.checkRecord("PPALLL");
+        System.out.println(c);
+        System.out.println(solution.validPalindrome(c));
     }
 
 }

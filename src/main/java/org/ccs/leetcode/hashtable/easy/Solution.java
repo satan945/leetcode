@@ -201,7 +201,138 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 447. Number of Boomerangs
+     * <p>
+     * https://leetcode.com/problems/number-of-boomerangs
+     * <p>
+     * Given n points in the plane that are all pairwise distinct, a "boomerang" is a tuple of points (i, j, k) such
+     * that the distance between i and j equals the distance between i and k (the order of the tuple matters).
+     * 
+     * Find the number of boomerangs. You may assume that n will be at most 500 and coordinates of points are all in the
+     * range [-10000, 10000] (inclusive).
+     * 
+     * Example: Input: [[0,0],[1,0],[2,0]]
+     * 
+     * Output: 2
+     * 
+     * Explanation: The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]]
+     * </p>
+     * todo
+     * 
+     * @param points
+     * @return
+     * 
+     */
+    public int numberOfBoomerangs(int[][] points) {
+        return 0;
+    }
+
+    /**
+     * 205. Isomorphic Strings
+     * <p>
+     * https://leetcode.com/problems/isomorphic-strings
+     * <p>
+     * Given two strings s and t, determine if they are isomorphic.
+     * 
+     * Two strings are isomorphic if the characters in s can be replaced to get t.
+     * 
+     * All occurrences of a character must be replaced with another character while preserving the order of characters.
+     * No two characters may map to the same character but a character may map to itself.
+     * 
+     * For example, Given "egg", "add", return true.
+     * 
+     * Given "foo", "bar", return false.
+     * 
+     * Given "paper", "title", return true.
+     * 
+     * Note: You may assume both s and t have the same length.
+     * </p>
+     * 
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isIsomorphic(String s, String t) {
+        if (s == null && t == null) {
+            return true;
+        }
+        if (s == null || t == null) {
+            return false;
+        }
+        if (s.length() != t.length()) {
+            return false;
+        }
+        HashMap<Character, Character> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char key = s.charAt(i);
+            char val = t.charAt(i);
+            Character existVal = map.get(key);
+            if (existVal != null && existVal != val) {
+                return false;
+            }
+            if (existVal == null && map.values().contains(val)) {
+                return false;
+            }
+            map.putIfAbsent(key, val);
+        }
+        return true;
+    }
+
+    public boolean isIsomorphicWithoutMap(String s1, String s2) {
+        int[] m = new int[512];
+        for (int i = 0; i < s1.length(); i++) {
+            if (m[s1.charAt(i)] != m[s2.charAt(i) + 256])
+                return false;
+            m[s1.charAt(i)] = m[s2.charAt(i) + 256] = i + 1;
+        }
+        return true;
+    }
+
+    /**
+     * 290. Word Pattern
+     * <p>
+     * https://leetcode.com/problems/word-pattern
+     * <p>
+     * Given a pattern and a string str, find if str follows the same pattern.
+     * 
+     * Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word
+     * in str.
+     * 
+     * Examples: pattern = "abba", str = "dog cat cat dog" should return true. pattern = "abba", str = "dog cat cat
+     * fish" should return false. pattern = "aaaa", str = "dog cat cat dog" should return false. pattern = "abba", str =
+     * "dog dog dog dog" should return false. Notes: You may assume pattern contains only lowercase letters, and str
+     * contains lowercase letters separated by a single space.
+     * 
+     * </p>
+     * 
+     * @param pattern
+     * @param str
+     * @return
+     */
+    public boolean wordPattern(String pattern, String str) {
+        String[] strs = str.split(" ");
+        if (strs.length != pattern.length()) {
+            return false;
+        }
+        HashMap<Character, String> map = new HashMap<>();
+        for (int i = 0; i < pattern.length(); i++) {
+            char key = pattern.charAt(i);
+            String val = strs[i];
+            String existStr = map.get(key);
+            if (existStr != null && !existStr.equals(val)) {
+                return false;
+            }
+            if (existStr == null && map.values().contains(val)) {
+                return false;
+            }
+            map.putIfAbsent(key, val);
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        System.out.println(new Solution().findLHS(new int[] { 1, 3, 2, 2, 5, 2, 3, 7 }));
+        // System.out.println(new Solution().findLHS(new int[] { 1, 3, 2, 2, 5, 2, 3, 7 }));
+        System.out.println(new Solution().isIsomorphic("ab", "aa"));
     }
 }
