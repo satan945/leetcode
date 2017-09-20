@@ -335,7 +335,30 @@ public class Solution {
      * @return
      */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        return null;
+        List<List<Integer>> res = new ArrayList<>();
+        if (candidates == null || candidates.length == 0) {
+            return res;
+        }
+        Arrays.sort(candidates);
+        combineSums(res, candidates, target, 0, new ArrayList<>());
+        return res;
+    }
+
+    private void combineSums(List<List<Integer>> res, int[] candidates, int target, int start,
+            ArrayList<Integer> list) {
+        if (target == 0) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            if (target - candidates[i] >= 0) {
+                if (list.size() > 0 && candidates[i] >= list.get(list.size() - 1) || list.size() == 0) {
+                    list.add(candidates[i]);
+                    combineSums(res, candidates, target - candidates[i], 0, list);
+                    list.remove(list.size() - 1);
+                }
+            }
+        }
     }
 
     /**
