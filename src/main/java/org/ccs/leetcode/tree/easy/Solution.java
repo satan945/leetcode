@@ -946,15 +946,48 @@ public class Solution {
         }
     }
 
+    /**
+     * 404. Sum of Left Leaves
+     * <p>
+     * https://leetcode.com/problems/sum-of-left-leaves
+     * <p>
+     * Find the sum of all left leaves in a given binary tree.
+     * 
+     * Example:
+     * 
+     * 3 / \ 9 20 / \ 15 7
+     * 
+     * There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null || (root.left == null && root.right == null)) {
+            return 0;
+        }
+        int sum = 0;
+        if (root.left != null && (root.left.left == null && root.left.right == null)) {
+            sum += root.left.val;
+        }
+        sum += sumOfLeftLeaves(root.left);
+        sum += sumOfLeftLeaves(root.right);
+        return sum;
+    }
+
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(1);
-        TreeNode node1 = new TreeNode(2);
-        TreeNode node2 = new TreeNode(3);
-        TreeNode node3 = new TreeNode(5);
+        TreeNode root = new TreeNode(3);
+        TreeNode node1 = new TreeNode(9);
+        TreeNode node2 = new TreeNode(20);
+        TreeNode node3 = new TreeNode(15);
+        TreeNode node4 = new TreeNode(7);
         root.left = node1;
-        node1.right = node3;
         root.right = node2;
-        System.out.println(new Solution().binaryTreePaths(root));
+        node2.left = node3;
+        node2.right = node4;
+        // System.out.println(new Solution().binaryTreePaths(root));
+        System.out.println(new Solution().sumOfLeftLeaves(root));
     }
 
 }
