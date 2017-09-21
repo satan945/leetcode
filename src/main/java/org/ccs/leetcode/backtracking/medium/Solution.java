@@ -530,18 +530,18 @@ public class Solution {
 
         for (int i = 0; i < s.length(); i++) {
             map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
+            oddCount += map.get(s.charAt(i)) % 2 == 0 ? -1 : 1;
+        }
+        if (oddCount > 1) {
+            return res;
         }
         List<Character> keyList = new ArrayList<>();
         for (Map.Entry<Character, Integer> entry : map.entrySet()) {
             if (entry.getValue() % 2 == 1) {
-                oddCount++;
-                mid = entry.getKey() + "";
+                mid += entry.getKey();
             }
             for (int i = 0; i < entry.getValue() / 2; i++) {
                 keyList.add(entry.getKey());
-            }
-            if (oddCount > 1) {
-                return res;
             }
         }
         genPalindromeStrs(keyList, res, new boolean[keyList.size()], new StringBuilder(), mid);
