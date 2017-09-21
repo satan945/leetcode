@@ -5,7 +5,9 @@ package org.ccs.leetcode.backtracking.medium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Abel created on 2017/8/8 16:05
@@ -329,7 +331,6 @@ public class Solution {
      * Note: All numbers (including target) will be positive integers. The solution set must not contain duplicate
      * combinations. For example, given candidate set [2, 3, 6, 7] and target 7, A solution set is: [ [7], [2, 2, 3] ]
      * </p>
-     * todo
      * 
      * @param candidates
      * @param target
@@ -503,13 +504,80 @@ public class Solution {
         }
     }
 
+    /**
+     * 267. Palindrome Permutation II
+     * <p>
+     * https://leetcode.com/problems/palindrome-permutation-ii
+     * <p>
+     * Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no
+     * palindromic permutation could be form.
+     * 
+     * For example:
+     * 
+     * Given s = "aabb", return ["abba", "baab"].
+     * 
+     * Given s = "abc", return [].
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public List<String> generatePalindromes(String s) {
+        List<String> res = new ArrayList<>();
+        HashMap<Character, Integer> map = new HashMap<>();
+        int oddCount = 0;
+        String mid = "";
+
+        for (int i = 0; i < s.length(); i++) {
+            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
+        }
+        List<Character> keyList = new ArrayList<>();
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            if (entry.getValue() % 2 == 1) {
+                oddCount++;
+                mid = entry.getKey() + "";
+            }
+            for (int i = 0; i < entry.getValue() / 2; i++) {
+                keyList.add(entry.getKey());
+            }
+            if (oddCount > 1) {
+                return res;
+            }
+        }
+        genPalindromeStrs(keyList, res, new boolean[keyList.size()], new StringBuilder(), mid);
+        return res;
+    }
+
+    private void genPalindromeStrs(List<Character> keyList, List<String> res, boolean[] used, StringBuilder sb,
+            String mid) {
+        if (sb.length() == keyList.size()) {
+            res.add(sb.toString() + mid + sb.reverse().toString());
+            sb.reverse();
+            return;
+        }
+        for (int i = 0; i < keyList.size(); i++) {
+            if (i > 0 && keyList.get(i) == keyList.get(i - 1) && !used[i - 1]) {
+                continue;
+            }
+            if (!used[i]) {
+                used[i] = true;
+                sb.append(keyList.get(i));
+                genPalindromeStrs(keyList, res, used, sb, mid);
+                sb.deleteCharAt(sb.length() - 1);
+                used[i] = false;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // solution.generateParenthesis(4);
         // solution.subsets(new int[] { 1, 2, 3 });
         // System.out.println(solution.permute2(new int[] { 1, 2, 3, 4, 5, 6, 7 }));
         // System.out.println(solution.permuteString2("abc"));
-        System.out.println(solution.getFactors(12));
+        // System.out.println(solution.getFactors(12));
+        StringBuilder sb = new StringBuilder("ab");
+        System.out.println(sb.append("c").append(sb.reverse()).toString());
     }
 
 }

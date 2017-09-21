@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author abel created on 2017/8/29 下午4:43
@@ -329,6 +330,38 @@ public class Solution {
             map.putIfAbsent(key, val);
         }
         return true;
+    }
+
+    /**
+     * 266. Palindrome Permutation
+     * <p>
+     * https://leetcode.com/problems/palindrome-permutation
+     * <p>
+     * Given a string, determine if a permutation of the string could form a palindrome.
+     * 
+     * For example, "code" -> False, "aab" -> True, "carerac" -> True.
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public boolean canPermutePalindrome(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        int count = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
+        }
+
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            if (count > 1) {
+                return false;
+            }
+            if (entry.getValue() % 2 == 1) {
+                count++;
+            }
+        }
+        return count <= 1;
     }
 
     public static void main(String[] args) {
