@@ -569,6 +569,49 @@ public class Solution {
         }
     }
 
+    /**
+     * 47. Permutations II
+     * <p>
+     * https://leetcode.com/problems/permutations-ii
+     * <p>
+     * Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+     * 
+     * For example, [1,1,2] have the following unique permutations: [ [1,1,2], [1,2,1], [2,1,1] ]
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (nums.length == 0) {
+            return res;
+        }
+        Arrays.sort(nums);
+        genPermuteUnique(nums, new boolean[nums.length], res, new ArrayList<>());
+        return res;
+    }
+
+    private void genPermuteUnique(int[] nums, boolean[] used, List<List<Integer>> res, ArrayList<Integer> list) {
+        if (list.size() == nums.length) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+                continue;
+            }
+            if (!used[i]) {
+                used[i] = true;
+                list.add(nums[i]);
+                genPermuteUnique(nums, used, res, list);
+                list.remove(list.size() - 1);
+                used[i] = false;
+            }
+        }
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // solution.generateParenthesis(4);

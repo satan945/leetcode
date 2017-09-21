@@ -813,6 +813,7 @@ public class Solution {
      * 
      * Compute and return the square root of x.
      * </p>
+     * todo
      * 
      * @param x
      * @return
@@ -821,7 +822,48 @@ public class Solution {
         return 0;
     }
 
+    /**
+     * 453. Minimum Moves to Equal Array Elements
+     * <p>
+     * https://leetcode.com/problems/minimum-moves-to-equal-array-elements
+     * <p>
+     * Given a non-empty integer array of size n, find the minimum number of moves required to make all array elements
+     * equal, where a move is incrementing n - 1 elements by 1.
+     * 
+     * Example:
+     * 
+     * Input: [1,2,3]
+     * 
+     * Output: 3
+     * 
+     * Explanation: Only three moves are needed (remember each move increments two elements):
+     * 
+     * [1,2,3] => [2,3,3] => [3,4,3] => [4,4,4]
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int minMoves(int[] nums) {
+        int moves = 0;
+        if (nums.length == 0) {
+            return moves;
+        }
+        long sum = 0;
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            min = Math.min(min, nums[i]);
+            max = Math.max(max, nums[i]);
+        }
+        if (min == max) {
+            return 0;
+        }
+        moves = (int) (sum - (min * nums.length));
+        return moves;
 
+    }
 
     public static void main(String[] args) {
         int[] nums = new int[] { 9 };
