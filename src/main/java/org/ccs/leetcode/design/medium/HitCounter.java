@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
-package org.ccs.leetcode.struct.medium;
+package org.ccs.leetcode.design.medium;
 
 /**
  * @author abel created on 2017/8/29 下午5:05

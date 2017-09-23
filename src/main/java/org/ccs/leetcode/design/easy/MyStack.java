@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.leetcode.struct.easy;
+package org.ccs.leetcode.design.easy;
 
 import java.util.LinkedList;
 import java.util.Queue;

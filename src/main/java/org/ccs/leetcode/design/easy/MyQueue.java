@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.leetcode.struct.easy;
+package org.ccs.leetcode.design.easy;
 
 import java.util.Stack;
 
@@ -35,12 +35,12 @@ public class MyQueue {
         rear = new Stack<Integer>();
     }
 
-    /** Push element x to the back of struct. */
+    /** Push element x to the back of design. */
     public void push(int x) {
         front.push(x);
     }
 
-    /** Removes the element from in front of struct and returns that element. */
+    /** Removes the element from in front of design and returns that element. */
     public int pop() {
         if (empty()) {
             return 0;
@@ -66,7 +66,7 @@ public class MyQueue {
         return rear.peek();
     }
 
-    /** Returns whether the struct is empty. */
+    /** Returns whether the design is empty. */
     public boolean empty() {
         return front.isEmpty() && rear.isEmpty();
     }

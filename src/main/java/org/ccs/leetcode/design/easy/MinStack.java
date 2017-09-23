@@ -1,11 +1,9 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.leetcode.struct.easy;
+package org.ccs.leetcode.design.easy;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
 
 /**
  * 155. Min Stack

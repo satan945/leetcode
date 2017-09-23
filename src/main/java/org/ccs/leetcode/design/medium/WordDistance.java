@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.leetcode.struct.medium;
+package org.ccs.leetcode.design.medium;
 
 /**
  * @author Abel created on 2017/9/7 12:42

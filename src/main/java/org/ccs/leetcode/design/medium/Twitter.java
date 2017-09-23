@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
-package org.ccs.leetcode.struct.medium;
+package org.ccs.leetcode.design.medium;
 
 import java.util.HashMap;
 import java.util.HashSet;
