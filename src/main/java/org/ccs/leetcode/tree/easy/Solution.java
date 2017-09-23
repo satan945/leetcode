@@ -1008,15 +1008,58 @@ public class Solution {
      * @param root
      * @param sum
      * @return
-     */public int pathSum(TreeNode root, int sum) {
-        if (root == null) return 0;
+     */
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null)
+            return 0;
         return pathSumFrom(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
     }
 
     private int pathSumFrom(TreeNode node, int sum) {
-        if (node == null) return 0;
-        return (node.val == sum ? 1 : 0)
-                + pathSumFrom(node.left, sum - node.val) + pathSumFrom(node.right, sum - node.val);
+        if (node == null)
+            return 0;
+        return (node.val == sum ? 1 : 0) + pathSumFrom(node.left, sum - node.val)
+                + pathSumFrom(node.right, sum - node.val);
+    }
+
+    /**
+     * 669. Trim a Binary Search Tree
+     * <p>
+     * https://leetcode.com/problems/trim-a-binary-search-tree
+     * <p>
+     * Given a binary search tree and the lowest and highest boundaries as L and R, trim the tree so that all its
+     * elements lies in [L, R] (R >= L). You might need to change the root of the tree, so the result should return the
+     * new root of the trimmed binary search tree.
+     * 
+     * Example 1: Input: 1 / \ 0 2
+     * 
+     * L = 1 R = 2
+     * 
+     * Output: 1 \ 2 Example 2: Input: 3 / \ 0 4 \ 2 / 1
+     * 
+     * L = 1 R = 3
+     * 
+     * Output: 3 / 2 / 1
+     * </p>
+     * 
+     * @param root
+     * @param L
+     * @param R
+     * @return
+     */
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        if (root == null) {
+            return root;
+        }
+        if (root.val > R) {
+            return trimBST(root.left, L, R);
+        }
+        if (root.val < L) {
+            return trimBST(root.right, L, R);
+        }
+        root.left = trimBST(root.left, L, R);
+        root.right = trimBST(root.right, L, R);
+        return root;
     }
 
     public static void main(String[] args) {

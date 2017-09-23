@@ -267,6 +267,78 @@ public class Solution {
         }
     }
 
+    /**
+     * 567. Permutation in String
+     * <p>
+     * https://leetcode.com/problems/permutation-in-string
+     * <p>
+     * Given two strings s1 and s2, write a function to return true if s2 contains the permutation of s1. In other
+     * words, one of the first string's permutations is the substring of the second string.
+     * 
+     * Example 1:
+     * 
+     * Input:s1 = "ab" s2 = "eidbaooo" Output:True
+     * 
+     * Explanation: s2 contains one permutation of s1 ("ba").
+     * 
+     * Example 2: Input:s1= "ab" s2 = "eidboaoo"
+     * 
+     * Output: False
+     * 
+     * Note:
+     * 
+     * The input strings only contain lower case letters. The length of both given strings is in range [1, 10,000].
+     * </p>
+     * 
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1 == null || s2 == null) {
+            return false;
+        }
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+        int[] s1Map = new int[26];
+        int[] s2Map = new int[26];
+        for (int i = 0; i < s1.length(); i++) {
+            s1Map[s1.charAt(i) - 'a']++;
+            s2Map[s2.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < s2.length() - s1.length(); i++) {
+            if (matchPermutation(s1Map, s2Map)) {
+                return true;
+            }
+            s2Map[s2.charAt(i + s1.length()) - 'a']++;
+            s2Map[s2.charAt(i) - 'a']--;
+        }
+        return matchPermutation(s1Map,s2Map);
+
+    }
+
+    private boolean matchPermutation(int[] s1Map, int[] s2Map) {
+        for(int i=0;i<26;i++){
+            if(s1Map[i]!=s2Map[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isPermutation(String s1, String s2) {
+        char[] array1 = s1.toCharArray();
+        char[] array2 = s2.toCharArray();
+        Arrays.sort(array1);
+        Arrays.sort(array2);
+        for (int i = 0; i < array1.length; i++) {
+            if (array1[i] != array2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         int[] colors = new int[] { 0, 1 };
