@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.greedy.easy;
 
+import java.util.Arrays;
+
 /**
  * @author abel created on 2017/8/11 下午5:04
  * @version $Id$
@@ -70,6 +72,17 @@ public class Solution {
      * @return
      */
     public int findContentChildren(int[] g, int[] s) {
-        return 0;
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int res = 0;
+        int j = 0;
+        for (int i = 0; i < g.length && j < s.length;) {
+            if (g[i] <= s[i]) {
+                res++;
+                i++;
+            }
+            j++;
+        }
+        return res;
     }
 }
