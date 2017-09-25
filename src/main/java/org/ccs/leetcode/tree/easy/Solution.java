@@ -952,14 +952,14 @@ public class Solution {
      * https://leetcode.com/problems/sum-of-left-leaves
      * <p>
      * Find the sum of all left leaves in a given binary tree.
-     * 
+     *
      * Example:
-     * 
+     *
      * 3 / \ 9 20 / \ 15 7
-     * 
+     *
      * There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24.
      * </p>
-     * 
+     *
      * @param root
      * @return
      */
@@ -982,29 +982,29 @@ public class Solution {
      * https://leetcode.com/problems/path-sum-iii
      * <p>
      * You are given a binary tree in which each node contains an integer value.
-     * 
+     *
      * Find the number of paths that sum to a given value.
-     * 
+     *
      * The path does not need to start or end at the root or a leaf, but it must go downwards (traveling only from
      * parent nodes to child nodes).
-     * 
+     *
      * The tree has no more than 1,000 nodes and the values are in the range -1,000,000 to 1,000,000.
-     * 
+     *
      * Example:
-     * 
+     *
      * root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
-     * 
+     *
      * 10 / \ 5 -3 / \ \ 3 2 11 / \ \ 3 -2 1
-     * 
+     *
      * Return 3. The paths that sum to 8 are:
-     * 
+     *
      * 1. 5 -> 3
-     * 
+     *
      * 2. 5 -> 2 -> 1
-     * 
+     *
      * 3. -3 -> 11
      * </p>
-     * 
+     *
      * @param root
      * @param sum
      * @return
@@ -1030,18 +1030,18 @@ public class Solution {
      * Given a binary search tree and the lowest and highest boundaries as L and R, trim the tree so that all its
      * elements lies in [L, R] (R >= L). You might need to change the root of the tree, so the result should return the
      * new root of the trimmed binary search tree.
-     * 
+     *
      * Example 1: Input: 1 / \ 0 2
-     * 
+     *
      * L = 1 R = 2
-     * 
+     *
      * Output: 1 \ 2 Example 2: Input: 3 / \ 0 4 \ 2 / 1
-     * 
+     *
      * L = 1 R = 3
-     * 
+     *
      * Output: 3 / 2 / 1
      * </p>
-     * 
+     *
      * @param root
      * @param L
      * @param R

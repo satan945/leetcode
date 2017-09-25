@@ -813,15 +813,61 @@ public class Solution {
      * 
      * Compute and return the square root of x.
      * </p>
-     * todo
-     * 
+     *
+     *
      * @param x
      * @return
      */
     public int mySqrt(int x) {
-        return 0;
+        if (x == 0) {
+            return x;
+        }
+        int left = 1, right = Integer.MAX_VALUE;
+        while (true) {
+            int mid = left + (right - left) / 2;
+            if (mid > x / mid) {
+                right = mid - 1;
+            } else {
+                if (mid + 1 > x / (mid + 1)) {
+                    return mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+        }
     }
 
+    /**
+     * 633. Sum of Square Numbers
+     * <p>
+     * https://leetcode.com/problems/sum-of-square-numbers
+     * <p>
+     * Given a non-negative integer c, your task is to decide whether there're two integers a and b such that a2 + b2 =
+     * c.
+     *
+     * Example 1: Input: 5 Output: True Explanation: 1 * 1 + 2 * 2 = 5 Example 2: Input: 3 Output: False
+     * </p>
+     *
+     * @param c
+     * @return
+     */
+    public boolean judgeSquareSum(int c) {
+        if (c < 0) {
+            return false;
+        }
+        int left = 1, right = (int) Math.sqrt(c);
+        while (left <= right) {
+            int cur = left * left + right * right;
+            if (cur == c) {
+                return true;
+            } else if (cur < c) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return false;
+    }
     /**
      * 453. Minimum Moves to Equal Array Elements
      * <p>
@@ -829,18 +875,18 @@ public class Solution {
      * <p>
      * Given a non-empty integer array of size n, find the minimum number of moves required to make all array elements
      * equal, where a move is incrementing n - 1 elements by 1.
-     * 
+     *
      * Example:
-     * 
+     *
      * Input: [1,2,3]
-     * 
+     *
      * Output: 3
-     * 
+     *
      * Explanation: Only three moves are needed (remember each move increments two elements):
-     * 
+     *
      * [1,2,3] => [2,3,3] => [3,4,3] => [4,4,4]
      * </p>
-     * 
+     *
      * @param nums
      * @return
      */

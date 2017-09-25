@@ -31,7 +31,7 @@ public class Solution {
      * Follow up: Derive your algorithm's runtime complexity.
      * </p>
      * todo
-     * 
+     *
      * @param s
      * @return
      */
@@ -331,6 +331,7 @@ public class Solution {
      * Note: All numbers (including target) will be positive integers. The solution set must not contain duplicate
      * combinations. For example, given candidate set [2, 3, 6, 7] and target 7, A solution set is: [ [7], [2, 2, 3] ]
      * </p>
+     *
      * 
      * @param candidates
      * @param target
@@ -377,13 +378,35 @@ public class Solution {
      * combinations. For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8, A solution set is: [ [1, 7],
      * [1, 2, 5], [2, 6], [1, 1, 6] ]
      * </p>
-     * 
+     * https://leetcode.com/problems/combination-sum-ii/discuss/
+     *
      * @param candidates
      * @param target
      * @return
      */
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        return null;
+        List<List<Integer>> res = new ArrayList<>();
+        if (candidates.length == 0) {
+            return res;
+        }
+        Arrays.sort(candidates);
+        combineSums2(res, candidates, target, 0, new ArrayList<>());
+        return res;
+    }
+
+    private void combineSums2(List<List<Integer>> res, int[] candidates, int target, int start,
+            ArrayList<Integer> list) {
+        if (target == 0) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            if (target - candidates[i] >= 0) {
+                list.add(candidates[i]);
+                combineSums2(res, candidates, target - candidates[i], i + 1, list);
+                list.remove(list.size() - 1);
+            }
+        }
     }
 
     /**
@@ -420,7 +443,26 @@ public class Solution {
      * @return
      */
     public List<List<Integer>> combinationSum3(int k, int n) {
-        return null;
+        List<List<Integer>> res = new ArrayList<>();
+        if (k <= 0) {
+            return res;
+        }
+        combineSums3(res, n, k, 0, new ArrayList<>());
+        return res;
+    }
+
+    private void combineSums3(List<List<Integer>> res, int n, int k, int start, ArrayList<Integer> list) {
+        if (k == 0 && n == 0) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = start + 1; i <= 9; i++) {
+            if (n - i >= 0) {
+                list.add(i);
+                combineSums3(res, n - i, k - 1, i, list);
+                list.remove(list.size() - 1);
+            }
+        }
     }
 
     /**
@@ -511,14 +553,14 @@ public class Solution {
      * <p>
      * Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no
      * palindromic permutation could be form.
-     * 
+     *
      * For example:
-     * 
+     *
      * Given s = "aabb", return ["abba", "baab"].
-     * 
+     *
      * Given s = "abc", return [].
      * </p>
-     * 
+     *
      * @param s
      * @return
      */
@@ -575,10 +617,10 @@ public class Solution {
      * https://leetcode.com/problems/permutations-ii
      * <p>
      * Given a collection of numbers that might contain duplicates, return all possible unique permutations.
-     * 
+     *
      * For example, [1,1,2] have the following unique permutations: [ [1,1,2], [1,2,1], [2,1,1] ]
      * </p>
-     * 
+     *
      * @param nums
      * @return
      */
@@ -617,12 +659,12 @@ public class Solution {
      * https://leetcode.com/problems/count-numbers-with-unique-digits
      * <p>
      * Given a non-negative integer n, count all numbers with unique digits, x, where 0 ≤ x < 10n.
-     * 
+     *
      * Example: Given n = 2, return 91. (The answer should be the total numbers in the range of 0 ≤ x < 100, excluding
      * [11,22,33,44,55,66,77,88,99])
      * </p>
      * https://discuss.leetcode.com/category/441/count-numbers-with-unique-digits
-     * 
+     *
      * @param n
      * @return
      */
