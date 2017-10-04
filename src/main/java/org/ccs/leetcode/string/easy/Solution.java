@@ -6,6 +6,7 @@ package org.ccs.leetcode.string.easy;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1003,6 +1004,55 @@ public class Solution {
             }
         }
         return true;
+    }
+
+    /**
+     * 506. Relative Ranks
+     * <p>
+     * https://leetcode.com/problems/relative-ranks
+     * <p>
+     * Given scores of N athletes, find their relative ranks and the people with the top three highest scores, who will
+     * be awarded medals: "Gold Medal", "Silver Medal" and "Bronze Medal".
+     * 
+     * Example 1: Input: [5, 4, 3, 2, 1] Output: ["Gold Medal", "Silver Medal", "Bronze Medal", "4", "5"] Explanation:
+     * The first three athletes got the top three highest scores, so they got "Gold Medal", "Silver Medal" and "Bronze
+     * Medal". For the left two athletes, you just need to output their relative ranks according to their scores. Note:
+     * N is a positive integer and won't exceed 10,000. All the scores of athletes are guaranteed to be unique.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+
+    public String[] findRelativeRanks(int[] nums) {
+        String GOLD = "Gold Medal";
+        String SILVER = "Silver Medal";
+        String BRONZE = "Bronze Medal";
+        String[] res = new String[nums.length];
+        int[] pos = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            pos[i] = nums[i];
+        }
+        Arrays.sort(pos);
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < pos.length; i++) {
+            map.put(pos[i], i);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            int val = map.get(nums[i]);
+            String sVal;
+            if (val == pos.length - 1) {
+                sVal = GOLD;
+            } else if (val == pos.length - 2) {
+                sVal = SILVER;
+            } else if (val == pos.length - 3) {
+                sVal = BRONZE;
+            } else {
+                sVal = pos.length - val + "";
+            }
+            res[i] = sVal;
+        }
+        return res;
     }
 
     public static void main(String[] args) {

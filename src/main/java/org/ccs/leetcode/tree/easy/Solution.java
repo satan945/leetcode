@@ -1062,6 +1062,63 @@ public class Solution {
         return root;
     }
 
+    /**
+     * 671. Second Minimum Node In a Binary Tree
+     * <p>
+     * https://leetcode.com/problems/second-minimum-node-in-a-binary-tree
+     * <p>
+     * Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this
+     * tree has exactly two or zero sub-node. If the node has two sub-nodes, then this node's value is the smaller value
+     * among its two sub-nodes.
+     * 
+     * Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in
+     * the whole tree.
+     * 
+     * If no such second minimum value exists, output -1 instead.
+     * 
+     * Example 1: Input: 2 / \ 2 5 / \ 5 7
+     * 
+     * Output: 5 Explanation: The smallest value is 2, the second smallest value is 5. Example 2: Input: 2 / \ 2 2
+     * 
+     * Output: -1 Explanation: The smallest value is 2, but there isn't any second smallest value.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public int findSecondMinimumValue(TreeNode root) {
+        /*
+         * The root is the minimum node in the tree,so we will find the minimum value of the tree except root. if the
+         * value equals to root value ,then all elements is the same value or we return the value.
+         */
+        if (root == null) {
+            return -1;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        int res = Integer.MAX_VALUE;
+        int rootVal = root.val;
+        boolean diff = false;
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (node.val < res && node.val != rootVal) {
+                    diff = true;
+                    res = node.val;
+                }
+                if (node.left != null) {
+                    queue.offer(node.right);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return diff ? res : -1;
+
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(3);
         TreeNode node1 = new TreeNode(9);
