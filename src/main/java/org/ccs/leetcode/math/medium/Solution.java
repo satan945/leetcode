@@ -301,7 +301,37 @@ public class Solution {
             area3 = (up - down) * (right - left);
         }
         return area1 + area2 - area3;
+    }
 
+    /**
+     * 50. Pow(x, n)
+     * <p>
+     * https://leetcode.com/problems/powx-n
+     * <p>
+     * Implement pow(x, n).
+     * 
+     * </p>
+     * https://discuss.leetcode.com/topic/21837/5-different-choices-when-talk-with-interviewers/2
+     * 
+     * @param x
+     * @param n
+     * @return
+     */
+    public double myPow(double x, int n) {
+        if (n < 0) {
+            return 1 / x * myPow(1 / x, -(n + 1));
+        }
+        if (n == 0) {
+            return 1;
+        }
+        if (n == 2) {
+            return x * x;
+        }
+        if (n % 2 == 0) {
+            return myPow(myPow(x, n / 2), 2);
+        } else {
+            return x * myPow(myPow(x, n / 2), 2);
+        }
     }
 
     public static void main(String[] args) {
