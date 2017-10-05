@@ -211,8 +211,7 @@ public class Solution {
      * 
      * The replacement must be in-place, do not allocate extra memory.
      * 
-     * Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand
-     * e
+     * Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand e
      * 
      * 1,2,3 → 1,3,2
      * 
@@ -911,6 +910,33 @@ public class Solution {
     public int findKthLargest(int[] nums, int k) {
         Arrays.sort(nums);
         return nums[nums.length - k];
+    }
+
+    /**
+     * 540. Single Element in a Sorted Array
+     * <p>
+     * https://leetcode.com/problems/single-element-in-a-sorted-array
+     * <p>
+     * Given a sorted array consisting of only integers where every element appears twice except for one element which
+     * appears once. Find this single element that appears only once.
+     * 
+     * Example 1: Input: [1,1,2,3,3,4,4,8,8] Output: 2 Example 2: Input: [3,3,7,7,10,11,11] Output: 10 Note: Your
+     * solution should run in O(log n) time and O(1) space.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int singleNonDuplicate(int[] nums) {
+        if (nums[0] != nums[1]) {
+            return nums[0];
+        }
+        for (int i = 1; i < nums.length - 2; i++) {
+            if (nums[i] != nums[i + 1] && nums[i] != nums[i - 1]) {
+                return nums[i];
+            }
+        }
+        return nums[nums.length - 1];
     }
 
     public static void main(String[] args) {
