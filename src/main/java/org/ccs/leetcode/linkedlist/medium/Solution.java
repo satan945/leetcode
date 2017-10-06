@@ -554,6 +554,40 @@ public class Solution {
         return pre;
     }
 
+    /**
+     * 147. Insertion Sort List
+     * <p>
+     * https://leetcode.com/problems/insertion-sort-list
+     * <p>
+     * Sort a linked list using insertion sort.
+     * </p>
+     * 
+     * @param head
+     * @return
+     */
+    public ListNode insertionSortList(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode fakeHead = new ListNode(0);
+        ListNode pre = fakeHead;
+        ListNode cur = head;
+        ListNode next = null;
+        while (cur != null) {
+            next = cur.next;
+            // find the point to insert
+            while (pre.next != null && pre.next.val < cur.val) {
+                pre = pre.next;
+            }
+            // insert
+            cur.next = pre.next;
+            pre.next = cur;
+            pre = fakeHead;
+            cur = next;
+        }
+        return fakeHead.next;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         ListNode l1 = new ListNode(1);
