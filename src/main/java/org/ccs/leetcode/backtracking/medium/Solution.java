@@ -3,9 +3,11 @@
  */
 package org.ccs.leetcode.backtracking.medium;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -706,6 +708,198 @@ public class Solution {
         return count;
     }
 
+    /**
+     * 89. Gray Code
+     * <p>
+     * https://leetcode.com/problems/gray-code
+     * <p>
+     * The gray code is a binary numeral system where two successive values differ in only one bit.
+     * 
+     * Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray
+     * code. A gray code sequence must begin with 0.
+     * 
+     * For example, given n = 2, return [0,1,3,2]. Its gray code sequence is:
+     * 
+     * 00 - 0 01 - 1 11 - 3 10 - 2 Note: For a given n, a gray code sequence is not uniquely defined.
+     * 
+     * For example, [0,2,3,1] is also a valid gray code sequence according to the above definition.
+     * 
+     * For now, the judge is able to judge based on one instance of gray code sequence. Sorry about that.
+     * 
+     * ¬
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public List<Integer> grayCode(int n) {
+        List<Integer> res = new LinkedList<>();
+        for (int i = 0; i < 1 << n; i++) {
+            res.add(i ^ i >> 1);
+        }
+        return res;
+    }
+
+    /**
+     * 526. Beautiful Arrangement
+     * <p>
+     * https://leetcode.com/problems/beautiful-arrangement
+     * <p>
+     * Suppose you have N integers from 1 to N. We define a beautiful arrangement as an array that is constructed by
+     * these N numbers successfully if one of the following is true for the ith position (1 <= i <= N) in this array:
+     * 
+     * The number at the ith position is divisible by i. i is divisible by the number at the ith position. Now given N,
+     * how many beautiful arrangements can you construct?
+     * 
+     * Example 1: Input: 2 Output: 2 Explanation:
+     * 
+     * The first beautiful arrangement is [1, 2]:
+     * 
+     * Number at the 1st position (i=1) is 1, and 1 is divisible by i (i=1).
+     * 
+     * Number at the 2nd position (i=2) is 2, and 2 is divisible by i (i=2).
+     * 
+     * The second beautiful arrangement is [2, 1]:
+     * 
+     * Number at the 1st position (i=1) is 2, and 2 is divisible by i (i=1).
+     * 
+     * Number at the 2nd position (i=2) is 1, and i (i=2) is divisible by 1.
+     * </p>
+     * 
+     * @param N
+     * @return todo
+     */
+    public int countArrangement(int N) {
+        return 0;
+    }
+
+    /**
+     * 79. Word Search
+     * <p>
+     * https://leetcode.com/problems/word-search
+     * <p>
+     * Given a 2D board and a word, find if the word exists in the grid.
+     * 
+     * The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those
+     * horizontally or vertically neighboring. The same letter cell may not be used more than once.
+     * 
+     * For example, Given board =
+     * 
+     * [ ['A','B','C','E'], ['S','F','C','S'], ['A','D','E','E'] ] word = "ABCCED", -> returns true, word = "SEE", ->
+     * returns true, word = "ABCB", -> returns false.
+     * </p>
+     * 
+     * @param board
+     * @param word
+     * @return
+     */
+    public boolean exist(char[][] board, String word) {
+        char[] key = word.toCharArray();
+        for (int y = 0; y < board.length; y++) {
+            for (int x = 0; x < board[y].length; x++) {
+                if (existWord(board, y, x, key, 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean existWord(char[][] board, int y, int x, char[] key, int pos) {
+        if (pos == key.length) {
+            return true;
+        }
+        if (y < 0 || x < 0 || y > board.length - 1 || x > board[y].length - 1) {
+            return false;
+        }
+        if (board[y][x] != key[pos]) {
+            return false;
+        }
+        board[y][x] ^= 256;
+        boolean isExist = existWord(board, y + 1, x, key, pos + 1)//
+                || existWord(board, y - 1, x, key, pos + 1)//
+                || existWord(board, y, x + 1, key, pos + 1)//
+                || existWord(board, y, x - 1, key, pos + 1);
+        board[y][x] ^= 256;
+        return isExist;
+    }
+
+    /**
+     * 131. Palindrome Partitioning
+     * <p>
+     * https://leetcode.com/problems/palindrome-partitioning
+     * <p>
+     * Given a string s, partition s such that every substring of the partition is a palindrome.
+     * 
+     * Return all possible palindrome partitioning of s.
+     * 
+     * For example, given s = "aab", Return
+     * 
+     * [ ["aa","b"], ["a","a","b"] ]
+     * </p>
+     * https://discuss.leetcode.com/topic/37756/java-dp-dfs-solution
+     * 
+     * @param s
+     * @return
+     */
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        if (s.length() == 0 || s == null) {
+            return res;
+        }
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < s.length(); j++) {
+                if (s.charAt(i) == s.charAt(j) && (i - j <= 2 || dp[j + 1][i - 1])) {
+                    dp[j][i] = true;
+                }
+            }
+        }
+        palindromePartition(res, s, dp, new ArrayList<>(), 0);
+        return res;
+
+    }
+
+    private void palindromePartition(List<List<String>> res, String s, boolean[][] dp, ArrayList<String> list,
+            int pos) {
+        if (pos == s.length()) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = pos; i < s.length(); i++) {
+            if (dp[pos][i]) {
+                list.add(s.substring(pos, i + 1));
+                palindromePartition(res, s, dp, list, i + 1);
+                list.remove(list.size() - 1);
+            }
+        }
+
+    }
+
+    /**
+     * 60. Permutation Sequence
+     * <p>
+     * https://leetcode.com/problems/permutation-sequence
+     * <p>
+     * The set [1,2,3,…,n] contains a total of n! unique permutations.
+     * 
+     * By listing and labeling all of the permutations in order, We get the following sequence (ie, for n = 3):
+     * 
+     * "123" "132" "213" "231" "312" "321" Given n and k, return the kth permutation sequence.
+     * 
+     * Note: Given n will be between 1 and 9 inclusive.
+     * </p>
+     * 
+     * @param n
+     * @param k
+     * @return
+     */
+
+    public String getPermutation(int n, int k) {
+        // todo
+        return "";
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // solution.generateParenthesis(4);
@@ -713,8 +907,10 @@ public class Solution {
         // System.out.println(solution.permute2(new int[] { 1, 2, 3, 4, 5, 6, 7 }));
         // System.out.println(solution.permuteString2("abc"));
         // System.out.println(solution.getFactors(12));
-        StringBuilder sb = new StringBuilder("ab");
-        System.out.println(sb.append("c").append(sb.reverse()).toString());
+        // StringBuilder sb = new StringBuilder("ab");
+        // System.out.println(sb.append("c").append(sb.reverse()).toString());
+        System.out.println(solution.grayCode(3));
+        System.out.println(1 ^ 1 >> 1);
     }
 
 }

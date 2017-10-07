@@ -3,6 +3,9 @@
  */
 package org.ccs.leetcode.bitmanipulation.medium;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author Abel created on 2017/9/20 17:49
  * @version $Id$
@@ -64,18 +67,48 @@ public class Solution {
         diff &= -diff;
 
         // Pass 2 :
-        int[] rets = {0, 0}; // this array stores the two numbers we will return
-        for (int num : nums)
-        {
+        int[] rets = { 0, 0 }; // this array stores the two numbers we will return
+        for (int num : nums) {
             if ((num & diff) == 0) // the bit is not set
             {
                 rets[0] ^= num;
-            }
-            else // the bit is set
+            } else // the bit is set
             {
                 rets[1] ^= num;
             }
         }
         return rets;
+    }
+
+    /**
+     * 89. Gray Code
+     * <p>
+     * https://leetcode.com/problems/gray-code
+     * <p>
+     * The gray code is a binary numeral system where two successive values differ in only one bit.
+     *
+     * Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray
+     * code. A gray code sequence must begin with 0.
+     *
+     * For example, given n = 2, return [0,1,3,2]. Its gray code sequence is:
+     *
+     * 00 - 0 01 - 1 11 - 3 10 - 2 Note: For a given n, a gray code sequence is not uniquely defined.
+     *
+     * For example, [0,2,3,1] is also a valid gray code sequence according to the above definition.
+     *
+     * For now, the judge is able to judge based on one instance of gray code sequence. Sorry about that.
+     *
+     * ¬
+     * </p>
+     *
+     * @param n
+     * @return
+     */
+    public List<Integer> grayCode(int n) {
+        List<Integer> res = new LinkedList<>();
+        for (int i = 0; i < 1 << n; i++) {
+            res.add(i ^ i >> 1);
+        }
+        return res;
     }
 }

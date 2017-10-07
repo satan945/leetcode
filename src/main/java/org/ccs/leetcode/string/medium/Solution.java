@@ -6,11 +6,9 @@ package org.ccs.leetcode.string.medium;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -912,6 +910,48 @@ public class Solution {
             if (val < 0 || val > 255) {
                 return false;
             }
+        }
+        return true;
+    }
+
+    /**
+     * 93. Restore IP Addresses
+     * <p>
+     * https://leetcode.com/problems/restore-ip-addresses
+     * <p>
+     * Given a string containing only digits, restore it by returning all possible valid IP address combinations.
+     * 
+     * For example: Given "25525511135",
+     * 
+     * return ["255.255.11.135", "255.255.111.35"]. (Order does not matter)
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public List<String> restoreIpAddresses(String s) {
+        List<String> res = new ArrayList<>();
+        int len = s.length();
+        for (int i = 0; i < 4 && i < len - 2; i++) {
+            for (int j = i + 1; j < i + 4 && j < len - 1; j++) {
+                for (int k = j + 1; k < j + 4 && k < len; k++) {
+                    String s1 = s.substring(0, i);
+                    String s2 = s.substring(i, j);
+                    String s3 = s.substring(j, k);
+                    String s4 = s.substring(k, len);
+                    if (isValidIPSection(s1) && isValidIPSection(s2) && isValidIPSection(s3) && isValidIPSection(s4)) {
+                        res.add(s1 + "." + s2 + "." + s3 + "." + s4);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    private boolean isValidIPSection(String ipSection) {
+        if (ipSection.length() == 0 || ipSection.length() > 3 || (ipSection.charAt(0) == '0' && ipSection.length() > 1)
+                || Integer.parseInt(ipSection) > 255) {
+            return false;
         }
         return true;
     }

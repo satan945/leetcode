@@ -7,8 +7,12 @@ import org.ccs.leetcode.bean.ListNode;
 import org.ccs.leetcode.bean.NestedInteger;
 import org.ccs.leetcode.bean.TreeNode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  * @author Abel created on 2017/9/1 15:06
@@ -339,9 +343,171 @@ public class Solution {
         return maxLevel;
     }
 
+    /**
+     * 207. Course Schedule
+     * <p>
+     * https://leetcode.com/problems/course-schedule
+     * <p>
+     * There are a total of n courses you have to take, labeled from 0 to n - 1.
+     * 
+     * Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is
+     * expressed as a pair: [0,1]
+     * 
+     * Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+     * 
+     * For example:
+     * 
+     * 2, [[1,0]] There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is
+     * possible.
+     * 
+     * 2, [[1,0],[0,1]] There are a total of 2 courses to take. To take course 1 you should have finished course 0, and
+     * to take course 0 you should also have finished course 1. So it is impossible.
+     * </p>
+     * 
+     * @param numCourses
+     * @param prerequisites
+     * @return
+     */
+    public boolean canFinishBFS(int numCourses, int[][] prerequisites) {
+        ArrayList[] graph = new ArrayList[numCourses];
+        int[] degree = new int[numCourses];
+        Queue<Integer> queue = new LinkedList<>();
+        int count = 0;
+        for (int i = 0; i < numCourses; i++) {
+            graph[i] = new ArrayList();
+        }
+        for (int i = 0; i < prerequisites.length; i++) {
+            degree[prerequisites[i][1]]++;
+            graph[prerequisites[i][0]].add(prerequisites[i][1]);
+        }
+        for (int i = 0; i < degree.length; i++) {
+            if (degree[i] == 0) {
+                queue.add(i);
+                count++;
+            }
+        }
+        while (queue.size() > 0) {
+            int course = queue.poll();
+            for (int i = 0; i < graph[course].size(); i++) {
+                int pointer = (int) graph[course].get(i);
+                degree[pointer]--;
+                if (degree[pointer] == 0) {
+                    queue.add(pointer);
+                    count++;
+                }
+            }
+        }
+        return count == numCourses;
+    }
+
+    public boolean canFinishDFS(int numCourses, int[][] prerequisites) {
+        ArrayList[] graph = new ArrayList[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        boolean[] visted = new boolean[numCourses];
+        for (int i = 0; i < prerequisites.length; i++) {
+            graph[prerequisites[i][1]].add(prerequisites[i][0]);
+        }
+
+        for (int i = 0; i < numCourses; i++) {
+            if (!dfsSchedule(graph, visted, i)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean dfsSchedule(ArrayList<Integer>[] graph, boolean[] visted, int courseNum) {
+        if (visted[courseNum]) {
+            return false;
+        } else {
+            visted[courseNum] = true;
+        }
+
+        for (int i = 0; i < graph[courseNum].size(); i++) {
+            if (!dfsSchedule(graph, visted, graph[courseNum].get(i))) {
+                return false;
+            }
+        }
+        visted[courseNum] = false;
+        return true;
+    }
+
+    /**
+     * 394. Decode String
+     * <p>
+     * https://leetcode.com/problems/decode-string
+     * <p>
+     * Given an encoded string, return it's decoded string.
+     * 
+     * The encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated
+     * exactly k times. Note that k is guaranteed to be a positive integer.
+     * 
+     * You may assume that the input string is always valid; No extra white spaces, square brackets are well-formed,
+     * etc.
+     * 
+     * Furthermore, you may assume that the original data does not contain any digits and that digits are only for those
+     * repeat numbers, k. For example, there won't be input like 3a or 2[4].
+     * 
+     * Examples:
+     * 
+     * s = "3[a]2[bc]", return "aaabcbc". s = "3[a2[c]]", return "accaccacc". s = "2[abc]3[cd]ef", return
+     * "abcabccdcdcdef".
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public String decodeString(String s) {
+        if (s == null || s.length() == 0) {
+            return s;
+        }
+        Stack<Integer> countStack = new Stack<>();
+        Stack<String> seqStack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+                count = count * 10 + s.charAt(i) - '0';
+            } else if (s.charAt(i) == '[') {
+                countStack.push(count);
+                seqStack.push("");
+                count = 0;
+            } else if (s.charAt(i) == ']') {
+                String seq = seqStack.pop();
+                int repeat = countStack.pop();
+                StringBuilder rpSb = new StringBuilder();
+                for (int j = 0; j < repeat; j++) {
+                    rpSb.append(seq);
+                }
+                if (!seqStack.empty()) {
+                    String preString = seqStack.pop();
+                    preString += rpSb.toString();
+                    seqStack.push(preString);
+                } else {
+                    sb.append(rpSb.toString());
+                }
+            } else {
+                if (seqStack.empty()) {
+                    sb.append(s.charAt(i));
+                } else {
+                    String pre = seqStack.pop();
+                    pre += s.charAt(i);
+                    seqStack.push(pre);
+                }
+            }
+        }
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
+        Solution solution = new Solution();
         ListNode head = new ListNode(1);
         head.next = new ListNode(3);
         System.out.println(new Solution().sortedListToBST(head));
+        String tes = "3[a2[b]]4[c]";
+        System.out.println(solution.decodeString(tes));
     }
 }
