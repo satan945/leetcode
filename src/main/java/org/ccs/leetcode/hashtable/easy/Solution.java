@@ -6,6 +6,7 @@ package org.ccs.leetcode.hashtable.easy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -200,33 +201,6 @@ public class Solution {
             }
         }
         return res;
-    }
-
-    /**
-     * 447. Number of Boomerangs
-     * <p>
-     * https://leetcode.com/problems/number-of-boomerangs
-     * <p>
-     * Given n points in the plane that are all pairwise distinct, a "boomerang" is a tuple of points (i, j, k) such
-     * that the distance between i and j equals the distance between i and k (the order of the tuple matters).
-     * 
-     * Find the number of boomerangs. You may assume that n will be at most 500 and coordinates of points are all in the
-     * range [-10000, 10000] (inclusive).
-     * 
-     * Example: Input: [[0,0],[1,0],[2,0]]
-     * 
-     * Output: 2
-     * 
-     * Explanation: The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]]
-     * </p>
-     * todo
-     * 
-     * @param points
-     * @return
-     * 
-     */
-    public int numberOfBoomerangs(int[][] points) {
-        return 0;
     }
 
     /**
@@ -483,6 +457,93 @@ public class Solution {
         } else {
             return num.charAt(l) == '1' || num.charAt(l) == '8' || num.charAt(l) == '0';
         }
+    }
+
+    /**
+     * 447. Number of Boomerangs
+     * <p>
+     * https://leetcode.com/problems/number-of-boomerangs
+     * <p>
+     * Given n points in the plane that are all pairwise distinct, a "boomerang" is a tuple of points (i, j, k) such
+     * that the distance between i and j equals the distance between i and k (the order of the tuple matters).
+     * 
+     * Find the number of boomerangs. You may assume that n will be at most 500 and coordinates of points are all in the
+     * range [-10000, 10000] (inclusive).
+     * 
+     * Example: Input: [[0,0],[1,0],[2,0]]
+     * 
+     * Output: 2
+     * 
+     * Explanation: The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]]
+     * </p>
+     * 
+     * @param points
+     * @return
+     */
+    public int numberOfBoomerangs(int[][] points) {
+        if (points == null || points.length < 3) {
+            return 0;
+        }
+        int res = 0;
+        Map<Integer, Integer> distanceMap = new HashMap<>();
+        for (int i = 0; i < points.length; i++) {
+            for (int j = 0; j < points.length; j++) {
+                if (i == j) {
+                    continue;
+                }
+                int distance = calDistance(points[i], points[j]);
+                distanceMap.put(distance, distanceMap.getOrDefault(distance, 0) + 1);
+            }
+            for (int value : distanceMap.values()) {
+                res += value * (value - 1);
+            }
+            distanceMap.clear();
+        }
+        return res;
+    }
+
+    private int calDistance(int[] point1, int[] point2) {
+        int x = point2[0] - point1[0];
+        int y = point2[1] - point1[1];
+        return x * x + y * y;
+    }
+
+    /**
+     * 356. Line Reflection
+     * <p>
+     * https://leetcode.com/problems/line-reflection
+     * <p>
+     * Given n points on a 2D plane, find if there is such a line parallel to y-axis that reflect the given points.
+     * 
+     * Example 1: Given points = [[1,1],[-1,1]], return true.
+     * 
+     * Example 2: Given points = [[1,1],[-1,-1]], return false.
+     * 
+     * Follow up: Could you do better than O(n2)?
+     * 
+     * Credits: Special thanks to @memoryless for adding this problem and creating all test cases.
+     * 
+     * </p>
+     * 
+     * @param points
+     * @return
+     */
+    public boolean isReflected(int[][] points) {
+        HashSet<String> pointSet = new HashSet<>();
+        int minX = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        for (int[] point : points) {
+            minX = Math.min(point[0], minX);
+            maxX = Math.max(point[0], maxX);
+            pointSet.add(point[0] + ":" + point[1]);
+        }
+        int sum = minX + maxX;
+        for (int[] point : points) {
+            if (!pointSet.contains(sum - point[0] + ":" + point[1])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {

@@ -538,12 +538,72 @@ public class Solution {
         rightView(curr.left, result, currDepth + 1);
     }
 
+    /**
+     * 113. Path Sum II
+     * <p>
+     * https://leetcode.com/problems/path-sum-ii
+     * <p>
+     * Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+     * 
+     * For example: Given the below binary tree and sum = 22, 5 / \ 4 8 / / \ 11 13 4 / \ / \ 7 2 5 1 return [
+     * [5,4,11,2], [5,8,4,5] ]
+     * </p>
+     * 
+     * @param root
+     * @param sum
+     * @return
+     */
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        calPathSum(root, sum, res, new ArrayList<>());
+        return res;
+    }
+
+    private void calPathSum(TreeNode node, int target, List<List<Integer>> res, ArrayList<Integer> list) {
+        if (node == null || target < 0) {
+            return;
+        }
+        list.add(node.val);
+        if (node.left == null && node.right == null && target == node.val) {
+            res.add(new ArrayList<>(list));
+            list.remove(list.size() - 1);// don't forget to remove the last integer
+            return;
+        } else {
+            calPathSum(node.left, target - node.val, res, list);
+            calPathSum(node.right, target - node.val, res, list);
+        }
+        list.remove(list.size() - 1);
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(3);
-        System.out.println(new Solution().sortedListToBST(head));
-        String tes = "3[a2[b]]4[c]";
-        System.out.println(solution.decodeString(tes));
+        // ListNode head = new ListNode(1);
+        // head.next = new ListNode(3);
+        // System.out.println(new Solution().sortedListToBST(head));
+        // String tes = "3[a2[b]]4[c]";
+        // System.out.println(solution.decodeString(tes));
+        TreeNode root = new TreeNode(5);
+        TreeNode node1 = new TreeNode(4);
+        TreeNode node2 = new TreeNode(8);
+        TreeNode node3 = new TreeNode(11);
+        TreeNode node4 = new TreeNode(13);
+        TreeNode node5 = new TreeNode(4);
+        TreeNode node6 = new TreeNode(7);
+        TreeNode node7 = new TreeNode(2);
+        TreeNode node8 = new TreeNode(5);
+        TreeNode node9 = new TreeNode(1);
+        root.left = node1;
+        root.right = node2;
+        node1.left = node3;
+        node2.left = node4;
+        node2.right = node5;
+        node3.left = node6;
+        node3.right = node7;
+        node5.left = node8;
+        node5.right = node9;
+        System.out.println(solution.pathSum(root, 22));
     }
 }
