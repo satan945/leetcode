@@ -155,12 +155,40 @@ public class Solution {
      * @return
      */
     public int calPoints(String[] ops) {
-        Stack<String> stack = new Stack<>();
-        //todo
-        return 0;
+        Stack<Integer> stack = new Stack<>();
+        int res = 0;
+        for (String val : ops) {
+            if ("C".equals(val)) {
+                int lastRound = stack.pop();
+                res -= lastRound;
+            } else if ("D".equals(val)) {
+                int lastRound = stack.peek();
+                res += lastRound * 2;
+                stack.push(lastRound * 2);
+            } else if ("+".equals(val)) {
+                int lastRound = stack.pop();
+                int last2Round = stack.pop();
+                res += (lastRound + last2Round);
+                stack.push(last2Round);
+                stack.push(lastRound);
+                stack.push(lastRound + last2Round);
+            } else {
+                try {
+                    int point = Integer.parseInt(val);
+                    res += point;
+                    stack.push(point);
+                } catch (NumberFormatException e) {
+
+                }
+            }
+        }
+        return res;
     }
 
     public static void main(String[] args) {
-        System.out.println(new Solution().isValid("[]()"));
+        Solution solution = new Solution();
+        System.out.println(solution.isValid("[]()"));
+        String[] ops = new String[] { "5","-2","4","C","D","9","+","+"};
+        System.out.println(solution.calPoints(ops));
     }
 }
