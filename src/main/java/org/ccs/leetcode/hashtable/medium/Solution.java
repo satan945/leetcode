@@ -120,7 +120,7 @@ public class Solution {
                 if (board[i][j] != '.' && !row.add(board[i][j])) {
                     return false;
                 }
-                if (board[j][i] != '.' && !column.add(board[i][j])) {
+                if (board[j][i] != '.' && !column.add(board[j][i])) {
                     return false;
                 }
                 int cubeRowIndex = (3 * (i / 3)) + j / 3;
