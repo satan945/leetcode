@@ -502,6 +502,42 @@ public class Solution {
         return sb.toString();
     }
 
+    /**
+     * 199. Binary Tree Right Side View
+     * <p>
+     * https://leetcode.com/problems/binary-tree-right-side-view
+     * <p>
+     * Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can
+     * see ordered from top to bottom.
+     *
+     * org.ccs.leetcode.dfs.medium.Solution.rightSideView()
+     *
+     * org.ccs.leetcode.bfs.medium.Solution.rightSideView()
+     *
+     * For example: Given the following binary tree, 1 <--- / \ 2 3 <--- \ \ 5 4 <---
+     * </p>
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> result = new ArrayList<Integer>();
+        rightView(root, result, 0);
+        return result;
+    }
+
+    public void rightView(TreeNode curr, List<Integer> result, int currDepth) {
+        if (curr == null) {
+            return;
+        }
+        if (currDepth == result.size()) {
+            result.add(curr.val);
+        }
+
+        rightView(curr.right, result, currDepth + 1);
+        rightView(curr.left, result, currDepth + 1);
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         ListNode head = new ListNode(1);

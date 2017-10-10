@@ -440,8 +440,56 @@ public class Solution {
         return true;
     }
 
+    /**
+     * 246. Strobogrammatic Number
+     * <p>
+     * https://leetcode.com/problems/strobogrammatic-number
+     * <p>
+     * A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
+     * 
+     * Write a function to determine if a number is strobogrammatic. The number is represented as a string.
+     * 
+     * For example, the numbers "69", "88", and "818" are all strobogrammatic.
+     * </p>
+     * 
+     * @param num
+     * @return
+     */
+    public boolean isStrobogrammatic(String num) {
+        if (num == null || num.length() == 0) {
+            return false;
+        }
+        if (num.matches(".*[23457]+.*")) {
+            return false;
+        }
+        int l = 0, r = num.length() - 1;
+        while (l < r) {
+            char lChar = num.charAt(l);
+            char rChar = num.charAt(r);
+            if (lChar == rChar) {
+                if (lChar == '6' || lChar == '9') {
+                    return false;
+                }
+            } else {
+                if (!((lChar == '6' && rChar == '9') || (lChar == '9' && rChar == '6'))) {
+                    return false;
+                }
+            }
+            l++;
+            r--;
+        }
+        if (num.length() % 2 == 0) {
+            return true;
+        } else {
+            return num.charAt(l) == '1' || num.charAt(l) == '8' || num.charAt(l) == '0';
+        }
+    }
+
     public static void main(String[] args) {
         // System.out.println(new Solution().findLHS(new int[] { 1, 3, 2, 2, 5, 2, 3, 7 }));
-        System.out.println(new Solution().isIsomorphic("ab", "aa"));
+        // System.out.println(new Solution().isIsomorphic("ab", "aa"));
+        Solution solution = new Solution();
+        System.out.println(solution.isStrobogrammatic("9556"));
+        System.out.println("9556".matches(".*[23457]+.*"));
     }
 }

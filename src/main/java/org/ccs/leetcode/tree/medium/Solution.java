@@ -357,20 +357,52 @@ public class Solution {
         if (root == null) {
             return;
         }
-        TreeLinkNode pre = root;
-        TreeLinkNode layerStart = pre.left != null ? pre.left : pre.right;
-        TreeLinkNode cur;
-
-        while (layerStart != null) {
-
+        TreeLinkNode pre = null;
+        TreeLinkNode head = null;
+        TreeLinkNode cur = root;
+        while (cur != null) {
+            while (cur != null) {
+                if (cur.left != null) {
+                    if (pre != null) {
+                        pre.next = cur.left;
+                    } else {
+                        head = cur.left;
+                    }
+                    pre = cur.left;
+                }
+                if (cur.right != null) {
+                    if (pre != null) {
+                        pre.next = cur.right;
+                    } else {
+                        head = cur.right;
+                    }
+                    pre = cur.right;
+                }
+                cur = cur.next;
+            }
+            cur = head;
+            head = null;
+            pre = null;
         }
     }
 
-    private TreeLinkNode findNextStart(TreeLinkNode layerStart, TreeLinkNode node) {
-        if (layerStart != null) {
-            return layerStart;
+    public void connect3(TreeLinkNode root) {
+        while (root != null) {
+            TreeLinkNode tempChild = new TreeLinkNode(0);
+            TreeLinkNode currentChild = tempChild;
+            while (root != null) {
+                if (root.left != null) {
+                    currentChild.next = root.left;
+                    currentChild = currentChild.next;
+                }
+                if (root.right != null) {
+                    currentChild.next = root.right;
+                    currentChild = currentChild.next;
+                }
+                root = root.next;
+            }
+            root = tempChild.next;
         }
-        return node.left != null ? node.left : node.right;
     }
 
     /**
@@ -891,6 +923,76 @@ public class Solution {
             findBottomLeftValueLevel(root.right, depth + 1, res);
         }
         return res[0];
+    }
+
+    /**
+     * 250. Count Univalue Subtrees
+     * <p>
+     * https://leetcode.com/problems/count-univalue-subtrees
+     * <p>
+     * Given a binary tree, count the number of uni-value subtrees.
+     * 
+     * A Uni-value subtree means all nodes of the subtree have the same value.
+     * 
+     * For example: Given binary tree, 5 / \ 1 5 / \ \ 5 5 5 return 4.
+     * 
+     * </p>
+     * todo
+     * 
+     * @param root
+     * @return
+     */
+    public int countUnivalSubtrees(TreeNode root) {
+        int count = 0;
+        if (root == null) {
+            return 0;
+        }
+        int val = root.val;
+        if (root.left != null && root.left.val == val) {
+            count++;
+        }
+        if (root.right != null && root.right.val == val) {
+            count++;
+        }
+        count += countUnivalSubtrees(root.left);
+        count += countUnivalSubtrees(root.right);
+        return count;
+    }
+
+    /**
+     * 199. Binary Tree Right Side View
+     * <p>
+     * https://leetcode.com/problems/binary-tree-right-side-view
+     * <p>
+     * Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can
+     * see ordered from top to bottom.
+     * 
+     * org.ccs.leetcode.dfs.medium.Solution.rightSideView()
+     *
+     * org.ccs.leetcode.bfs.medium.Solution.rightSideView()
+     * 
+     * For example: Given the following binary tree, 1 <--- / \ 2 3 <--- \ \ 5 4 <---
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> result = new ArrayList<Integer>();
+        rightView(root, result, 0);
+        return result;
+    }
+
+    public void rightView(TreeNode curr, List<Integer> result, int currDepth) {
+        if (curr == null) {
+            return;
+        }
+        if (currDepth == result.size()) {
+            result.add(curr.val);
+        }
+
+        rightView(curr.right, result, currDepth + 1);
+        rightView(curr.left, result, currDepth + 1);
     }
 
     public static void main(String[] args) {

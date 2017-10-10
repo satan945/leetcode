@@ -219,6 +219,7 @@ public class Solution {
      * 
      * 1,1,5 → 1,5,1
      * </p>
+     * http://blog.csdn.net/qq575787460/article/details/41215475
      * 
      * @param nums
      */
@@ -227,13 +228,68 @@ public class Solution {
             return;
         }
 
-        Arrays.sort(nums);
+        int len = nums.length;
+        int i = len - 2;
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--;
+        }
+        if (i >= 0) {
+            int j = len - 1;
+            while (nums[j] <= nums[i]) {
+                j--;
+            }
+            swap(nums, i, j);
+        }
+        reverse(nums, i + 1, len - 1);
+    }
+
+    private void reverse(int[] nums, int i, int j) {
+        while (i < j) {
+            swap(nums, i++, j--);
+        }
     }
 
     private void swap(int[] nums, int i, int j) {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
+    }
+
+    /**
+     * 287. Find the Duplicate Number
+     * <p>
+     * https://leetcode.com/problems/find-the-duplicate-number
+     * <p>
+     * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at
+     * least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+     * 
+     * Note: You must not modify the array (assume the array is read only). You must use only constant, O(1) extra
+     * space. Your runtime complexity should be less than O(n2). There is only one duplicate number in the array, but it
+     * could be repeated more than once.
+     * </p>
+     * https://segmentfault.com/a/1190000003817671
+     * 
+     * @param nums
+     * @return
+     */
+    public int findDuplicate(int[] nums) {
+        int low = 1;
+        int high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int count = 0;
+            for (int num : nums) {
+                if (num <= mid) {
+                    count++;
+                }
+            }
+            if (count <= mid) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return low;
     }
 
     /**
@@ -824,30 +880,6 @@ public class Solution {
     }
 
     /**
-     * 287. Find the Duplicate Number
-     * <p>
-     * https://leetcode.com/problems/find-the-duplicate-number
-     * <p>
-     * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at
-     * least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
-     *
-     * Note: You must not modify the array (assume the array is read only).
-     *
-     * You must use only constant, O(1) extra space.
-     *
-     * Your runtime complexity should be less than O(n2).
-     *
-     * There is only one duplicate number in the array, but it could be repeated more than once.
-     * </p>
-     *
-     * @param nums
-     * @return
-     */
-    public int findDuplicate(int[] nums) {
-        return 0;
-    }
-
-    /**
      * 80. Remove Duplicates from Sorted Array II
      * <p>
      * https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii
@@ -859,7 +891,6 @@ public class Solution {
      * Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3. It doesn't
      * matter what you leave beyond the new length.
      * </p>
-     * todo
      * 
      * @param nums
      * @return

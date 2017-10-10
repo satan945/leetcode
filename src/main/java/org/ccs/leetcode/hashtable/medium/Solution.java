@@ -5,6 +5,7 @@ package org.ccs.leetcode.hashtable.medium;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -95,5 +96,41 @@ public class Solution {
             }
         }
         return res;
+    }
+
+    /**
+     * 36. Valid Sudoku
+     * <p>
+     * https://leetcode.com/problems/valid-sudoku
+     * <p>
+     * Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.
+     * 
+     * The Sudoku board could be partially filled, where empty cells are filled with the character '.'.
+     * </p>
+     * 
+     * @param board
+     * @return
+     */
+    public boolean isValidSudoku(char[][] board) {
+        for (int i = 0; i < 9; i++) {
+            HashSet<Character> row = new HashSet<>();
+            HashSet<Character> column = new HashSet<>();
+            HashSet<Character> cube = new HashSet<>();
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.' && !row.add(board[i][j])) {
+                    return false;
+                }
+                if (board[j][i] != '.' && !column.add(board[i][j])) {
+                    return false;
+                }
+                int cubeRowIndex = (3 * (i / 3)) + j / 3;
+                int cubeColIndex = (3 * (i % 3)) + j % 3;
+                if (board[cubeRowIndex][cubeColIndex] != '.' && !cube.add(board[cubeRowIndex][cubeColIndex])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
     }
 }
