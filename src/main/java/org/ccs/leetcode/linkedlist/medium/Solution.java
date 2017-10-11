@@ -598,11 +598,40 @@ public class Solution {
      * For example, Given {1,2,3,4}, reorder it to {1,4,2,3}.
      * </p>
      * todo
+     * 
      * @param head
      */
     public void reorderList(ListNode head) {
-        ListNode reverseHead = new ListNode(0);
+        if (head == null || head.next == null) {
+            return;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        // mid
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        // reverse half after
+        ListNode preMid = slow;
+        ListNode preCur = slow.next;
+        while (preCur.next != null) {
+            ListNode cur = preCur.next;
+            preCur.next = cur.next;
+            cur.next = preMid.next;
+            preMid.next = cur;
+        }
 
+        // reorder
+        slow = head;
+        fast = preMid.next;
+        while (slow != preMid) {
+            preMid.next = fast.next;
+            fast.next = slow.next;
+            slow.next = fast;
+            slow = fast.next;
+            fast = preMid.next;
+        }
 
     }
 
