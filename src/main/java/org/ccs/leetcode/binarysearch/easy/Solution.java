@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.binarysearch.easy;
 
+import java.util.Arrays;
+
 /**
  * @author Abel created on 2017/9/20 17:59
  * @version $Id$
@@ -43,14 +45,29 @@ public class Solution {
      * houses can be warmed.
      * 
      * </p>
-     * todo
-     * 
+     *
      * @param houses
      * @param heaters
      * @return
      */
     public int findRadius(int[] houses, int[] heaters) {
-        return 0;
+        Arrays.sort(heaters);
+        int result = Integer.MIN_VALUE;
+        for (int house : houses) {
+            int index = Arrays.binarySearch(heaters, house);
+            if (index < 0) {
+                index = -(index + 1);
+            }
+            int dist1 = index - 1 >= 0 ? house - heaters[index - 1] : Integer.MAX_VALUE;
+            int dist2 = index < heaters.length ? heaters[index] - house : Integer.MAX_VALUE;
+            result = Math.max(result, Math.min(dist1, dist2));
+        }
+        return result;
+    }
 
+    public static void main(String[] args) {
+        int[] houses = { 1, 2, 3 ,5,15};
+        int[] heaters = { 2,30 };
+        System.out.println(new Solution().findRadius(houses, heaters));
     }
 }
