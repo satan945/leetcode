@@ -88,6 +88,55 @@ public class Solution {
         return null;
     }
 
+    /**
+     * 150. Evaluate Reverse Polish Notation
+     * <p>
+     * https://leetcode.com/problems/evaluate-reverse-polish-notation
+     * <p>
+     * Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+     * 
+     * Valid operators are +, -, *, /. Each operand may be an integer or another expression.
+     * 
+     * Some examples: ["2", "1", "+", "3", "*"] -> ((2 + 1) * 3) -> 9 ["4", "13", "5", "/", "+"] -> (4 + (13 / 5)) -> 6
+     * </p>
+     * 
+     * @param tokens
+     * @return
+     */
+    public int evalRPN(String[] tokens) {
+        Stack<String> opStack = new Stack<>();
+        Stack<Integer> numStack = new Stack<>();
+        for (String token : tokens) {
+            if (isOpertor(token)) {
+                int num2 = numStack.pop();
+                int num1 = numStack.pop();
+                int val = cal(num1, num2, token);
+                numStack.push(val);
+            } else {
+                numStack.push(Integer.parseInt(token));
+            }
+        }
+        return numStack.pop();
+    }
+
+    private int cal(int num1, int num2, String token) {
+        if (token.equals("+")) {
+            return num1 + num2;
+        } else if (token.equals("-")) {
+            return num1 - num2;
+        } else if (token.equals("*")) {
+            return num1 * num2;
+        } else if (token.equals("/")) {
+            return num1 / num2;
+        } else {
+            return 0;
+        }
+    }
+
+    private boolean isOpertor(String token) {
+        return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] array = new int[] { 1, 2, 1 };

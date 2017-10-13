@@ -606,7 +606,10 @@ public class Solution {
      * Note: The input prerequisites is a graph represented by a list of edges, not adjacency matrices. Read more about
      * how a graph is represented. You may assume that there are no duplicate edges in the input prerequisites.
      * </p>
-     *https://discuss.leetcode.com/topic/13873/two-ac-solution-in-java-using-bfs-and-dfs-with-explanation
+     * todo
+     * 
+     * https://discuss.leetcode.com/topic/13873/two-ac-solution-in-java-using-bfs-and-dfs-with-explanation
+     * 
      * @param numCourses
      * @param prerequisites
      * @return
@@ -619,7 +622,6 @@ public class Solution {
     }
 
     private int[] findOrderByDFS(ArrayList[] adjs) {
-
         return new int[0];
     }
 
@@ -631,6 +633,54 @@ public class Solution {
             incLinkCounts[edge[0]]++;
             adjs[edge[1]].add(edge[0]);
         }
+    }
+
+    /**
+     * 531. Lonely Pixel I
+     * <p>
+     * https://leetcode.com/problems/lonely-pixel-i
+     * <p>
+     * Given a picture consisting of black and white pixels, find the number of black lonely pixels.
+     * 
+     * The picture is represented by a 2D char array consisting of 'B' and 'W', which means black and white pixels
+     * respectively.
+     * 
+     * A black lonely pixel is character 'B' that located at a specific position where the same row and same column
+     * don't have any other black pixels.
+     * 
+     * Example: Input: [['W', 'W', 'B'], ['W', 'B', 'W'], ['B', 'W', 'W']]
+     * 
+     * Output: 3 Explanation: All the three 'B's are black lonely pixels.
+     * </p>
+     * 
+     * @param picture
+     * @return
+     */
+    public int findLonelyPixel(char[][] picture) {
+        int res = 0;
+        if (picture == null || picture.length == 0 || picture[0].length == 0) {
+            return res;
+        }
+        int m = picture.length;
+        int n = picture[0].length;
+        int[] rowCount = new int[m];
+        int[] colCount = new int[n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (picture[i][j] == 'B') {
+                    rowCount[i]++;
+                    colCount[j]++;
+                }
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (picture[i][j] == 'B' && rowCount[i] == 1 && colCount[j] == 1) {
+                    res++;
+                }
+            }
+        }
+        return res;
     }
 
     public static void main(String[] args) {
