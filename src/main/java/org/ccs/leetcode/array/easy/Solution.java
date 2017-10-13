@@ -370,13 +370,23 @@ public class Solution {
      * 
      * Explanation: You can't get a non-decreasing array by modify at most one element.
      * </p>
-     * todo
      * 
      * @param nums
      * @return
      */
     public boolean checkPossibility(int[] nums) {
-        return false;
+        int modified = 0;
+        for (int i = 1; i < nums.length && modified <= 1; i++) {
+            if (nums[i - 1] > nums[i]) {
+                modified++;
+                if (i - 2 < 0 || nums[i - 2] <= nums[i]) {
+                    nums[i - 1] = nums[i];
+                } else {
+                    nums[i] = nums[i - 1];
+                }
+            }
+        }
+        return modified <= 1;
     }
 
     /**
@@ -837,6 +847,8 @@ public class Solution {
         int[] nums2 = new int[] { 4, 2, 3 };
         int[] nums3 = { 1, 0, 0, 0, 0, 1 };
 
+        int[] nums4={1,4,2,3};
+        System.out.println(solution.checkPossibility(nums4));
         // System.out.println(solution.intersection(nums1, nums2));
         // System.out.println(solution.arrayPairSum(nums2));
         // System.out.println(solution.findMaxAverageSlideWindow(nums2, 4));

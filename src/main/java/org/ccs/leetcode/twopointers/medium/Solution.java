@@ -5,6 +5,8 @@ package org.ccs.leetcode.twopointers.medium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -314,13 +316,13 @@ public class Solution {
             s2Map[s2.charAt(i + s1.length()) - 'a']++;
             s2Map[s2.charAt(i) - 'a']--;
         }
-        return matchPermutation(s1Map,s2Map);
+        return matchPermutation(s1Map, s2Map);
 
     }
 
     private boolean matchPermutation(int[] s1Map, int[] s2Map) {
-        for(int i=0;i<26;i++){
-            if(s1Map[i]!=s2Map[i]){
+        for (int i = 0; i < 26; i++) {
+            if (s1Map[i] != s2Map[i]) {
                 return false;
             }
         }
@@ -338,6 +340,109 @@ public class Solution {
             }
         }
         return true;
+    }
+
+    /**
+     * 360. Sort Transformed Array
+     * <p>
+     * https://leetcode.com/problems/sort-transformed-array
+     * <p>
+     * Given a sorted array of integers nums and integer values a, b and c. Apply a function of the form f(x) = ax2 + bx
+     * + c to each element x in the array.
+     * 
+     * The returned array must be in sorted order.
+     * 
+     * Expected time complexity: O(n)
+     * 
+     * Example: nums = [-4, -2, 2, 4], a = 1, b = 3, c = 5,
+     * 
+     * Result: [3, 9, 15, 33]
+     * 
+     * nums = [-4, -2, 2, 4], a = -1, b = 3, c = 5
+     * 
+     * Result: [-23, -5, 1, 7]
+     * </p>
+     * 
+     * @param nums
+     * @param a
+     * @param b
+     * @param c
+     * @return
+     */
+    public int[] sortTransformedArray(int[] nums, int a, int b, int c) {
+        if (nums == null || nums.length == 0) {
+            return new int[0];
+        }
+        int[] res = new int[nums.length];
+        int i = 0, j = nums.length - 1;
+        int index = a >= 0 ? nums.length - 1 : 0;
+        while (i <= j) {
+            int numLeft = quad(nums[i], a, b, c);
+            int numRight = quad(nums[j], a, b, c);
+            if (a >= 0) {
+                res[index--] = numLeft >= numRight ? numLeft : numRight;
+                if (numLeft >= numRight) {
+                    i++;
+                } else {
+                    j--;
+                }
+            } else {
+                res[index++] = numLeft >= numRight ? numRight : numLeft;
+                if (numLeft >= numRight) {
+                    j--;
+                } else {
+                    i++;
+                }
+            }
+            if (numLeft >= numRight) {
+                i++;
+            } else {
+                j--;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 524. Longest Word in Dictionary through Deleting
+     * <p>
+     * https://leetcode.com/problems/longest-word-in-dictionary-through-deleting
+     * <p>
+     * Given a string and a string dictionary, find the longest string in the dictionary that can be formed by deleting
+     * some characters of the given string. If there are more than one possible results, return the longest word with
+     * the smallest lexicographical order. If there is no possible result, return the empty string.
+     * 
+     * Example 1: Input: s = "abpcplea", d = ["ale","apple","monkey","plea"]
+     * 
+     * Output: "apple" Example 2: Input: s = "abpcplea", d = ["a","b","c"]
+     * 
+     * Output: "a" Note: All the strings in the input will only contain lower-case letters. The size of the dictionary
+     * won't exceed 1,000. The length of all the strings in the input won't exceed 1,000.
+     * </p>
+     * https://discuss.leetcode.com/topic/80799/short-java-solutions-sorting-dictionary-and-without-sorting/2
+     * @param s
+     * @param d
+     * @return
+     */
+    public String findLongestWord(String s, List<String> d) {
+        d.sort((a, b) -> a.length() != b.length() ? -Integer.compare(a.length(), b.length()) : a.compareTo(b));
+        for (String str : d) {
+            int i = 0;
+            char[] array = s.toCharArray();
+            for (char c : array) {
+                if (i < str.length() && c == str.charAt(i)) {
+                    i++;
+                }
+                if (i == str.length()) {
+                    return str;
+                }
+            }
+        }
+        return "";
+    }
+
+    private int quad(int num, int a, int b, int c) {
+        return a * num * num + b * num + c;
     }
 
     public static void main(String[] args) {

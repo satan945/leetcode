@@ -177,13 +177,32 @@ public class Solution {
      * 
      * [ [2], [1], [1,2,2], [2,2], [1,2], [] ]
      * </p>
-     * todo
      * 
      * @param nums
      * @return
      */
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        return null;
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
+        List<Integer> list = new ArrayList<>();
+        genSubSetsWithDup(res, list, 0, nums);
+        return res;
+    }
+
+    private void genSubSetsWithDup(List<List<Integer>> res, List<Integer> list, int pos, int[] nums) {
+        if (pos <= nums.length) {
+            res.add(list);
+        }
+        int i = pos;
+        while (i < nums.length) {
+            list.add(nums[i]);
+            genSubSetsWithDup(res, new ArrayList<>(list), i + 1, nums);
+            list.remove(list.size() - 1);
+            i++;
+            while (i < nums.length && nums[i] == nums[i - 1]) {
+                i++;
+            }
+        }
     }
 
     /**

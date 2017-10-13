@@ -479,23 +479,39 @@ public class Solution {
         if (digits.length <= 1) {
             return -1;
         }
-        for (int i = digits.length - 1; i >= 1; i--) {
-            int r = digits[i] - '0';
-            for (int j = i - 1; j >= 0; j--) {
-                int l = digits[j] - '0';
-                if (l < r) {
-                    char temp = digits[i];
-                    digits[i] = digits[j];
-                    digits[j] = temp;
-                    long value = Long.parseLong(String.valueOf(digits));
-                    if (value > Integer.MAX_VALUE) {
-                        return -1;
-                    }
-                    return (int) value;
-                }
-            }
+        int i = digits.length - 2;
+        while (i >= 0 && digits[i + 1] <= digits[i]) {
+            i--;
         }
-        return -1;
+        if (i < 0) {
+            return -1;
+        }
+        int j = digits.length - 1;
+        while (j >= 0 && digits[j] <= digits[i]) {
+            j--;
+        }
+        swap(digits, i, j);
+        reverse(digits, i + 1);
+        try {
+            return Integer.parseInt(String.valueOf(digits));
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    private void reverse(char[] digits, int i) {
+        int j = digits.length - 1;
+        while (i < j) {
+            swap(digits, i, j);
+            i++;
+            j--;
+        }
+    }
+
+    private void swap(char[] digits, int i, int j) {
+        char temp = digits[i];
+        digits[i] = digits[j];
+        digits[j] = temp;
     }
 
     /**
@@ -1004,7 +1020,7 @@ public class Solution {
      * @return
      */
     public int numDecodings(String s) {
-        
+
         return 0;
     }
 

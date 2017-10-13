@@ -36,18 +36,20 @@ public class Solution {
         if (m > n) {
             return findMedianSortedArrays(nums2, nums1);
         }
-        int iMin = 0, iMax = m, midLen = (m + n + 1) / 2;
+        int iMin = 0, iMax = m, halfLen = (m + n + 1) / 2;
         while (iMin <= iMax) {
             int i = (iMin + iMax) / 2;
-            int j = midLen - i;
+            int j = halfLen - i;
             if (i < iMax && nums2[j - 1] > nums1[i]) {
-                iMin = iMin + 1;
+                iMin = iMin + 1; // i is too small
             } else if (i > iMin && nums1[i - 1] > nums2[j]) {
-                iMax = iMax - 1;
-            } else {
-                int maxLeft = 0;
+                iMax = iMax - 1; // i is too big
+            } else { // i is perfect
+                int maxLeft;
                 if (i == 0) {
                     maxLeft = nums2[j - 1];
+                } else if (j == 0) {
+                    maxLeft = nums1[i - 1];
                 } else {
                     maxLeft = Math.max(nums1[i - 1], nums2[j - 1]);
                 }
@@ -62,7 +64,7 @@ public class Solution {
                 } else {
                     minRight = Math.min(nums2[j], nums1[i]);
                 }
-                return (maxLeft + minRight) / 2;
+                return (maxLeft + minRight) / 2.0;
             }
         }
         return 0.0;
