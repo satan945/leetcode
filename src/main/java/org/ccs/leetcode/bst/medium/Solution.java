@@ -17,7 +17,11 @@ public class Solution {
      * absolute difference between nums[i] and nums[j] is at most t and the absolute difference between i and j is at
      * most k.
      * </p>
+     * 
+     * https://leetcode.com/problems/contains-duplicate-iii/solution/
+     * 
      * todo
+     * 
      * @param nums
      * @param k
      * @param t

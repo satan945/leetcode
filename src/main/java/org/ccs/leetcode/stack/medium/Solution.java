@@ -6,6 +6,7 @@ package org.ccs.leetcode.stack.medium;
 import org.ccs.leetcode.bean.NestedInteger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -137,9 +138,167 @@ public class Solution {
         return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
     }
 
+    /**
+     * 402. Remove K Digits
+     * <p>
+     * https://leetcode.com/problems/remove-k-digits
+     * <p>
+     * Given a non-negative integer num represented as a string, remove k digits from the number so that the new number
+     * is the smallest possible.
+     * 
+     * Note: The length of num is less than 10002 and will be ≥ k. The given num does not contain any leading zero.
+     * Example 1:
+     * 
+     * Input: num = "1432219", k = 3 Output: "1219" Explanation: Remove the three digits 4, 3, and 2 to form the new
+     * number 1219 which is the smallest. Example 2:
+     * 
+     * Input: num = "10200", k = 1 Output: "200" Explanation: Remove the leading 1 and the number is 200. Note that the
+     * output must not contain leading zeroes. Example 3:
+     * 
+     * Input: num = "10", k = 2 Output: "0" Explanation: Remove all the digits from the number and it is left with
+     * nothing which is 0.
+     * </p>
+     * 
+     * @param num
+     * @param k
+     * @return
+     */
+    public String removeKdigits(String num, int k) {
+        if (num == null || num.length() == 0 || num.length() <= k) {
+            return "0";
+        }
+        Stack<Character> stack = new Stack<>();
+        stack.push(num.charAt(0));
+        for (int i = 1; i < num.length(); i++) {
+            while (!stack.isEmpty() && num.charAt(i) < stack.peek() && k > 0) {
+                k--;
+                stack.pop();
+            }
+            stack.push(num.charAt(i));
+        }
+        while (k > 0) {
+            stack.pop();
+            k--;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) {
+            sb.insert(0, stack.pop());
+        }
+        int i = 0;
+        while (i < sb.length() && sb.charAt(i) == '0') {
+            i++;
+        }
+        if (i == sb.length()) {
+            return "0";
+        } else {
+            sb.delete(0, i);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 636. Exclusive Time of Functions
+     * <P>
+     * https://leetcode.com/problems/exclusive-time-of-functions
+     * <p>
+     * Given the running logs of n functions that are executed in a nonpreemptive single threaded CPU, find the
+     * exclusive time of these functions.
+     * 
+     * Each function has a unique id, start from 0 to n-1. A function may be called recursively or by another function.
+     * 
+     * A log is a string has this format : function_id:start_or_end:timestamp. For example, "0:start:0" means function 0
+     * starts from the very beginning of time 0. "0:end:0" means function 0 ends to the very end of time 0.
+     * 
+     * Exclusive time of a function is defined as the time spent within this function, the time spent by calling other
+     * functions should not be considered as this function's exclusive time. You should return the exclusive time of
+     * each function sorted by their function id.
+     * 
+     * Example 1: Input: n = 2 logs = ["0:start:0", "1:start:2", "1:end:5", "0:end:6"] Output:[3, 4] Explanation:
+     * Function 0 starts at time 0, then it executes 2 units of time and reaches the end of time 1. Now function 0 calls
+     * function 1, function 1 starts at time 2, executes 4 units of time and end at time 5. Function 0 is running again
+     * at time 6, and also end at the time 6, thus executes 1 unit of time. So function 0 totally execute 2 + 1 = 3
+     * units of time, and function 1 totally execute 4 units of time. Note: Input logs will be sorted by timestamp, NOT
+     * log id. Your output should be sorted by function id, which means the 0th element of your output corresponds to
+     * the exclusive time of function 0. Two functions won't start or end at the same time. Functions could be called
+     * recursively, and will always end. 1 <= n <= 100
+     * </p>
+     * 
+     * @param n
+     * @param logs
+     * @return
+     */
+    public int[] exclusiveTime(int n, List<String> logs) {
+        return new int[0];
+    }
+
+    /**
+     * 456. 132 Pattern
+     * <p>
+     * https://leetcode.com/problems/132-pattern
+     * <p>
+     * Given a sequence of n integers a1, a2, ..., an, a 132 pattern is a subsequence ai, aj, ak such that i < j < k and
+     * ai < ak < aj. Design an algorithm that takes a list of n numbers as input and checks whether there is a 132
+     * pattern in the list.
+     * 
+     * Note: n will be less than 15,000.
+     * 
+     * Example 1: Input: [1, 2, 3, 4]
+     * 
+     * Output: False
+     * 
+     * Explanation: There is no 132 pattern in the sequence. Example 2: Input: [3, 1, 4, 2]
+     * 
+     * Output: True
+     * 
+     * Explanation: There is a 132 pattern in the sequence: [1, 4, 2]. Example 3: Input: [-1, 3, 2, 0]
+     * 
+     * Output: True
+     * 
+     * Explanation: There are three 132 patterns in the sequence: [-1, 3, 2], [-1, 3, 0] and [-1, 2, 0].
+     * </p>
+     * https://discuss.leetcode.com/topic/68193/java-o-n-solution-using-stack-in-detail-explanation
+     * 
+     * @param nums
+     * @return
+     */
+    public boolean find132pattern(int[] nums) {
+        Stack<Pair> stack = new Stack();
+        for (int n : nums) {
+            if (stack.isEmpty() || n < stack.peek().min)
+                stack.push(new Pair(n, n));
+            else if (n > stack.peek().min) {
+                Pair last = stack.pop();
+                if (n < last.max)
+                    return true;
+                else {
+                    last.max = n;
+                    while (!stack.isEmpty() && n >= stack.peek().max)
+                        stack.pop();
+                    // At this time, n < stack.peek().max (if stack not empty)
+                    if (!stack.isEmpty() && stack.peek().min < n)
+                        return true;
+                    stack.push(last);
+                }
+
+            }
+        }
+        return false;
+    }
+
+    class Pair {
+        int min, max;
+
+        public Pair(int min, int max) {
+            this.min = min;
+            this.max = max;
+        }
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] array = new int[] { 1, 2, 1 };
-        System.out.println(solution.nextGreaterElements(array));
+        int[] array = new int[] { 1, 0, 1, -4, -3 };
+        // System.out.println(solution.nextGreaterElements(array));
+        // System.out.println(solution.removeKdigits("112", 1));
+        System.out.println(solution.find132pattern(array));
     }
 }
