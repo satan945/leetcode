@@ -20,7 +20,6 @@ public class Solution {
      * 
      * https://leetcode.com/problems/contains-duplicate-iii/solution/
      * 
-     * todo
      * 
      * @param nums
      * @param k
@@ -28,6 +27,25 @@ public class Solution {
      * @return
      */
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if (nums.length <= 1) {
+            return false;
+        }
+        for (int i = 0; i <= nums.length - 2; i++) {
+            for (int j = i + 1; j <= i + k && j <= nums.length - 1; j++) {
+                long sub = (long)nums[j] - (long)nums[i];
+                long sub1 = sub < 0 ? -sub : sub;
+                long t1 = (long) t;
+                if (sub1 <= t1) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
+
+    public static void main(String[] args) {
+        int[] nums = new int[] { 2147483647,-2147483647 };
+        System.out.println(new Solution().containsNearbyAlmostDuplicate(nums, 1, 2147483647));
+    }
+
 }

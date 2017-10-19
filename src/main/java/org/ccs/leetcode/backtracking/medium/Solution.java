@@ -940,17 +940,47 @@ public class Solution {
         return sb.toString();
     }
 
+    /**
+     * 120. Triangle
+     * <p>
+     * https://leetcode.com/problems/triangle
+     * 
+     * @param triangle
+     * @return
+     */
+
+    public int minimumTotal(List<List<Integer>> triangle) {
+        if (triangle == null || triangle.size() == 0) {
+            return 0;
+        }
+        if (triangle.size() == 1) {
+            return triangle.get(0).get(0);
+        }
+        int[] cache = new int[triangle.size() + 1];
+        for (int i = triangle.size() - 1; i >= 0; i--) {
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                cache[j] = Math.min(cache[j], cache[j + 1]) + triangle.get(i).get(j);
+            }
+        }
+        return cache[0];
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        // solution.generateParenthesis(4);
-        // solution.subsets(new int[] { 1, 2, 3 });
-        // System.out.println(solution.permute2(new int[] { 1, 2, 3, 4, 5, 6, 7 }));
-        // System.out.println(solution.permuteString2("abc"));
-        // System.out.println(solution.getFactors(12));
-        // StringBuilder sb = new StringBuilder("ab");
-        // System.out.println(sb.append("c").append(sb.reverse()).toString());
-        System.out.println(solution.grayCode(3));
-        System.out.println(1 ^ 1 >> 1);
+        List<List<Integer>> lists = new ArrayList<>();
+        List<Integer> layer1 = new ArrayList<>();
+        layer1.add(-1);
+        List<Integer> layer2 = new ArrayList<>();
+        layer2.add(2);
+        layer2.add(3);
+        List<Integer> layer3 = new ArrayList<>();
+        layer3.add(1);
+        layer3.add(-1);
+        layer3.add(-3);
+        lists.add(layer1);
+        lists.add(layer2);
+        lists.add(layer3);
+        System.out.println(solution.minimumTotal(lists));
     }
 
 }
