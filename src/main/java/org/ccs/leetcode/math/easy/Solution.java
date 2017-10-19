@@ -868,6 +868,7 @@ public class Solution {
         }
         return false;
     }
+
     /**
      * 453. Minimum Moves to Equal Array Elements
      * <p>
@@ -954,6 +955,47 @@ public class Solution {
             }
             level++;
         }
+    }
+
+    /**
+     * 479. Largest Palindrome Product
+     * <p>
+     * https://leetcode.com/problems/largest-palindrome-product
+     * <p>
+     * Find the largest palindrome made from the product of two n-digit numbers.
+     * 
+     * Since the result could be very large, you should return the largest palindrome mod 1337.
+     * 
+     * Example:
+     * 
+     * Input: 2
+     * 
+     * Output: 987
+     * 
+     * Explanation: 99 x 91 = 9009, 9009 % 1337 = 987
+     * 
+     * Note:
+     * 
+     * The range of n is [1,8].
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int largestPalindrome(int n) {
+        if (n == 1) {
+            return 9;
+        }
+        int max = (int) Math.pow(10, n) - 1;
+        for (int value = max - 1; value > max / 10; value--) {
+            long palindrome = Long.valueOf(value + new StringBuilder().append(value).reverse().toString());
+            for (long x = max; x * x >= palindrome; x--) {
+                if (palindrome % x == 0) {
+                    return (int) (palindrome % 1337);
+                }
+            }
+        }
+        return 0;
     }
 
     public static void main(String[] args) {
