@@ -3,6 +3,9 @@
  */
 package org.ccs.leetcode.greedy.medium;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * @author abel created on 2017/8/29 下午6:58
  * @version $Id$
@@ -98,6 +101,89 @@ public class Solution {
     public int[] findPermutation(String s) {
         int[] res = new int[0];
         return res;
+    }
+
+    /**
+     * 621. Task Scheduler
+     * <p>
+     * https://leetcode.com/problems/task-scheduler
+     * <p>
+     * Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters
+     * represent different tasks.Tasks could be done without original order. Each task could be done in one interval.
+     * For each interval, CPU could finish one task or just be idle.
+     * 
+     * However, there is a non-negative cooling interval n that means between two same tasks, there must be at least n
+     * intervals that CPU are doing different tasks or just be idle.
+     * 
+     * You need to return the least number of intervals the CPU will take to finish all the given tasks.
+     * </p>
+     * https://discuss.leetcode.com/topic/92852/concise-java-solution-o-n-time-o-26-space
+     * 
+     * https://leetcode.com/articles/task-scheduler/
+     * 
+     * @param tasks
+     * @param n
+     * @return
+     */
+    public int leastInterval(char[] tasks, int n) {
+        int[] count = new int[26];
+        for (char t : tasks) {
+            count[t - 'A']++;
+        }
+        Arrays.sort(count);
+        int i = 25;
+        while (i >= 0 && count[i] == count[25]) {
+            i--;
+        }
+        return Math.max(tasks.length, (count[25] - 1) * (n + 1) + 25 - i);
+    }
+
+    /**
+     * 406. Queue Reconstruction by Height
+     * <p>
+     * https://leetcode.com/problems/queue-reconstruction-by-height
+     * <p>
+     * Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h,
+     * k), where h is the height of the person and k is the number of people in front of this person who have a height
+     * greater than or equal to h. Write an algorithm to reconstruct the queue.
+     * 
+     * Note: The number of people is less than 1,100.
+     * 
+     * Example
+     * 
+     * Input: [[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+     * 
+     * Output: [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
+     * </p>
+     * 
+     * @param people
+     * @return
+     */
+
+    public int[][] reconstructQueue(int[][] people) {
+        Arrays.sort(people, (o1, o2) -> {
+            if (o1[0] == o2[0]) {
+                return o1[1] - o2[1];
+            } else {
+                return o2[0] - o1[0];
+            }
+        });
+        ArrayList<int[]> resList = new ArrayList<>();
+        for (int i = 0; i < people.length; i++) {
+            resList.add(people[i][1], new int[] { people[i][0], people[i][1] });
+        }
+        int[][] res = new int[people.length][2];
+        for (int i = 0; i < people.length; i++) {
+            res[i][0] = resList.get(i)[0];
+            res[i][1] = resList.get(i)[1];
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        int[][] nums = { { 7, 1 }, { 4, 4 }, { 7, 0 }, { 5, 0 }, { 6, 1 }, { 5, 2 } };
+        new Solution().reconstructQueue(nums);
+        ArrayList<Integer> arrayList = new ArrayList<>();
     }
 
 }
