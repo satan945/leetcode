@@ -48,8 +48,8 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        int[] nums = new int[] { -1, -1 };
-        System.out.println(new Solution().containsNearbyAlmostDuplicate(nums, 1, 0));
+        int[] nums = new int[] { 2147483647,-2147483647 };
+        System.out.println(new Solution().containsNearbyAlmostDuplicate(nums, 1, 2147483647));
     }
 
 }
