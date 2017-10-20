@@ -180,10 +180,45 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 134. Gas Station
+     * <p>
+     * https://leetcode.com/problems/gas-station
+     * <p>
+     * There are N gas stations along a circular route, where the amount of gas at station i is gas[i].
+     * 
+     * You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from station i to its next
+     * station (i+1). You begin the journey with an empty tank at one of the gas stations.
+     * 
+     * Return the starting gas station's index if you can travel around the circuit once, otherwise return -1.
+     * 
+     * Note: The solution is guaranteed to be unique.
+     * 
+     * </p>
+     * 
+     * @param gas
+     * @param cost
+     * @return
+     */
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        if (gas == null || gas.length == 0) {
+            return -1;
+        }
+        int start = 0, total = 0, tank = 0;
+        for (int i = 0; i < gas.length; i++) {
+            tank = tank + gas[i] - cost[i];
+            if (tank < 0) {
+                start = i + 1;
+                total += tank;
+                tank = 0;
+            }
+        }
+        return total + tank < 0 ? -1 : start;
+    }
+
     public static void main(String[] args) {
         int[][] nums = { { 7, 1 }, { 4, 4 }, { 7, 0 }, { 5, 0 }, { 6, 1 }, { 5, 2 } };
-        new Solution().reconstructQueue(nums);
-        ArrayList<Integer> arrayList = new ArrayList<>();
+        // new Solution().reconstructQueue(nums);
     }
 
 }
