@@ -1043,13 +1043,102 @@ public class Solution {
         return root == null ? -1 : 1 + height(root.left);
     }
 
+    /**
+     * 129. Sum Root to Leaf Numbers
+     * <p>
+     * https://leetcode.com/problems/sum-root-to-leaf-numbers
+     * <p>
+     * Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
+     * 
+     * An example is the root-to-leaf path 1->2->3 which represents the number 123.
+     * 
+     * Find the total sum of all root-to-leaf numbers.
+     * 
+     * For example,
+     * 
+     * 1 / \ 2 3 The root-to-leaf path 1->2 represents the number 12. The root-to-leaf path 1->3 represents the number
+     * 13.
+     * 
+     * Return the sum = 12 + 13 = 25.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public int sumNumbers(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        List<Integer> numList = new ArrayList<>();
+        TreeNode node = root;
+        genAllRootToLeaf(node, numList, 0);
+        int res = 0;
+        for (int num : numList) {
+            res += num;
+        }
+        return res;
+
+    }
+
+    private void genAllRootToLeaf(TreeNode node, List<Integer> numList, int num) {
+        num = num * 10 + node.val;
+        if (node.left == null && node.right == null) {
+            numList.add(num);
+            return;
+        }
+        if (node.left != null) {
+            genAllRootToLeaf(node.left, numList, num);
+        }
+        if (node.right != null) {
+            genAllRootToLeaf(node.right, numList, num);
+        }
+    }
+
+    /**
+     * 255. Verify Preorder Sequence in Binary Search Tree
+     * <p>
+     * https://leetcode.com/problems/verify-preorder-sequence-in-binary-search-tree
+     * <p>
+     * Given an array of numbers, verify whether it is the correct preorder traversal sequence of a binary search tree.
+     * 
+     * You may assume each number in the sequence is unique.
+     * </p>
+     * 
+     * @param preorder
+     * @return
+     */
+    public boolean verifyPreorder(int[] preorder) {
+        Stack<Integer> stack = new Stack<>();
+        if (preorder == null || preorder.length == 0) {
+            return false;
+        }
+        if (preorder.length == 1) {
+            return true;
+        }
+        stack.push(preorder[0]);
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i < preorder.length; i++) {
+            while (!stack.isEmpty()&&preorder[i] < stack.peek()) {
+                int num = stack.pop();
+                if (!list.isEmpty() &&list.get(list.size() - 1) > num) {
+                    return false;
+                } else {
+                    list.add(num);
+                }
+                stack.push(preorder[i]);
+            }
+        }
+        return true;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        TreeNode root = new TreeNode(10);
-        TreeNode l = new TreeNode(5);
-        TreeNode r = new TreeNode(15);
-        TreeNode rl = new TreeNode(6);
-        TreeNode rr = new TreeNode(20);
+        TreeNode root = new TreeNode(1);
+        TreeNode l = new TreeNode(2);
+        TreeNode r = new TreeNode(3);
+        TreeNode rl = new TreeNode(4);
+        TreeNode rr = new TreeNode(5);
         root.left = l;
         root.right = r;
         r.left = rl;
@@ -1058,6 +1147,7 @@ public class Solution {
         // root.right.right = new TreeNode(3);
         // System.out.println(solution.deleteNode(root, 2));
         // System.out.println(solution.kthSmallest(root, 1));
-        System.out.println(solution.isValidBST(root));
+        // System.out.println(solution.isValidBST(root));
+        System.out.println(solution.sumNumbers(root));
     }
 }

@@ -970,6 +970,36 @@ public class Solution {
         return nums[nums.length - 1];
     }
 
+    /**
+     * 162. Find Peak Element
+     * <p>
+     * https://leetcode.com/problems/find-peak-element
+     * <p>
+     * A peak element is an element that is greater than its neighbors.
+     * 
+     * Given an input array where num[i] ≠ num[i+1], find a peak element and return its index.
+     * 
+     * The array may contain multiple peaks, in that case return the index to any one of the peaks is fine.
+     * 
+     * You may imagine that num[-1] = num[n] = -∞.
+     * 
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int findPeakElement(int[] nums) {
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > nums[i + 1]) {
+                return i;
+            }
+        }
+        return nums.length - 1;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] array = new int[] { 3, 2, 4 };

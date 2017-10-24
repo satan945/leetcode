@@ -7,6 +7,7 @@ import org.ccs.leetcode.bean.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,30 +17,6 @@ import java.util.List;
  * @version $Id$
  */
 public class Solution {
-
-    /**
-     * 309. Best Time to Buy and Sell Stock with Cooldown
-     * <p>
-     * https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown
-     * <p>
-     * Say you have an array for which the ith element is the price of a given stock on day i.
-     * 
-     * Design an algorithm to find the maximum profit. You may complete as many transactions as you like (ie, buy one
-     * and sell one share of the stock multiple times) with the following restrictions:
-     * 
-     * You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
-     * After you sell your stock, you cannot buy stock on next day. (ie, cooldown 1 day) Example:
-     * 
-     * prices = [1, 2, 3, 0, 2] maxProfit = 3 transactions = [buy, sell, cooldown, buy, sell]
-     * </p>
-     * 
-     * @param prices
-     * @return
-     */
-    public int maxProfit(int[] prices) {
-        return 0;
-
-    }
 
     /**
      * 152. Maximum Product Subarray
@@ -477,15 +454,233 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 64. Minimum Path Sum
+     * <p>
+     * https://leetcode.com/problems/minimum-path-sum
+     * 
+     * <p>
+     * Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes
+     * the sum of all numbers along its path.
+     * 
+     * Note: You can only move either down or right at any point in time.
+     * 
+     * Example 1: [[1,3,1], [1,5,1], [4,2,1]] Given the above grid map, return 7. Because the path 1→3→1→1→1 minimizes
+     * the sum.
+     * </p>
+     * 
+     * @param grid
+     * @return
+     */
+    public int minPathSum(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] dp = new int[m][n];
+        dp[0][0] = grid[0][0];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+                int up = i > 0 ? dp[i - 1][j] : Integer.MAX_VALUE;
+                int left = j > 0 ? dp[i][j - 1] : Integer.MAX_VALUE;
+                dp[i][j] = grid[i][j] + Math.min(left, up);
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    private int minSum = Integer.MAX_VALUE;
+
+    public int minPathSumRecursive(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+        int m = grid.length;
+        int n = grid[0].length;
+        int sum = 0;
+        calSum(grid, m, n, 0, 0, sum);
+        return minSum;
+    }
+
+    private void calSum(int[][] grid, int m, int n, int i, int j, int sum) {
+        if (i <= m - 1 && j <= n - 1) {
+            sum += grid[i][j];
+        }
+        if (i == m - 1 && j == n - 1) {
+            minSum = Math.min(minSum, sum);
+        } else {
+            if (i < m - 1) {
+                calSum(grid, m, n, i + 1, j, sum);
+            }
+            if (j < n - 1) {
+                calSum(grid, m, n, i, j + 1, sum);
+            }
+        }
+    }
+
+    /**
+     * 62. Unique Paths
+     * <p>
+     * https://leetcode.com/problems/unique-paths
+     * <p>
+     * A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+     * 
+     * The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right
+     * corner of the grid (marked 'Finish' in the diagram below).
+     * 
+     * How many possible unique paths are there?
+     * </p>
+     * 
+     * @param m
+     * @param n
+     * @return
+     */
+    public int uniquePaths(int m, int n) {
+        if (m == 0 || n == 0) {
+            return 0;
+        }
+        if (m == 1 || n == 1) {
+            return 1;
+        }
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 1;
+                } else {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    /**
+     * 322. Coin Change
+     * 
+     * <p>
+     * https://leetcode.com/problems/coin-change
+     * <p>
+     * You are given coins of different denominations and a total amount of money amount. Write a function to compute
+     * the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any
+     * combination of the coins, return -1.
+     * 
+     * Example 1: coins = [1, 2, 5], amount = 11 return 3 (11 = 5 + 5 + 1)
+     * 
+     * Example 2: coins = [2], amount = 3 return -1.
+     * 
+     * Note: You may assume that you have an infinite number of each kind of coin.
+     * </p>
+     * 
+     * @param coins
+     * @param amount
+     * @return
+     */
+    public int coinChange(int[] coins, int amount) {
+        if (amount == 0) {
+            return 0;
+        }
+        if (coins.length == 0) {
+            return -1;
+        }
+        int[] counts = new int[amount + 1];
+        Arrays.sort(coins);
+        Arrays.fill(counts, Integer.MAX_VALUE);
+        for (int coin : coins) {
+            if (coin == amount) {
+                return 1;
+            }
+            if (coin < amount) {
+                counts[coin] = 1;
+            }
+        }
+        for (int i = 0; i <= amount; i++) {
+            for (int coin : coins) {
+                if (i - coin > 0) {
+                    if (counts[i - coin] == Integer.MAX_VALUE) {
+                        continue;
+                    }
+                    counts[i] = Math.min(counts[i], counts[i - coin] + 1);
+                }
+            }
+        }
+        return counts[amount] == Integer.MAX_VALUE ? -1 : counts[amount];
+    }
+
+    public int coinChangeRecursive(int[] coins, int amount) {
+        if (amount == 0) {
+            return 0;
+        }
+        List<Integer> counts = new ArrayList<>();
+        calCounts(coins, amount, 0, counts);
+        counts.sort(Comparator.comparingInt(o -> o));
+        return counts.isEmpty() ? -1 : counts.get(0);
+    }
+
+    private void calCounts(int[] coins, int amount, int count, List<Integer> counts) {
+        if (amount == 0) {
+            count++;
+            counts.add(count);
+            return;
+        } else if (amount < 0) {
+            return;
+        }
+        for (int i = 0; i < coins.length; i++) {
+            calCounts(coins, amount - coins[i], count + 1, counts);
+        }
+    }
+
+    /**
+     * 309. Best Time to Buy and Sell Stock with Cooldown
+     * <p>
+     * https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown
+     * <p>
+     * Say you have an array for which the ith element is the price of a given stock on day i.
+     * 
+     * Design an algorithm to find the maximum profit. You may complete as many transactions as you like (ie, buy one
+     * and sell one share of the stock multiple times) with the following restrictions:
+     * 
+     * You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+     * After you sell your stock, you cannot buy stock on next day. (ie, cooldown 1 day) Example:
+     * 
+     * prices = [1, 2, 3, 0, 2] maxProfit = 3 transactions = [buy, sell, cooldown, buy, sell]
+     * </p>
+     * 
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        if (prices == null || prices.length <= 1) {
+            return 0;
+        }
+        int b0 = -prices[0], b1 = b0;
+        int s0 = 0, s1 = 0, s2 = 0;
+
+        for (int i = 1; i < prices.length; i++) {
+            b0 = Math.max(b1, s2 - prices[i]);
+            s0 = Math.max(s1, b1 + prices[i]);
+            b1 = b0;
+            s2 = s1;
+            s1 = s0;
+        }
+        return s0;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        List<String> dict = new ArrayList<>();
+        // int[][] num = { { 1, 3, 1 }, { 1, 5, 1 }, { 4, 2, 1 } };
         // dict.add("aaaa");
         // dict.add("aaa");
         // System.out.println(new Solution().wordBreak("aaaaaaa", dict));
         //
         // String a = "abcdefg";
         // System.out.println(a.substring(4, 6));
-        System.out.println(solution.numSquares(100));
+        int[] num = new int[] { 2 };
+
+        System.out.println(solution.coinChange(num, 3));
     }
 }
