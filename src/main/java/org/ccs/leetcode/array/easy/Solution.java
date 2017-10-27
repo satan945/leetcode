@@ -841,14 +841,60 @@ public class Solution {
         return count >= n;
     }
 
+    /**
+     * 674. Longest Continuous Increasing Subsequence
+     * <p>
+     * https://leetcode.com/problems/longest-continuous-increasing-subsequence
+     * <p>
+     * Given an unsorted array of integers, find the length of longest continuous increasing subsequence.
+     * 
+     * Example 1:
+     * 
+     * Input: [1,3,5,4,7] Output: 3
+     * 
+     * Explanation: The longest continuous increasing subsequence is [1,3,5], its length is 3. Even though [1,3,5,7] is
+     * also an increasing subsequence, it's not a continuous one where 5 and 7 are separated by 4.
+     * 
+     * Example 2:
+     * 
+     * Input: [2,2,2,2,2] Output: 1
+     * 
+     * Explanation: The longest continuous increasing subsequence is [2], its length is 1. Note: Length of the array
+     * will not exceed 10,000.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int findLengthOfLCIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int maxLength = 0;
+        int count = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i - 1]) {
+                count++;
+            } else {
+                maxLength = Math.max(maxLength, count);
+                count = 1;
+            }
+        }
+        maxLength = Math.max(maxLength, count);
+        return maxLength;
+    }
+
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums1 = new int[] { 1 };
         int[] nums2 = new int[] { 4, 2, 3 };
         int[] nums3 = { 1, 0, 0, 0, 0, 1 };
 
-        int[] nums4={1,4,2,3};
-        System.out.println(solution.checkPossibility(nums4));
+        int[] nums4 = { 2, 2, 2, 2 };
+        // System.out.println(solution.checkPossibility(nums4));
+        System.out.println(solution.findLengthOfLCIS(nums4));
         // System.out.println(solution.intersection(nums1, nums2));
         // System.out.println(solution.arrayPairSum(nums2));
         // System.out.println(solution.findMaxAverageSlideWindow(nums2, 4));

@@ -5,7 +5,9 @@ package org.ccs.leetcode.linkedlist.medium;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.ccs.leetcode.bean.ListNode;
 import org.ccs.leetcode.bean.RandomListNode;
@@ -93,7 +95,28 @@ public class Solution {
      * @return
      */
     public ListNode addTwoNumbersII(ListNode l1, ListNode l2) {
-        return null;
+        Stack<Integer> s1 = new Stack<>();
+        Stack<Integer> s2 = new Stack<>();
+        while (l1 != null) {
+            s1.push(l1.val);
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            s2.push(l2.val);
+            l2 = l2.next;
+        }
+        int sum = 0;
+        ListNode node = new ListNode(0);
+        while (!s1.empty() || !s2.empty()) {
+            sum += !s1.empty() ? s1.pop() : 0;
+            sum += !s2.empty() ? s2.pop() : 0;
+            node.val = sum % 10;
+            ListNode head = new ListNode(sum / 10);
+            head.next = node;
+            node = head;
+            sum /= 10;
+        }
+        return node.val == 0 ? node.next : node;
     }
 
     /**

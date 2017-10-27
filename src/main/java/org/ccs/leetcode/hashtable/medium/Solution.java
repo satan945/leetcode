@@ -4,10 +4,12 @@
 package org.ccs.leetcode.hashtable.medium;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author abel created on 2017/8/29 下午4:43
@@ -175,6 +177,54 @@ public class Solution {
      */
     public List<List<String>> findDuplicate(String[] paths) {
         List<List<String>> res = new ArrayList<>();
+        return res;
+    }
+
+    /**
+     * 692. Top K Frequent Words
+     * <p>
+     * https://leetcode.com/problems/top-k-frequent-words
+     * <p>
+     * Given a non-empty list of words, return the k most frequent elements.
+     * 
+     * Your answer should be sorted by frequency from highest to lowest. If two words have the same frequency, then the
+     * word with the lower alphabetical order comes first.
+     * </p>
+     * 
+     * @param words
+     * @param k
+     * @return
+     */
+    public List<String> topKFrequent(String[] words, int k) {
+        Map<String, Integer> frequencyMap = new HashMap<>();
+        for (String str : words) {
+            int frequency = frequencyMap.getOrDefault(str, 0) + 1;
+            frequencyMap.put(str, frequency);
+        }
+        List<Integer> freqList = new ArrayList<>();
+        Map<Integer, List<String>> strMap = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : frequencyMap.entrySet()) {
+            freqList.add(entry.getValue());
+            List<String> list = strMap.get(entry.getValue());
+            if (list == null) {
+                list = new ArrayList<>();
+            }
+            list.add(entry.getKey());
+            strMap.put(entry.getValue(), list);
+        }
+        freqList.sort((o1, o2) -> o2 - o1);
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < k;) {
+            List<String> strs = strMap.get(freqList.get(i));
+            int size = strs.size();
+            strs.sort(Comparator.naturalOrder());
+            if (res.size() + size <= k) {
+                res.addAll(strs);
+            } else {
+                res.addAll(strs.subList(0, k - res.size()));
+            }
+            i += strs.size();
+        }
         return res;
     }
 }
