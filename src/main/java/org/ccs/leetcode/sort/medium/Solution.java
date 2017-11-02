@@ -73,4 +73,22 @@ public class Solution {
         Arrays.sort(array, (String s1, String s2) -> (s2 + s1).compareTo(s1 + s2));
         return Arrays.stream(array).reduce((x, y) -> x.equals("0") ? y : x + y).get();
     }
+
+    /**
+     * 280. Wiggle Sort
+     * <p>
+     * https://leetcode.com/problems/wiggle-sort
+     * <p>
+     * Given an unsorted array nums, reorder it in-place such that nums[0] <= nums[1] >= nums[2] <= nums[3]....
+     * 
+     * For example, given nums = [3, 5, 2, 1, 6, 4], one possible answer is [1, 6, 2, 5, 3, 4].
+     * </p>
+     * 
+     * @param nums
+     */
+    public void wiggleSort(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+
+    }
 }

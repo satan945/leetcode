@@ -4,6 +4,7 @@
 package org.ccs.leetcode.hashtable.medium;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -297,7 +298,65 @@ public class Solution {
      */
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
+        if (nums.length <= 3) {
+            return new ArrayList<>();
+        }
+        int n = nums.length;
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            List<Integer> list = new ArrayList<>();
+            list.add(nums[i]);
+            threeSum(nums, target - nums[i], i + 1, n - 1, list, res);
+        }
         return res;
+    }
+
+    private void threeSum(int[] nums, int target, int begin, int end, List<Integer> list, List<List<Integer>> res) {
+        for (int i = begin; i <= end; i++) {
+            if (i > begin && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            List<Integer> list2 = new ArrayList<>(list);
+            list2.add(nums[i]);
+            twoSum(nums, target - nums[i], i + 1, end, list2, res);
+        }
+    }
+
+    private void twoSum(int[] nums, int target, int begin, int end, List<Integer> list2, List<List<Integer>> res) {
+        if (begin >= end) {
+            return;
+        }
+        int l = begin;
+        int r = end;
+        while (l < r) {
+            List<Integer> list = new ArrayList<>(list2);
+            int sum = nums[l] + nums[r];
+            if (target - sum == 0) {
+                list.add(nums[l]);
+                list.add(nums[r]);
+                res.add(list);
+                int x = nums[l];
+                while (++l < r && x == nums[l])
+                    ;
+                x = nums[r];
+                while (--r > l && x == nums[r])
+                    ;
+            } else if (target - sum > 0) {
+                l++;
+            } else {
+                r--;
+            }
+        }
 
     }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] nums = { -3, -2, -1, 0, 0, 1, 2, 3 };
+        System.out.println(solution.fourSum(nums, 0));
+    }
+
 }
