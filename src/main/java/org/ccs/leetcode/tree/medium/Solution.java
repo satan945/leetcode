@@ -1118,9 +1118,9 @@ public class Solution {
         stack.push(preorder[0]);
         List<Integer> list = new ArrayList<>();
         for (int i = 1; i < preorder.length; i++) {
-            while (!stack.isEmpty()&&preorder[i] < stack.peek()) {
+            while (!stack.isEmpty() && preorder[i] < stack.peek()) {
                 int num = stack.pop();
-                if (!list.isEmpty() &&list.get(list.size() - 1) > num) {
+                if (!list.isEmpty() && list.get(list.size() - 1) > num) {
                     return false;
                 } else {
                     list.add(num);
@@ -1129,6 +1129,64 @@ public class Solution {
             }
         }
         return true;
+
+    }
+
+    /**
+     * 103. Binary Tree Zigzag Level Order Traversal
+     * <p>
+     * https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal
+     * <p>
+     * Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then
+     * right to left for the next level and alternate between).
+     * 
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        travelZigZag(root, 0, res);
+        return res;
+    }
+
+    private void travelZigZag(TreeNode root, int level, List<List<Integer>> res) {
+        if (root == null) {
+            return;
+        }
+        if (res.size() <= level) {
+            List<Integer> list = new LinkedList<>();
+            res.add(list);
+        }
+        List<Integer> targetLevel = res.get(level);
+        if (level % 2 == 0) {
+            targetLevel.add(root.val);
+        } else {
+            targetLevel.add(0, root.val);
+        }
+        travelZigZag(root.left, level + 1, res);
+        travelZigZag(root.right, level + 1, res);
+    }
+
+    /**
+     * 95. Unique Binary Search Trees II
+     * <p>
+     * https://leetcode.com/problems/unique-binary-search-trees-ii
+     * <p>
+     * Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1...n.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public List<TreeNode> generateTrees(int n) {
+        List<TreeNode> res = new ArrayList<>();
+        buildBST(1,n,res);
+        return res;
+    }
+
+    private void buildBST(int left, int right, List<TreeNode> res) {
 
     }
 

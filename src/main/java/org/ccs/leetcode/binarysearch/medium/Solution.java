@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.binarysearch.medium;
 
+import java.util.Arrays;
+
 /**
  * @author abel created on 2017/10/19 下午7:41
  * @version $Id$
@@ -46,6 +48,46 @@ public class Solution {
             }
         }
         return false;
+    }
+
+    /**
+     * 34. Search for a Range
+     * <p>
+     * https://leetcode.com/problems/search-for-a-range
+     * <p>
+     * Given an array of integers sorted in ascending order, find the starting and ending position of a given target
+     * value.
+     * 
+     * Your algorithm's runtime complexity must be in the order of O(log n).
+     * 
+     * If the target is not found in the array, return [-1, -1].
+     * 
+     * For example, Given [5, 7, 7, 8, 8, 10] and target value 8, return [3, 4].
+     * </p>
+     * 
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int[] res = new int[2];
+        Arrays.fill(res, -1);
+        if (nums == null || nums.length == 0) {
+            return res;
+        }
+        int l = 0;
+        int r = nums.length - 1;
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            if (target == nums[mid]) {
+                //
+            } else if (target < nums[mid]) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return res;
     }
 
     public static void main(String[] args) {

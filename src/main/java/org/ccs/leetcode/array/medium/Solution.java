@@ -876,7 +876,61 @@ public class Solution {
      * @param board
      */
     public void gameOfLife(int[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int neighbor = calLiveNeighbors(board, i, j, m, n);
+                if (board[i][j] == 0 && neighbor == 3) {
+                    board[i][j] = 5;
+                }
+                if (board[i][j] == 1) {
+                    if (neighbor < 2) {
+                        board[i][j] = 2;
+                    } else if (neighbor == 2 || neighbor == 3) {
+                        board[i][j] = 3;
+                    } else {
+                        board[i][j] = 4;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                switch (board[i][j]) {
+                case 0:
+                    break;
+                case 2:
+                case 4:
+                    board[i][j] = 0;
+                    break;
+                case 3:
+                    board[i][j] = 1;
+                    break;
+                case 5:
+                    board[i][j] = 1;
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    }
 
+    private int calLiveNeighbors(int[][] board, int i, int j, int m, int n) {
+        int res = 0;
+        int[][] moves = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 }, { 1, 1 }, { -1, -1 }, { -1, 1 }, { 1, -1 } };
+        for (int[] move : moves) {
+            if (i + move[0] >= m || i + move[0] < 0 || j + move[1] >= n || j + move[1] < 0) {
+                continue;
+            }
+            int neiVal = board[i + move[0]][j + move[1]];
+            if (neiVal == 1 || neiVal == 3 || neiVal == 2 || neiVal == 4) {
+                res++;
+            }
+        }
+
+        return res;
     }
 
     /**
