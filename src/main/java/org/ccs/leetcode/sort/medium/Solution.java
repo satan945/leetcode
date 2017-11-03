@@ -88,7 +88,21 @@ public class Solution {
      */
     public void wiggleSort(int[] nums) {
         int n = nums.length;
-        Arrays.sort(nums);
+        for (int i = 0; i < n; i++) {
+            if (i % 2 == 1) {
+                if (nums[i - 1] > nums[i]) {
+                    swap(nums, i);
+                } else if (i != 0 && nums[i - 1] < nums[i]) {
+                    swap(nums, i);
+                }
+            }
+        }
 
+    }
+
+    private void swap(int[] nums, int i) {
+        int tmp = nums[i];
+        nums[i] = nums[i - 1];
+        nums[i - 1] = tmp;
     }
 }

@@ -6,9 +6,11 @@ package org.ccs.leetcode.bfs.medium;
 import org.ccs.leetcode.bean.TreeNode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 /**
  * @author abel created on 2017/10/9 下午5:48
@@ -119,10 +121,70 @@ public class Solution {
         return new int[1];
     }
 
+    /**
+     * 127. Word Ladder
+     * <p>
+     * https://leetcode.com/problems/word-ladder
+     * <p>
+     * Given two words (beginWord and endWord), and a dictionary's word list, find the length of shortest transformation
+     * sequence from beginWord to endWord, such that:
+     * 
+     * Only one letter can be changed at a time. Each transformed word must exist in the word list. Note that beginWord
+     * is not a transformed word. For example,
+     * 
+     * Given: beginWord = "hit" endWord = "cog" wordList = ["hot","dot","dog","lot","log","cog"] As one shortest
+     * transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog", return its length 5.
+     * 
+     * Note: Return 0 if there is no such transformation sequence. All words have the same length. All words contain
+     * only lowercase alphabetic characters. You may assume no duplicates in the word list. You may assume beginWord and
+     * endWord are non-empty and are not the same.
+     * </p>
+     * 
+     * @param beginWord
+     * @param endWord
+     * @param wordList
+     * @return
+     */
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> reached = new HashSet<>();
+        reached.add(beginWord);
+        int res = 1;
+        while (!reached.contains(endWord)) {
+            HashSet<String> toAdd = new HashSet<>();
+            for (String str : reached) {
+                for (int i = 0; i < str.length(); i++) {
+                    char[] chars = str.toCharArray();
+                    for (char ch = 'a'; ch <= 'z'; ch++) {
+                        chars[i] = ch;
+                        String s = new String(chars);
+                        if (wordList.contains(s)) {
+                            toAdd.add(s);
+                            wordList.remove(s);
+                        }
+                    }
+                }
+            }
+            res++;
+            if (toAdd.size() == 0) {
+                return 0;
+            }
+            reached = toAdd;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
-        System.out.println(new Solution().rightSideView(root));
+        List<String> stringList = new ArrayList<>();
+        stringList.add("hot");
+        stringList.add("dot");
+        stringList.add("dog");
+        stringList.add("lot");
+        stringList.add("log");
+        stringList.add("cog");
+        // System.out.println(new Solution().rightSideView(root));
+        System.out.println(new Solution().ladderLength("hit", "cog", stringList));
     }
 }

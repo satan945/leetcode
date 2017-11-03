@@ -1181,12 +1181,34 @@ public class Solution {
      * @return
      */
     public List<TreeNode> generateTrees(int n) {
-        List<TreeNode> res = new ArrayList<>();
-        buildBST(1,n,res);
-        return res;
+        return buildBST(1, n);
     }
 
-    private void buildBST(int left, int right, List<TreeNode> res) {
+    private List<TreeNode> buildBST(int left, int right) {
+        List<TreeNode> list = new ArrayList<>();
+        if (left > right) {
+            list.add(null);
+            return list;
+        }
+        if (left == right) {
+            list.add(new TreeNode(left));
+            return list;
+        }
+        List<TreeNode> leftSub;
+        List<TreeNode> rightSub;
+        for (int i = left; i <= right; i++) {
+            leftSub = buildBST(left, i - 1);
+            rightSub = buildBST(i + 1, right);
+            for (TreeNode leftNode : leftSub) {
+                for (TreeNode rightNode : rightSub) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = leftNode;
+                    root.right = rightNode;
+                    list.add(root);
+                }
+            }
+        }
+        return list;
 
     }
 
