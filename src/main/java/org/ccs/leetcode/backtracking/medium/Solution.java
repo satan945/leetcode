@@ -797,10 +797,27 @@ public class Solution {
      * </p>
      * 
      * @param N
-     * @return todo
+     * @return
      */
+    int count = 0;
+
     public int countArrangement(int N) {
+        count(1, N, new boolean[N + 1]);
         return 0;
+    }
+
+    private void count(int pos, int n, boolean[] used) {
+        if (pos > n) {
+            count++;
+            return;
+        }
+        for (int i = 1; i <= n; i++) {
+            if (!used[i] && (pos % i == 0 || i % pos == 0)) {
+                used[i] = true;
+                count(pos + 1, n, used);
+                used[i] = false;
+            }
+        }
     }
 
     /**
@@ -845,7 +862,7 @@ public class Solution {
         if (board[y][x] != key[pos]) {
             return false;
         }
-        board[y][x] ^= 256;
+        board[y][x] ^= 256;// can use a boolean[][] visited
         boolean isExist = existWord(board, y + 1, x, key, pos + 1)//
                 || existWord(board, y - 1, x, key, pos + 1)//
                 || existWord(board, y, x + 1, key, pos + 1)//
@@ -853,6 +870,40 @@ public class Solution {
         board[y][x] ^= 256;
         return isExist;
     }
+
+    public boolean exist2(char[][] board, String word) {
+        char[] key = word.toCharArray();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for (int y = 0; y < board.length; y++) {
+            for (int x = 0; x < board[y].length; x++) {
+                if (existWord2(board, y, x, key, 0, visited)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean existWord2(char[][] board, int y, int x, char[] key, int pos, boolean[][] visited) {
+        if (pos == key.length) {
+            return true;
+        }
+        if (y < 0 || x < 0 || y > board.length - 1 || x > board[y].length - 1) {
+            return false;
+        }
+        if (board[y][x] != key[pos] || visited[y][x]) {
+            return false;
+        }
+
+        visited[y][x] = true;
+        boolean isExist = existWord(board, y + 1, x, key, pos + 1)//
+                || existWord(board, y - 1, x, key, pos + 1)//
+                || existWord(board, y, x + 1, key, pos + 1)//
+                || existWord(board, y, x - 1, key, pos + 1);
+        visited[y][x] = false;
+        return isExist;
+    }
+
 
     /**
      * 131. Palindrome Partitioning
@@ -983,20 +1034,26 @@ public class Solution {
      */
     public List<String> generateAbbreviations(String word) {
         List<String> res = new ArrayList<>();
-        helper(word, 0, res, new StringBuilder());
-        sumCount(res);
+        genAbbreviation(word, 0, 0, new StringBuilder(), res);
         return res;
     }
 
-    private void sumCount(List<String> res) {
-
-    }
-
-    private void helper(String word, int i, List<String> res, StringBuilder sb) {
-        if (i == word.length()) {
-            res.add(sb.toString());
-
+    private void genAbbreviation(String word, int pos, int numCount, StringBuilder stringBuilder, List<String> res) {
+        int len = stringBuilder.length();
+        if (pos == word.length()) {
+            if (numCount != 0) {
+                stringBuilder.append(numCount);
+            }
+            res.add(stringBuilder.toString());
+            return;
+        } else {
+            genAbbreviation(word, pos + 1, numCount + 1, stringBuilder, res);
+            if (numCount != 0) {
+                stringBuilder.append(numCount);
+            }
+            genAbbreviation(word, pos + 1, 0, stringBuilder.append(word.charAt(pos)), res);
         }
+        stringBuilder.setLength(len);
     }
 
     /**
@@ -1037,6 +1094,12 @@ public class Solution {
         lists.add(layer2);
         lists.add(layer3);
         System.out.println(solution.minimumTotal(lists));
+
+        char[] a = new char[] { 'a' };
+        System.out.println((int) 'a');
+        System.out.println((int) 'b');
+        System.out.println('a' ^ 256);
+        System.out.println('b' ^ 256);
     }
 
 }
