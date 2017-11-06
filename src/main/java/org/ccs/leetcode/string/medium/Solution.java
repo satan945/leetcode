@@ -997,6 +997,7 @@ public class Solution {
      * @return
      */
     public String nextClosestTime(String time) {
+        Set<Integer>
         return "";
 
     }
@@ -1015,6 +1016,7 @@ public class Solution {
      * 
      * The number of ways decoding "12" is 2.
      * </p>
+     * todo
      * 
      * @param s
      * @return
@@ -1022,6 +1024,60 @@ public class Solution {
     public int numDecodings(String s) {
 
         return 0;
+    }
+
+    /**
+     * 227. Basic Calculator II
+     * <p>
+     * https://leetcode.com/problems/basic-calculator-ii
+     * 
+     * <p>
+     * Implement a basic calculator to evaluate a simple expression string.
+     * 
+     * The expression string contains only non-negative integers, +, -, *, / operators and empty spaces . The integer
+     * division should truncate toward zero.
+     * 
+     * You may assume that the given expression is always valid.
+     * 
+     * Some examples: "3+2*2" = 7 " 3/2 " = 1 " 3+5 / 2 " = 5 Note: Do not use the eval built-in library function.
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public int calculate(String s) {
+        Stack<Integer> stack = new Stack<>();
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        int num = 0;
+        char oper = '+';
+        for (int i = 0; i < s.length(); i++) {
+            if (Character.isDigit(s.charAt(i))) {
+                num = num * 10 + s.charAt(i) - '0';
+            }
+            if (!Character.isDigit(s.charAt(i)) && s.charAt(i) != ' ' || i == s.length() - 1) {
+                if (oper == '-') {
+                    stack.push(-num);
+                }
+                if (oper == '+') {
+                    stack.push(num);
+                }
+                if (oper == '*') {
+                    stack.push(stack.pop() * num);
+                }
+                if (oper == '/') {
+                    stack.push(stack.pop() / num);
+                }
+                oper = s.charAt(i);
+                num = 0;
+            }
+        }
+        int res = 0;
+        while (!stack.isEmpty()) {
+            res += stack.pop();
+        }
+        return res;
     }
 
     public static void main(String[] args) {
@@ -1043,6 +1099,8 @@ public class Solution {
         // int minute = Integer.parseInt(timePoint.substring(timePoint.indexOf(":") + 1));
         // System.out.println(hour + ":" + minute);
         String addr = "2001:0db8:85a3:0:0:8A2E:0370:7334:";
+        String a = "1-1+1";
+        System.out.println(solution.calculate(a));
         System.out.println(solution.isIPv6Address(addr));
     }
 
