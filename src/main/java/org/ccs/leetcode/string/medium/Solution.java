@@ -997,9 +997,10 @@ public class Solution {
      * @return
      */
     public String nextClosestTime(String time) {
-        Set<Integer>
+        Set<Integer> set = new HashSet<>();
+        // add every digit to set
+        // add one min every time and check every digits is in the set
         return "";
-
     }
 
     /**

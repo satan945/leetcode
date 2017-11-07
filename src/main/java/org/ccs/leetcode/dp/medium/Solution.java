@@ -744,11 +744,57 @@ public class Solution {
             skip[i] = Math.max(sell[i - 1], skip[i - 1]);
             hold[i] = Math.max(hold[i - 1], buy[i - 1]);
         }
-        return Math.max(skip[len-1],(Math.max(sell[len-1],(Math.max(buy[len-1],hold[len-1])))));
+        return Math.max(skip[len - 1], (Math.max(sell[len - 1], (Math.max(buy[len - 1], hold[len - 1])))));
+    }
+
+    /**
+     * 300. Longest Increasing Subsequence
+     * <p>
+     * https://leetcode.com/problems/longest-increasing-subsequence
+     * 
+     * <p>
+     * Given an unsorted array of integers, find the length of longest increasing subsequence.
+     * 
+     * For example, Given [10, 9, 2, 5, 3, 7, 101, 18], The longest increasing subsequence is [2, 3, 7, 101], therefore
+     * the length is 4. Note that there may be more than one LIS combination, it is only necessary for you to return the
+     * length.
+     * 
+     * Your algorithm should run in O(n2) complexity.
+     * 
+     * Follow up: Could you improve it to O(n log n) time complexity?
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int lengthOfLIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return 1;
+        }
+        int[] dp = new int[nums.length];
+        dp[0] = 1;
+        int max = 0;
+        int res = 0;
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) {
+                    max = Math.max(max, dp[j]);
+                }
+            }
+            dp[i] = max + 1;
+            res = Math.max(res,dp[i]);
+            max = 0;
+        }
+        return res;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
+        int[] nums = new int[]{10, 9, 2, 5, 3, 7, 101, 18};
+        System.out.println(solution.lengthOfLIS(nums));
         // int[][] num = { { 1, 3, 1 }, { 1, 5, 1 }, { 4, 2, 1 } };
         // dict.add("aaaa");
         // dict.add("aaa");
@@ -759,6 +805,6 @@ public class Solution {
         // int[] num = new int[] { 2 };
         // System.out.println(solution.integerBreak(58));
         // System.out.println(solution.coinChange(num, 3));
-        System.out.println(solution.maxProfit(new int[] { 1, 3, 2, 8, 4, 9 }, 2));
+//        System.out.println(solution.maxProfit(new int[] { 1, 3, 2, 8, 4, 9 }, 2));
     }
 }
