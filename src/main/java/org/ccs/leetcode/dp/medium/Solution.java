@@ -670,6 +670,83 @@ public class Solution {
         return s0;
     }
 
+    /**
+     * 343. Integer Break
+     * <p>
+     * https://leetcode.com/problems/integer-break
+     * <p>
+     * Given a positive integer n, break it into the sum of at least two positive integers and maximize the product of
+     * those integers. Return the maximum product you can get.
+     * 
+     * For example, given n = 2, return 1 (2 = 1 + 1); given n = 10, return 36 (10 = 3 + 3 + 4).
+     * 
+     * Note: You may assume that n is not less than 2 and not larger than 58.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int integerBreak(int n) {
+        int[] maxPro = new int[n + 1];
+        for (int i = 2; i <= n; i++) {
+            for (int j = 1; j < i; j++) {
+                maxPro[i] = Math.max(maxPro[i], Math.max(j, maxPro[j]) * Math.max(i - j, maxPro[i - j]));
+            }
+        }
+        return maxPro[n];
+    }
+
+    /**
+     * 714. Best Time to Buy and Sell Stock with Transaction Fee
+     * <p>
+     * https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee
+     * <p>
+     * Your are given an array of integers prices, for which the i-th element is the price of a given stock on day i;
+     * and a non-negative integer fee representing a transaction fee.
+     * 
+     * You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
+     * You may not buy more than 1 share of a stock at a time (ie. you must sell the stock share before you buy again.)
+     * 
+     * Return the maximum profit you can make.
+     * 
+     * Example 1: Input: prices = [1, 3, 2, 8, 4, 9], fee = 2
+     * 
+     * Output: 8
+     * 
+     * Explanation: The maximum profit can be achieved by: Buying at prices[0] = 1 Selling at prices[3] = 8 Buying at
+     * prices[4] = 4 Selling at prices[5] = 9 The total profit is ((8 - 1) - 2) + ((9 - 4) - 2) = 8. Note:
+     * 
+     * 0 < prices.length <= 50000.
+     * 
+     * 0 < prices[i] < 50000.
+     * 
+     * 0 <= fee < 50000.
+     * </p>
+     * 
+     * @param prices
+     * @param fee
+     * @return
+     */
+    public int maxProfit(int[] prices, int fee) {
+        if (prices == null || prices.length <= 1) {
+            return 0;
+        }
+        int len = prices.length;
+        int[] buy = new int[len];
+        int[] sell = new int[len];
+        int[] hold = new int[len];
+        int[] skip = new int[len];
+        buy[0] = -prices[0];
+        hold[0] = -prices[0];
+        for (int i = 1; i < len; i++) {
+            buy[i] = Math.max(skip[i - 1], sell[i - 1]) - prices[i];
+            sell[i] = Math.max(hold[i - 1], buy[i - 1]) + prices[i] - fee;
+            skip[i] = Math.max(sell[i - 1], skip[i - 1]);
+            hold[i] = Math.max(hold[i - 1], buy[i - 1]);
+        }
+        return Math.max(skip[len-1],(Math.max(sell[len-1],(Math.max(buy[len-1],hold[len-1])))));
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // int[][] num = { { 1, 3, 1 }, { 1, 5, 1 }, { 4, 2, 1 } };
@@ -679,8 +756,9 @@ public class Solution {
         //
         // String a = "abcdefg";
         // System.out.println(a.substring(4, 6));
-        int[] num = new int[] { 2 };
-
-        System.out.println(solution.coinChange(num, 3));
+        // int[] num = new int[] { 2 };
+        // System.out.println(solution.integerBreak(58));
+        // System.out.println(solution.coinChange(num, 3));
+        System.out.println(solution.maxProfit(new int[] { 1, 3, 2, 8, 4, 9 }, 2));
     }
 }

@@ -21,8 +21,13 @@ public class Solution {
      * 
      * Example 1: Input: [7, 1, 5, 3, 6, 4] Output: 5
      * 
-     * max. difference = 6-1 = 5 (not 7-1 = 6, as selling price needs to be larger than buying price) Example 2: Input:
-     * [7, 6, 4, 3, 1] Output: 0
+     * max. difference = 6-1 = 5 (not 7-1 = 6, as selling price needs to be larger than buying price)
+     * 
+     * Example 2:
+     * 
+     * Input: [7, 6, 4, 3, 1]
+     * 
+     * Output: 0
      * 
      * In this case, no transaction is done, i.e. max profit = 0.
      * </p>
@@ -265,8 +270,6 @@ public class Solution {
         }
         int first = k;
         int second = k * k;
-        int sameCount = 0;
-        int diffCount = 0;
         if (n == 1) {
             return first;
         }
@@ -279,7 +282,6 @@ public class Solution {
             first = second;
             second = third;
         }
-
         return second;
     }
 
@@ -291,16 +293,4 @@ public class Solution {
         System.out.println(solution.numWays(2, 1));
     }
 
-    /**
-     * Given a list of N coins, their values (V1, V2, … , VN), and the total sum S. Find the minimum number of coins the
-     * sum of which is S (we can use as many coins of one type as we want), or report that it’s not possible to select
-     * coins in such a way that they sum up to S.
-     *
-     * @param coins
-     * @param sum
-     * @return
-     */
-    public int findCoins(int[] coins, int sum) {
-        return 0;
-    }
 }
