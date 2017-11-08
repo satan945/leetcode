@@ -387,41 +387,6 @@ public class Solution {
     }
 
     /**
-     * 375. Guess Number Higher or Lower II
-     * <p>
-     * https://leetcode.com/problems/guess-number-higher-or-lower-ii
-     * <p>
-     * We are playing the Guess Game. The game is as follows:
-     * 
-     * I pick a number from 1 to n. You have to guess which number I picked.
-     * 
-     * Every time you guess wrong, I'll tell you whether the number I picked is higher or lower.
-     * 
-     * However, when you guess a particular number x, and you guess wrong, you pay $x. You win the game when you guess
-     * the number I picked.
-     * 
-     * Example:
-     * 
-     * n = 10, I pick 8.
-     * 
-     * First round: You guess 5, I tell you that it's higher. You pay $5. Second round: You guess 7, I tell you that
-     * it's higher. You pay $7. Third round: You guess 9, I tell you that it's lower. You pay $9.
-     * 
-     * Game over. 8 is the number I picked.
-     * 
-     * You end up paying $5 + $7 + $9 = $21. Given a particular n ≥ 1, find out how much money you need to have to
-     * guarantee a win.
-     * </p>
-     * todo
-     * 
-     * @param n
-     * @return
-     */
-    public int getMoneyAmount(int n) {
-        return 0;
-    }
-
-    /**
      * 357. Count Numbers with Unique Digits
      * <p>
      * https://leetcode.com/problems/count-numbers-with-unique-digits
@@ -785,15 +750,44 @@ public class Solution {
                 }
             }
             dp[i] = max + 1;
-            res = Math.max(res,dp[i]);
+            res = Math.max(res, dp[i]);
             max = 0;
         }
         return res;
     }
 
+    /**
+     * 375. Guess Number Higher or Lower II
+     * <p>
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int getMoneyAmount(int n) {
+        int[][] dp = new int[n + 1][n + 1];
+        return calMoney(dp, 1, n);
+    }
+
+    private int calMoney(int[][] dp, int start, int end) {
+        if (start >= end) {
+            return 0;
+        }
+        if (dp[start][end] != 0) {
+            return dp[start][end];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = start; i < end; i++) {
+            int tmp = i + Math.max(calMoney(dp, start, i - 1), calMoney(dp, i + 1, end));
+            res = Math.min(tmp, res);
+        }
+        dp[start][end] = res;
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] nums = new int[]{10, 9, 2, 5, 3, 7, 101, 18};
+        int[] nums = new int[] { 10, 9, 2, 5, 3, 7, 101, 18 };
         System.out.println(solution.lengthOfLIS(nums));
         // int[][] num = { { 1, 3, 1 }, { 1, 5, 1 }, { 4, 2, 1 } };
         // dict.add("aaaa");
@@ -805,6 +799,6 @@ public class Solution {
         // int[] num = new int[] { 2 };
         // System.out.println(solution.integerBreak(58));
         // System.out.println(solution.coinChange(num, 3));
-//        System.out.println(solution.maxProfit(new int[] { 1, 3, 2, 8, 4, 9 }, 2));
+        // System.out.println(solution.maxProfit(new int[] { 1, 3, 2, 8, 4, 9 }, 2));
     }
 }
