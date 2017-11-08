@@ -4,7 +4,9 @@
 package org.ccs.leetcode.math.medium;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Abel created on 2017/7/7 11:55
@@ -369,11 +371,62 @@ public class Solution {
         return false;
     }
 
-    public static void main(String[] args) {
+    /**
+     * 166. Fraction to Recurring Decimal
+     * <p>
+     * https://leetcode.com/problems/fraction-to-recurring-decimal
+     * <p>
+     * Given two integers representing the numerator and denominator of a fraction, return the fraction in string
+     * format.
+     * 
+     * If the fractional part is repeating, enclose the repeating part in parentheses.
+     * 
+     * For example,
+     * 
+     * Given numerator = 1, denominator = 2, return "0.5". Given numerator = 2, denominator = 1, return "2". Given
+     * numerator = 2, denominator = 3, return "0.(6)".
+     * </p>
+     * 
+     * @param numerator
+     * @param denominator
+     * @return
+     */
+    public String fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) {
+            return "0";
+        }
+        StringBuilder res = new StringBuilder();
+        if (numerator < 0 ^ denominator < 0) {
+            res.append("-");
+        }
+        long dividend = Math.abs((long) numerator);
+        long divisor = Math.abs((long) denominator);
+        res.append(String.valueOf(dividend / divisor));
+        long remainder = dividend % divisor;
+        if (remainder == 0) {
+            return res.toString();
+        }
+        res.append(".");
+        Map<Long, Integer> map = new HashMap<>();
+        while (remainder != 0) {
+            if (map.containsKey(remainder)) {
+                res.insert(map.get(remainder), "(");
+                res.append(")");
+                break;
+            }
+            map.put(remainder, res.length());
+            remainder *= 10;
+            res.append(String.valueOf(remainder / divisor));
+            remainder %= divisor;
+        }
+        return res.toString();
+    }
 
-        String a = "1+2+3x";
-        String[] b = a.split("(?=\\+)|(?=-)");
-        System.out.println(b);
-        System.out.println(new Solution().complexNumberMultiply("1+1i", "1+1i"));
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        // String a = "1+2+3x";
+        // String[] b = a.split("(?=\\+)|(?=-)");
+        System.out.println(solution.fractionToDecimal(4, 333));
+//        System.out.println(new Solution().complexNumberMultiply("1+1i", "1+1i"));
     }
 }

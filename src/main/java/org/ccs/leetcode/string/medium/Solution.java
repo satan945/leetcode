@@ -997,7 +997,8 @@ public class Solution {
      * @return
      */
     public String nextClosestTime(String time) {
-        Set<Integer>
+        Set<Integer> set = new HashSet<>();
+
         return "";
 
     }
