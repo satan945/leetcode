@@ -904,7 +904,6 @@ public class Solution {
         return isExist;
     }
 
-
     /**
      * 131. Palindrome Partitioning
      * <p>
@@ -1075,7 +1074,38 @@ public class Solution {
      * @return
      */
     public int numberOfPatterns(int m, int n) {
-        return 0;
+        int[][] jumps = new int[10][10];
+        jumps[1][3] = jumps[3][1] = 2;
+        jumps[1][7] = jumps[7][1] = 4;
+        jumps[3][9] = jumps[9][3] = 6;
+        jumps[7][9] = jumps[9][7] = 8;
+        jumps[1][9] = jumps[9][1] = jumps[2][8] = jumps[8][2] = jumps[3][7] = jumps[7][3] = jumps[4][6] = jumps[6][4] = 5;
+        boolean visited[] = new boolean[10];
+        int res = 0;
+        for (int i = m; i <= n; i++) {
+            res += calPatterns(jumps, visited, 1, i - 1) * 4;// start from 1,3,7,9
+            res += calPatterns(jumps, visited, 2, i - 1) * 4;// start from 2,4,6,8
+            res += calPatterns(jumps, visited, 5, i - 1);// start from 5
+        }
+        return res;
+    }
+
+    private int calPatterns(int[][] jumps, boolean[] visited, int start, int remain) {
+        if (remain < 0) {
+            return 0;
+        }
+        if (remain == 0) {
+            return 1;
+        }
+        visited[start] = true;
+        int res = 0;
+        for (int i = 1; i <= 9; i++) {
+            if (!visited[i] && (jumps[start][i] == 0 || visited[jumps[start][i]])) {
+                res += calPatterns(jumps, visited, i, remain - 1);
+            }
+        }
+        visited[start]=false;
+        return res;
     }
 
     public static void main(String[] args) {

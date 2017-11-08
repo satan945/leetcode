@@ -387,41 +387,6 @@ public class Solution {
     }
 
     /**
-     * 375. Guess Number Higher or Lower II
-     * <p>
-     * https://leetcode.com/problems/guess-number-higher-or-lower-ii
-     * <p>
-     * We are playing the Guess Game. The game is as follows:
-     * 
-     * I pick a number from 1 to n. You have to guess which number I picked.
-     * 
-     * Every time you guess wrong, I'll tell you whether the number I picked is higher or lower.
-     * 
-     * However, when you guess a particular number x, and you guess wrong, you pay $x. You win the game when you guess
-     * the number I picked.
-     * 
-     * Example:
-     * 
-     * n = 10, I pick 8.
-     * 
-     * First round: You guess 5, I tell you that it's higher. You pay $5. Second round: You guess 7, I tell you that
-     * it's higher. You pay $7. Third round: You guess 9, I tell you that it's lower. You pay $9.
-     * 
-     * Game over. 8 is the number I picked.
-     * 
-     * You end up paying $5 + $7 + $9 = $21. Given a particular n ≥ 1, find out how much money you need to have to
-     * guarantee a win.
-     * </p>
-     * todo
-     * 
-     * @param n
-     * @return
-     */
-    public int getMoneyAmount(int n) {
-        return 0;
-    }
-
-    /**
      * 357. Count Numbers with Unique Digits
      * <p>
      * https://leetcode.com/problems/count-numbers-with-unique-digits
@@ -670,8 +635,160 @@ public class Solution {
         return s0;
     }
 
+    /**
+     * 343. Integer Break
+     * <p>
+     * https://leetcode.com/problems/integer-break
+     * <p>
+     * Given a positive integer n, break it into the sum of at least two positive integers and maximize the product of
+     * those integers. Return the maximum product you can get.
+     * 
+     * For example, given n = 2, return 1 (2 = 1 + 1); given n = 10, return 36 (10 = 3 + 3 + 4).
+     * 
+     * Note: You may assume that n is not less than 2 and not larger than 58.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int integerBreak(int n) {
+        int[] maxPro = new int[n + 1];
+        for (int i = 2; i <= n; i++) {
+            for (int j = 1; j < i; j++) {
+                maxPro[i] = Math.max(maxPro[i], Math.max(j, maxPro[j]) * Math.max(i - j, maxPro[i - j]));
+            }
+        }
+        return maxPro[n];
+    }
+
+    /**
+     * 714. Best Time to Buy and Sell Stock with Transaction Fee
+     * <p>
+     * https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee
+     * <p>
+     * Your are given an array of integers prices, for which the i-th element is the price of a given stock on day i;
+     * and a non-negative integer fee representing a transaction fee.
+     * 
+     * You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
+     * You may not buy more than 1 share of a stock at a time (ie. you must sell the stock share before you buy again.)
+     * 
+     * Return the maximum profit you can make.
+     * 
+     * Example 1: Input: prices = [1, 3, 2, 8, 4, 9], fee = 2
+     * 
+     * Output: 8
+     * 
+     * Explanation: The maximum profit can be achieved by: Buying at prices[0] = 1 Selling at prices[3] = 8 Buying at
+     * prices[4] = 4 Selling at prices[5] = 9 The total profit is ((8 - 1) - 2) + ((9 - 4) - 2) = 8. Note:
+     * 
+     * 0 < prices.length <= 50000.
+     * 
+     * 0 < prices[i] < 50000.
+     * 
+     * 0 <= fee < 50000.
+     * </p>
+     * 
+     * @param prices
+     * @param fee
+     * @return
+     */
+    public int maxProfit(int[] prices, int fee) {
+        if (prices == null || prices.length <= 1) {
+            return 0;
+        }
+        int len = prices.length;
+        int[] buy = new int[len];
+        int[] sell = new int[len];
+        int[] hold = new int[len];
+        int[] skip = new int[len];
+        buy[0] = -prices[0];
+        hold[0] = -prices[0];
+        for (int i = 1; i < len; i++) {
+            buy[i] = Math.max(skip[i - 1], sell[i - 1]) - prices[i];
+            sell[i] = Math.max(hold[i - 1], buy[i - 1]) + prices[i] - fee;
+            skip[i] = Math.max(sell[i - 1], skip[i - 1]);
+            hold[i] = Math.max(hold[i - 1], buy[i - 1]);
+        }
+        return Math.max(skip[len - 1], (Math.max(sell[len - 1], (Math.max(buy[len - 1], hold[len - 1])))));
+    }
+
+    /**
+     * 300. Longest Increasing Subsequence
+     * <p>
+     * https://leetcode.com/problems/longest-increasing-subsequence
+     * 
+     * <p>
+     * Given an unsorted array of integers, find the length of longest increasing subsequence.
+     * 
+     * For example, Given [10, 9, 2, 5, 3, 7, 101, 18], The longest increasing subsequence is [2, 3, 7, 101], therefore
+     * the length is 4. Note that there may be more than one LIS combination, it is only necessary for you to return the
+     * length.
+     * 
+     * Your algorithm should run in O(n2) complexity.
+     * 
+     * Follow up: Could you improve it to O(n log n) time complexity?
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int lengthOfLIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return 1;
+        }
+        int[] dp = new int[nums.length];
+        dp[0] = 1;
+        int max = 0;
+        int res = 0;
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) {
+                    max = Math.max(max, dp[j]);
+                }
+            }
+            dp[i] = max + 1;
+            res = Math.max(res, dp[i]);
+            max = 0;
+        }
+        return res;
+    }
+
+    /**
+     * 375. Guess Number Higher or Lower II
+     * <p>
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+    public int getMoneyAmount(int n) {
+        int[][] dp = new int[n + 1][n + 1];
+        return calMoney(dp, 1, n);
+    }
+
+    private int calMoney(int[][] dp, int start, int end) {
+        if (start >= end) {
+            return 0;
+        }
+        if (dp[start][end] != 0) {
+            return dp[start][end];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int i = start; i < end; i++) {
+            int tmp = i + Math.max(calMoney(dp, start, i - 1), calMoney(dp, i + 1, end));
+            res = Math.min(tmp, res);
+        }
+        dp[start][end] = res;
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
+        int[] nums = new int[] { 10, 9, 2, 5, 3, 7, 101, 18 };
+        System.out.println(solution.lengthOfLIS(nums));
         // int[][] num = { { 1, 3, 1 }, { 1, 5, 1 }, { 4, 2, 1 } };
         // dict.add("aaaa");
         // dict.add("aaa");
@@ -679,8 +796,9 @@ public class Solution {
         //
         // String a = "abcdefg";
         // System.out.println(a.substring(4, 6));
-        int[] num = new int[] { 2 };
-
-        System.out.println(solution.coinChange(num, 3));
+        // int[] num = new int[] { 2 };
+        // System.out.println(solution.integerBreak(58));
+        // System.out.println(solution.coinChange(num, 3));
+        // System.out.println(solution.maxProfit(new int[] { 1, 3, 2, 8, 4, 9 }, 2));
     }
 }
