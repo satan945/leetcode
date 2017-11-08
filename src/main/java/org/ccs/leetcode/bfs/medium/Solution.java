@@ -85,43 +85,6 @@ public class Solution {
     }
 
     /**
-     * 210. Course Schedule II
-     * <p>
-     * https://leetcode.com/problems/course-schedule-ii
-     * <p>
-     * There are a total of n courses you have to take, labeled from 0 to n - 1.
-     *
-     * Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is
-     * expressed as a pair: [0,1]
-     *
-     * Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should
-     * take to finish all courses.
-     *
-     * There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all
-     * courses, return an empty array.
-     *
-     * For example:
-     *
-     * 2, [[1,0]] There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the
-     * correct course order is [0,1]
-     *
-     * 4, [[1,0],[2,0],[3,1],[3,2]] There are a total of 4 courses to take. To take course 3 you should have finished
-     * both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course
-     * order is [0,1,2,3]. Another correct ordering is[0,2,1,3].
-     *
-     * Note: The input prerequisites is a graph represented by a list of edges, not adjacency matrices. Read more about
-     * how a graph is represented. You may assume that there are no duplicate edges in the input prerequisites.
-     * </p>
-     *
-     * @param numCourses
-     * @param prerequisites
-     * @return
-     */
-    public int[] findOrder(int numCourses, int[][] prerequisites) {
-        return new int[1];
-    }
-
-    /**
      * 127. Word Ladder
      * <p>
      * https://leetcode.com/problems/word-ladder
@@ -171,6 +134,78 @@ public class Solution {
             reached = toAdd;
         }
         return res;
+    }
+
+    /**
+     * 210. Course Schedule II
+     * <p>
+     * https://leetcode.com/problems/course-schedule-ii
+     * <p>
+     * There are a total of n courses you have to take, labeled from 0 to n - 1.
+     * 
+     * Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is
+     * expressed as a pair: [0,1]
+     * 
+     * Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should
+     * take to finish all courses.
+     * 
+     * There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all
+     * courses, return an empty array.
+     * 
+     * For example:
+     * 
+     * 2, [[1,0]] There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the
+     * correct course order is [0,1]
+     * 
+     * 4, [[1,0],[2,0],[3,1],[3,2]] There are a total of 4 courses to take. To take course 3 you should have finished
+     * both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course
+     * order is [0,1,2,3]. Another correct ordering is[0,2,1,3].
+     * </p>
+     * 
+     * @param numCourses
+     * @param prerequisites
+     * @return
+     */
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        int[] degrees = new int[numCourses];
+        List<List<Integer>> courseList = new ArrayList<>();
+        initGraph(degrees, courseList, prerequisites);
+        return bfsFindOrder(numCourses, courseList, degrees);
+    }
+
+    private int[] bfsFindOrder(int numCourses, List<List<Integer>> courseList, int[] degrees) {
+        int[] res = new int[numCourses];
+        Queue<Integer> toBeAccessed = new LinkedList<>();
+        for (int i = 0; i < degrees.length; i++) {
+            if (degrees[i] == 0) {
+                toBeAccessed.offer(i);
+            }
+        }
+        int order = 0;
+        while (!toBeAccessed.isEmpty()) {
+            int cur = toBeAccessed.poll();
+            res[order] = cur;
+            order++;
+            List<Integer> list = courseList.get(cur);
+            for (int course : list) {
+                degrees[course]--;
+                if (degrees[course] == 0) {
+                    toBeAccessed.offer(course);
+                }
+            }
+        }
+        return order == numCourses ? res : new int[0];
+    }
+
+    private void initGraph(int[] degrees, List<List<Integer>> courseList, int[][] prerequisites) {
+        int n = degrees.length;
+        while (n-- > 0) {
+            courseList.add(new ArrayList<>());
+        }
+        for (int[] pre : prerequisites) {
+            degrees[pre[0]]++;
+            courseList.get(pre[1]).add(pre[0]);
+        }
     }
 
     public static void main(String[] args) {
