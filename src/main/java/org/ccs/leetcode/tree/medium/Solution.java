@@ -1108,28 +1108,16 @@ public class Solution {
      * @return
      */
     public boolean verifyPreorder(int[] preorder) {
-        Stack<Integer> stack = new Stack<>();
-        if (preorder == null || preorder.length == 0) {
-            return false;
-        }
-        if (preorder.length == 1) {
-            return true;
-        }
-        stack.push(preorder[0]);
-        List<Integer> list = new ArrayList<>();
-        for (int i = 1; i < preorder.length; i++) {
-            while (!stack.isEmpty() && preorder[i] < stack.peek()) {
-                int num = stack.pop();
-                if (!list.isEmpty() && list.get(list.size() - 1) > num) {
-                    return false;
-                } else {
-                    list.add(num);
-                }
-                stack.push(preorder[i]);
-            }
+        int low = Integer.MIN_VALUE;
+        Stack<Integer> path = new Stack();
+        for (int p : preorder) {
+            if (p < low)
+                return false;
+            while (!path.empty() && p > path.peek())
+                low = path.pop();
+            path.push(p);
         }
         return true;
-
     }
 
     /**

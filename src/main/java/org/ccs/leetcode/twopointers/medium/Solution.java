@@ -420,6 +420,7 @@ public class Solution {
      * won't exceed 1,000. The length of all the strings in the input won't exceed 1,000.
      * </p>
      * https://discuss.leetcode.com/topic/80799/short-java-solutions-sorting-dictionary-and-without-sorting/2
+     * 
      * @param s
      * @param d
      * @return
@@ -441,12 +442,61 @@ public class Solution {
         return "";
     }
 
+    /**
+     * 713. Subarray Product Less Than K
+     * <p>
+     * Your are given an array of positive integers nums.
+     * 
+     * Count and print the number of (contiguous) subarrays where the product of all the elements in the subarray is
+     * less than k.
+     * 
+     * Example 1: Input: nums = [10, 5, 2, 6], k = 100 Output: 8
+     * 
+     * Explanation: The 8 subarrays that have product less than 100 are: [10], [5], [2], [6], [10, 5], [5, 2], [2, 6],
+     * [5, 2, 6]. Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.
+     *
+     * Note:
+     * 
+     * 0 < nums.length <= 50000. 0 < nums[i] < 1000. 0 <= k < 10^6.
+     * </p>
+     * 
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int res = 0;
+        int product = 1;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i; j < nums.length; j++) {
+                System.out.println("i=" + i + ",j=" + j);
+                if (j == i) {
+                    product *= nums[i];
+                } else {
+                    product *= nums[j];
+                }
+                System.out.println(product);
+                if (product < k) {
+                    res++;
+                } else {
+                    product = 1;
+                    break;
+                }
+                if (j == nums.length - 1) {
+                    product = 1;
+                }
+            }
+        }
+        return res;
+    }
+
     private int quad(int num, int a, int b, int c) {
         return a * num * num + b * num + c;
     }
 
     public static void main(String[] args) {
         int[] colors = new int[] { 0, 1 };
-        new Solution().sortColors1(colors);
+        Solution solution = new Solution();
+        System.out.println(solution.numSubarrayProductLessThanK(new int[] { 10, 5, 2, 6 }, 100));
     }
 }

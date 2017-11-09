@@ -3,16 +3,16 @@
  */
 package org.ccs.leetcode.dfs.medium;
 
-import org.ccs.leetcode.bean.ListNode;
-import org.ccs.leetcode.bean.NestedInteger;
-import org.ccs.leetcode.bean.TreeNode;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.function.BiPredicate;
+
+import org.ccs.leetcode.bean.ListNode;
+import org.ccs.leetcode.bean.NestedInteger;
+import org.ccs.leetcode.bean.TreeNode;
 
 /**
  * @author Abel created on 2017/9/1 15:06
@@ -25,38 +25,38 @@ public class Solution {
      * <p>
      * https://leetcode.com/problems/number-of-islands
      * <p>
-     * 
+     *
      * Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by
      * water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the
      * grid are all surrounded by water.
-     * 
+     *
      * Example 1:
-     * 
+     *
      * 11110
-     * 
+     *
      * 11010
-     * 
+     *
      * 11000
-     * 
+     *
      * 00000
-     * 
+     *
      * Answer: 1
-     * 
+     *
      * Example 2:
-     * 
+     *
      * 11000
-     * 
+     *
      * 11000
-     * 
+     *
      * 00100
-     * 
+     *
      * 00011
-     * 
+     *
      * Answer: 3
-     * 
+     *
      * Credits: Special thanks to @mithmatt for adding this problem and creating all test cases.
      * </p>
-     * 
+     *
      * @param grid
      * @return
      */
@@ -99,32 +99,32 @@ public class Solution {
      * <p>
      * https://leetcode.com/problems/surrounded-regions
      * <p>
-     * 
+     *
      * Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.
-     * 
+     *
      * A region is captured by flipping all 'O's into 'X's in that surrounded region.
-     * 
+     *
      * For example,
-     * 
+     *
      * X X X X
-     * 
+     *
      * X O O X
-     * 
+     *
      * X X O X
-     * 
+     *
      * X O X X
-     * 
+     *
      * After running your function, the board should be:
-     * 
+     *
      * X X X X
-     * 
+     *
      * X X X X
-     * 
+     *
      * X X X X
-     * 
+     *
      * X O X X
      * </p>
-     * 
+     *
      * @param board
      */
     public void solve(char[][] board) {
@@ -192,9 +192,9 @@ public class Solution {
      * https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree
      * <p>
      * Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
-     * 
+     *
      * </p>
-     * 
+     *
      * @param head
      * @return
      */
@@ -230,45 +230,45 @@ public class Solution {
      * https://leetcode.com/problems/01-matrix
      * <p>
      * Given a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.
-     * 
+     *
      * The distance between two adjacent cells is 1.
-     * 
+     *
      * Example 1:
-     * 
+     *
      * Input:
-     * 
+     *
      * 0 0 0
-     * 
+     *
      * 0 1 0
-     * 
+     *
      * 0 0 0
-     * 
+     *
      * Output:
-     * 
+     *
      * 0 0 0
-     * 
+     *
      * 0 1 0
-     * 
+     *
      * 0 0 0
-     * 
+     *
      * Example 2: Input:
-     * 
+     *
      * 0 0 0
-     * 
+     *
      * 0 1 0
-     * 
+     *
      * 1 1 1
-     * 
+     *
      * Output: 0 0 0
-     * 
+     *
      * 0 1 0
-     * 
+     *
      * 1 2 1
-     * 
+     *
      * Note: The number of elements of the given matrix will not exceed 10,000. There are at least one 0 in the given
      * matrix. The cells are adjacent in only four directions: up, down, left and right.
      * </p>
-     * 
+     *
      * @param matrix
      * @return
      */
@@ -296,18 +296,18 @@ public class Solution {
      * https://leetcode.com/problems/nested-list-weight-sum-ii
      * <p>
      * Given a nested list of integers, return the sum of all integers in the list weighted by their depth.
-     * 
+     *
      * Each element is either an integer, or a list -- whose elements may also be integers or other lists.
-     * 
+     *
      * Different from the previous question where weight is increasing from root to leaf, now the weight is defined from
      * bottom up. i.e., the leaf level integers have weight 1, and the root level integers have the largest weight.
-     * 
+     *
      * Example 1: Given the list [[1,1],2,[1,1]], return 8. (four 1's at depth 1, one 2 at depth 2)
-     * 
+     *
      * Example 2: Given the list [1,[4,[6]]], return 17. (one 1 at depth 3, one 4 at depth 2, and one 6 at depth 1; 1*3
      * + 4*2 + 6*1 = 17)
      * </p>
-     * 
+     *
      * @param nestedList
      * @return
      */
@@ -349,21 +349,21 @@ public class Solution {
      * https://leetcode.com/problems/course-schedule
      * <p>
      * There are a total of n courses you have to take, labeled from 0 to n - 1.
-     * 
+     *
      * Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is
      * expressed as a pair: [0,1]
-     * 
+     *
      * Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
-     * 
+     *
      * For example:
-     * 
+     *
      * 2, [[1,0]] There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is
      * possible.
-     * 
+     *
      * 2, [[1,0],[0,1]] There are a total of 2 courses to take. To take course 1 you should have finished course 0, and
      * to take course 0 you should also have finished course 1. So it is impossible.
      * </p>
-     * 
+     *
      * @param numCourses
      * @param prerequisites
      * @return
@@ -441,22 +441,22 @@ public class Solution {
      * https://leetcode.com/problems/decode-string
      * <p>
      * Given an encoded string, return it's decoded string.
-     * 
+     *
      * The encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated
      * exactly k times. Note that k is guaranteed to be a positive integer.
-     * 
+     *
      * You may assume that the input string is always valid; No extra white spaces, square brackets are well-formed,
      * etc.
-     * 
+     *
      * Furthermore, you may assume that the original data does not contain any digits and that digits are only for those
      * repeat numbers, k. For example, there won't be input like 3a or 2[4].
-     * 
+     *
      * Examples:
-     * 
+     *
      * s = "3[a]2[bc]", return "aaabcbc". s = "3[a2[c]]", return "accaccacc". s = "2[abc]3[cd]ef", return
      * "abcabccdcdcdef".
      * </p>
-     * 
+     *
      * @param s
      * @return
      */
@@ -544,11 +544,11 @@ public class Solution {
      * https://leetcode.com/problems/path-sum-ii
      * <p>
      * Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
-     * 
+     *
      * For example: Given the below binary tree and sum = 22, 5 / \ 4 8 / / \ 11 13 4 / \ / \ 7 2 5 1 return [
      * [5,4,11,2], [5,8,4,5] ]
      * </p>
-     * 
+     *
      * @param root
      * @param sum
      * @return
@@ -607,9 +607,9 @@ public class Solution {
      * how a graph is represented. You may assume that there are no duplicate edges in the input prerequisites.
      * </p>
      * todo
-     * 
+     *
      * https://discuss.leetcode.com/topic/13873/two-ac-solution-in-java-using-bfs-and-dfs-with-explanation
-     * 
+     *
      * @param numCourses
      * @param prerequisites
      * @return
@@ -641,18 +641,18 @@ public class Solution {
      * https://leetcode.com/problems/lonely-pixel-i
      * <p>
      * Given a picture consisting of black and white pixels, find the number of black lonely pixels.
-     * 
+     *
      * The picture is represented by a 2D char array consisting of 'B' and 'W', which means black and white pixels
      * respectively.
-     * 
+     *
      * A black lonely pixel is character 'B' that located at a specific position where the same row and same column
      * don't have any other black pixels.
-     * 
+     *
      * Example: Input: [['W', 'W', 'B'], ['W', 'B', 'W'], ['B', 'W', 'W']]
-     * 
+     *
      * Output: 3 Explanation: All the three 'B's are black lonely pixels.
      * </p>
-     * 
+     *
      * @param picture
      * @return
      */
@@ -683,8 +683,129 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 490. The Maze
+     *
+     * <p>
+     * https://leetcode.com/problems/the-maze
+     * <p>
+     * There is a ball in a maze with empty spaces and walls. The ball can go through empty spaces by rolling up, down,
+     * left or right, but it won't stop rolling until hitting a wall. When the ball stops, it could choose the next
+     * direction.
+     *
+     * Given the ball's start position, the destination and the maze, determine whether the ball could stop at the
+     * destination.
+     *
+     * The maze is represented by a binary 2D array. 1 means the wall and 0 means the empty space. You may assume that
+     * the borders of the maze are all walls. The start and destination coordinates are represented by row and column
+     * indexes.
+     *
+     * There is only one ball and one destination in the maze.
+     *
+     * Both the ball and the destination exist on an empty space, and they will not be at the same position initially.
+     *
+     * The given maze does not contain border (like the red rectangle in the example pictures), but you could assume the
+     * border of the maze are all walls.
+     *
+     * The maze contains at least 2 empty spaces, and both the width and height of the maze won't exceed 100.
+     *
+     * </p>
+     *
+     * @param maze
+     * @param start
+     * @param destination
+     * @return
+     */
+    public boolean hasPath(int[][] maze, int[] start, int[] destination) {
+        int m = maze.length;
+        int n = maze[0].length;
+        boolean[][] visited = new boolean[m][n];
+        return dfsHasPath(maze, start[0], start[1], destination, visited);
+    }
+
+    private boolean dfsHasPath(int[][] maze, int i, int j, int[] destination, boolean[][] visited) {
+        int[][] moves = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        if (visited[i][j]) {
+            return false;
+        }
+        if (i == destination[0] && j == destination[1]) {
+            return true;
+        }
+        visited[i][j] = true;
+
+        for (int[] move : moves) {
+            int x = i;
+            int y = j;
+            while (canRoll(maze, x + move[0], y + move[1])) {
+                x += move[0];
+                y += move[1];
+            }
+            if (dfsHasPath(maze, x, y, destination, visited)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean canRoll(int[][] maze, int row, int col) {
+        if (row >= maze.length || row < 0 || col >= maze[0].length || col < 0) {
+            return false; // stop at borders
+        }
+        return maze[row][col] != 1; // stop at walls (1 -> wall)
+    }
+
+    /**
+     * 505. The Maze II
+     * <p>
+     * https://leetcode.com/problems/the-maze-ii
+     * <p>
+     * 
+     * There is a ball in a maze with empty spaces and walls. The ball can go through empty spaces by rolling up, down,
+     * left or right, but it won't stop rolling until hitting a wall. When the ball stops, it could choose the next
+     * direction.
+     * 
+     * Given the ball's start position, the destination and the maze, find the shortest distance for the ball to stop at
+     * the destination. The distance is defined by the number of empty spaces traveled by the ball from the start
+     * position (excluded) to the destination (included). If the ball cannot stop at the destination, return -1.
+     * 
+     * The maze is represented by a binary 2D array. 1 means the wall and 0 means the empty space. You may assume that
+     * the borders of the maze are all walls. The start and destination coordinates are represented by row and column
+     * indexes.
+     *
+     * Note:
+     * 
+     * There is only one ball and one destination in the maze. Both the ball and the destination exist on an empty
+     * space, and they will not be at the same position initially. The given maze does not contain border (like the red
+     * rectangle in the example pictures), but you could assume the border of the maze are all walls. The maze contains
+     * at least 2 empty spaces, and both the width and height of the maze won't exceed 100.
+     * </p>
+     * 
+     * @param maze
+     * @param start
+     * @param destination
+     * @return
+     */
+    public int shortestDistance(int[][] maze, int[] start, int[] destination) {
+        return 0;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
+        int[][] maze = { //
+                { 0, 0, 1, 0, 0 }, //
+                { 0, 0, 0, 0, 0 }, //
+                { 0, 0, 0, 1, 0 }, //
+                { 1, 1, 0, 1, 1 }, //
+                { 0, 0, 0, 0, 0 } };
+
+        int[][] maze2 = { //
+                { 0, 0, 1, 0, 0 }, //
+                { 0, 0, 0, 0, 0 }, //
+                { 0, 0, 0, 1, 0 }, //
+                { 1, 1, 0, 1, 1 }, //
+                { 0, 0, 0, 0, 0 } };
+        // System.out.println(solution.hasPath(maze, new int[] { 0, 4 }, new int[] { 3, 2 }));
+        System.out.println(solution.hasPath(maze2, new int[] { 0, 4 }, new int[] { 4, 4 }));
         // ListNode head = new ListNode(1);
         // head.next = new ListNode(3);
         // System.out.println(new Solution().sortedListToBST(head));
@@ -709,6 +830,6 @@ public class Solution {
         node3.right = node7;
         node5.left = node8;
         node5.right = node9;
-        System.out.println(solution.pathSum(root, 22));
+        // System.out.println(solution.pathSum(root, 22));
     }
 }

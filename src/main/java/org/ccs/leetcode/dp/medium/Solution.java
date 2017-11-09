@@ -785,6 +785,35 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 221. Maximal Square
+     * <p>
+     * https://leetcode.com/problems/maximal-square
+     * <p>
+     * Given a 2D binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its
+     * area.
+     * </p>
+     * 
+     * @param matrix
+     * @return
+     */
+    public int maximalSquare(char[][] matrix) {
+        if (matrix.length == 0) {
+            return 0;
+        }
+        int m = matrix.length, n = matrix[0].length, result = 0;
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (matrix[i - 1][j - 1] == '1') {
+                    dp[i][j] = Math.min(Math.min(dp[i][j - 1], dp[i - 1][j - 1]), dp[i - 1][j]) + 1;
+                    result = Math.max(dp[i][j], result); // update result
+                }
+            }
+        }
+        return result * result;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = new int[] { 10, 9, 2, 5, 3, 7, 101, 18 };
