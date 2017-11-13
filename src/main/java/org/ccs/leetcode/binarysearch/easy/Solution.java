@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.binarysearch.easy;
 
+import org.ccs.leetcode.bean.TreeNode;
+
 import java.util.Arrays;
 
 /**
@@ -65,9 +67,41 @@ public class Solution {
         return result;
     }
 
+    /**
+     * 270. Closest Binary Search Tree Value
+     * <p>
+     * https://leetcode.com/problems/closest-binary-search-tree-value
+     * <p>
+     * Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.
+     * 
+     * Note: Given target value is a floating point. You are guaranteed to have only one unique value in the BST that is
+     * closest to the target.
+     * </p>
+     * 
+     * @param root
+     * @param target
+     * @return
+     */
+    public int closestValue(TreeNode root, double target) {
+        int ret = root.val;
+        double lastSub = Double.MAX_VALUE;
+        while (root != null) {
+            double curSub = Math.abs(target - root.val);
+            if (curSub > lastSub) {
+                break;
+            }
+            if (curSub < Math.abs(target - ret)) {
+                ret = root.val;
+            }
+            root = target > root.val ? root.right : root.left;
+
+        }
+        return ret;
+    }
+
     public static void main(String[] args) {
-        int[] houses = { 1, 2, 3 ,5,15};
-        int[] heaters = { 2,30 };
+        int[] houses = { 1, 2, 3, 5, 15 };
+        int[] heaters = { 2, 30 };
         System.out.println(new Solution().findRadius(houses, heaters));
     }
 }

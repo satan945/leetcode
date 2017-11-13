@@ -5,7 +5,9 @@ package org.ccs.leetcode.bfs.medium;
 
 import org.ccs.leetcode.bean.TreeNode;
 
+import javax.management.QueryEval;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -142,26 +144,26 @@ public class Solution {
      * https://leetcode.com/problems/course-schedule-ii
      * <p>
      * There are a total of n courses you have to take, labeled from 0 to n - 1.
-     * 
+     *
      * Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is
      * expressed as a pair: [0,1]
-     * 
+     *
      * Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should
      * take to finish all courses.
-     * 
+     *
      * There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all
      * courses, return an empty array.
-     * 
+     *
      * For example:
-     * 
+     *
      * 2, [[1,0]] There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the
      * correct course order is [0,1]
-     * 
+     *
      * 4, [[1,0],[2,0],[3,1],[3,2]] There are a total of 4 courses to take. To take course 3 you should have finished
      * both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course
      * order is [0,1,2,3]. Another correct ordering is[0,2,1,3].
      * </p>
-     * 
+     *
      * @param numCourses
      * @param prerequisites
      * @return
@@ -208,7 +210,58 @@ public class Solution {
         }
     }
 
+    /**
+     * 542. 01 Matrix
+     *
+     * <p>
+     * https://leetcode.com/problems/01-matrix
+     * <p>
+     * Given a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.
+     *
+     * The distance between two adjacent cells is 1.
+     * </p>
+     * https://discuss.leetcode.com/topic/92578/java-dfs-solution-beat-95
+     * 
+     * @param matrix
+     * @return
+     */
+    public int[][] updateMatrix(int[][] matrix) {// dp solution
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return new int[0][0];
+        }
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int MAX = m + n;
+        int[][] res = new int[m][n];
+        for (int[] row : res) {
+            Arrays.fill(row, MAX);
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    res[i][j] = 0;
+                } else {
+                    int left = j == 0 ? MAX : res[i][j - 1];
+                    int up = i == 0 ? MAX : res[i - 1][j];
+                    res[i][j] = Math.min(left, up) + 1;
+                }
+            }
+        }
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                int right = j == n - 1 ? MAX : res[i][j + 1];
+                int down = i == m - 1 ? MAX : res[i + 1][j];
+                res[i][j] = Math.min(res[i][j], Math.min(right, down) + 1);
+            }
+        }
+
+        return res;
+    }
+
     public static void main(String[] args) {
+        Solution solution = new Solution();
+        Integer a = 0;
+        System.out.println(a);
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
@@ -220,6 +273,12 @@ public class Solution {
         stringList.add("log");
         stringList.add("cog");
         // System.out.println(new Solution().rightSideView(root));
-        System.out.println(new Solution().ladderLength("hit", "cog", stringList));
+        // System.out.println(new Solution().ladderLength("hit", "cog", stringList));
+        int[][] matrix = { { 1, 1, 0, 0, 1, 0, 0, 1, 1, 0 }, { 1, 0, 0, 1, 0, 1, 1, 1, 1, 1 },
+                { 1, 1, 1, 0, 0, 1, 1, 1, 1, 0 }, { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1 }, { 0, 0, 1, 1, 1, 1, 1, 1, 1, 0 },
+                { 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 }, { 0, 1, 1, 1, 1, 1, 1, 0, 0, 1 }, { 1, 1, 1, 1, 1, 0, 0, 1, 1, 1 },
+                { 0, 1, 0, 1, 1, 0, 1, 1, 1, 1 }, { 1, 1, 1, 0, 1, 0, 1, 1, 1, 1 } };
+
+        solution.updateMatrix(matrix);
     }
 }

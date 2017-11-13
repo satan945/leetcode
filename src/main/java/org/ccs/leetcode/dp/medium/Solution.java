@@ -376,14 +376,22 @@ public class Solution {
      * 
      * Credits: Special thanks to @pbrother for adding this problem and creating all test cases.
      * </p>
-     * todo
      * 
      * @param nums
      * @param target
      * @return
      */
     public int combinationSum4(int[] nums, int target) {
-        return 0;
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= target; i++) {
+            for (int j = 0; j < nums.length; j++) {
+                if (i - nums[j] >= 0) {
+                    dp[i] += dp[i - nums[j]];
+                }
+            }
+        }
+        return dp[target];
     }
 
     /**
@@ -522,6 +530,50 @@ public class Solution {
             }
         }
         return dp[m - 1][n - 1];
+    }
+
+    /**
+     * 63. Unique Paths II
+     * <p>
+     * https://leetcode.com/problems/unique-paths-ii
+     * <p>
+     * Follow up for "Unique Paths":
+     * 
+     * Now consider if some obstacles are added to the grids. How many unique paths would there be?
+     * 
+     * An obstacle and empty space is marked as 1 and 0 respectively in the grid.
+     * 
+     * For example, There is one obstacle in the middle of a 3x3 grid as illustrated below.
+     * 
+     * [ [0,0,0], [0,1,0], [0,0,0] ] The total number of unique paths is 2.
+     * </p>
+     * 
+     * @param obstacleGrid
+     * @return
+     */
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        if (obstacleGrid == null || obstacleGrid.length == 0 || obstacleGrid[0].length == 0) {
+            return 0;
+        }
+        if (obstacleGrid[0][0] == 1) {
+            return 0;
+        }
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (obstacleGrid[i][j] == 1) {
+                    dp[i][j] = 0;
+                } else if (i == 0 || j == 0) {
+                    dp[i][j] = 1;
+                } else {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
+
     }
 
     /**
@@ -814,9 +866,232 @@ public class Solution {
         return result * result;
     }
 
+    /**
+     * 413. Arithmetic Slices
+     * <p>
+     * https://leetcode.com/problems/arithmetic-slices
+     * <p>
+     * A sequence of number is called arithmetic if it consists of at least three elements and if the difference between
+     * any two consecutive elements is the same.
+     * 
+     * For example, these are arithmetic sequence:
+     * 
+     * 1, 3, 5, 7, 9 7, 7, 7, 7 3, -1, -5, -9 The following sequence is not arithmetic.
+     * 
+     * 1, 1, 2, 5, 7
+     * 
+     * A zero-indexed array A consisting of N numbers is given. A slice of that array is any pair of integers (P, Q)
+     * such that 0 <= P < Q < N.
+     * 
+     * A slice (P, Q) of array A is called arithmetic if the sequence: A[P], A[p + 1], ..., A[Q - 1], A[Q] is
+     * arithmetic. In particular, this means that P + 1 < Q.
+     * 
+     * The function should return the number of arithmetic slices in the array A.
+     * 
+     * 
+     * Example:
+     * 
+     * A = [1, 2, 3, 4]
+     * 
+     * return: 3, for 3 arithmetic slices in A: [1, 2, 3], [2, 3, 4] and [1, 2, 3, 4] itself.
+     * </p>
+     * 
+     * @param A
+     * @return
+     */
+    public int numberOfArithmeticSlices(int[] A) {
+        if (A == null || A.length <= 2) {
+            return 0;
+        }
+        int[] dp = new int[A.length];
+        int res = 0;
+        for (int i = 2; i < A.length; i++) {
+            if (A[i - 1] - A[i - 2] == A[i] - A[i - 1]) {
+                dp[i] = dp[i - 1] + 1;
+                res += dp[i];
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 368. Largest Divisible Subset
+     * <p>
+     * https://leetcode.com/problems/largest-divisible-subset
+     * <p>
+     * Given a set of distinct positive integers, find the largest subset such that every pair (Si, Sj) of elements in
+     * this subset satisfies: Si % Sj = 0 or Sj % Si = 0.
+     * 
+     * If there are multiple solutions, return any subset is fine.
+     * 
+     * Example 1:
+     * 
+     * nums: [1,2,3]
+     * 
+     * Result: [1,2] (of course, [1,3] will also be ok) Example 2:
+     * 
+     * nums: [1,2,4,8]
+     * 
+     * Result: [1,2,4,8]
+     * </p>
+     * todo
+     * 
+     * @param nums
+     * @return
+     */
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return res;
+        }
+        Arrays.sort(nums);
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, 1);
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (nums[i] % nums[j] == 0) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        int maxIndex = 0;
+        for (int i = 0; i < nums.length; i++) {
+            maxIndex = dp[i] > dp[maxIndex] ? i : maxIndex;
+        }
+
+        int cur = dp[maxIndex];
+        int tmp = nums[maxIndex];
+        for (int i = maxIndex; i >= 0; i--) {
+            if (tmp % nums[i] == 0 && cur == dp[i]) {
+                res.add(nums[i]);
+                tmp = nums[i];
+                cur--;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 516. Longest Palindromic Subsequence
+     * <p>
+     * https://leetcode.com/problems/longest-palindromic-subsequence
+     * 
+     * @param s
+     * @return
+     */
+    public int longestPalindromeSubseq(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        if (s.length() == 1) {
+            return 1;
+        }
+        int n = s.length();
+        int[][] dp = new int[n][n];// storage the length of longest palindromic subsequence from i to j
+        for (int i = n - 1; i >= 0; i--) {
+            dp[i][i] = 1;
+            for (int j = i + 1; j < n; j++) {
+                if (s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
+                } else {
+                    dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[0][n - 1];
+    }
+
+    /**
+     * 474. Ones and Zeroes
+     * <p>
+     * https://leetcode.com/problems/ones-and-zeroes
+     * <p>
+     * In the computer world, use restricted resource you have to generate maximum benefit is what we always want to
+     * pursue.
+     *
+     * For now, suppose you are a dominator of m 0s and n 1s respectively. On the other hand, there is an array with
+     * strings consisting of only 0s and 1s.
+     *
+     * Now your task is to find the maximum number of strings that you can form with given m 0s and n 1s. Each 0 and 1
+     * can be used at most once.
+     *
+     * Note: The given numbers of 0s and 1s will both not exceed 100 The size of given string array won't exceed 600.
+     * </p>
+     * greedy : https://discuss.leetcode.com/topic/81309/java-19ms-beats-100-no-dp-but-greedy
+     *
+     * @param strs
+     * @param m
+     * @param n
+     * @return
+     */
+    public int findMaxForm(String[] strs, int m, int n) {
+        if ((m == 0 && n == 0) || strs == null || strs.length == 0) {
+            return 0;
+        }
+        int[][] dp = new int[m + 1][n + 1];
+        for (String str : strs) {
+            int[] count = countZeroAndOne(str);
+            for (int i = m; i >= count[0]; i--) {
+                for (int j = n; j >= count[1]; j--) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i - count[0]][j - count[1]] + 1);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    private int[] countZeroAndOne(String str) {
+        int[] count = new int[2];
+        for (int i = 0; i < str.length(); i++) {
+            count[str.charAt(i) - '0']++;
+        }
+        return count;
+    }
+
+    /**
+     * 416. Partition Equal Subset Sum
+     * <p>
+     * https://leetcode.com/problems/partition-equal-subset-sum
+     * <p>
+     * Given a non-empty array containing only positive integers, find if the array can be partitioned into two subsets
+     * such that the sum of elements in both subsets is equal.
+     * 
+     * Note: Each of the array element will not exceed 100. The array size will not exceed 200.
+     * </p>
+     *
+     * @param nums
+     * @return
+     */
+    public boolean canPartition(int[] nums) {
+        if (nums == null || nums.length <= 1) {
+            return false;
+        }
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if (sum == 0) {
+            return true;
+        }
+        if (sum % 2 != 0) {
+            return false;
+        }
+        sum >>= 1;
+        boolean[] dp = new boolean[sum + 1];
+        dp[0] = true;
+        for (int i = 1; i <= nums.length; i++) {
+            for (int j = sum; i >= nums[i - 1]; j--) {
+                dp[j] = dp[j] || dp[j - nums[i - 1]];
+            }
+        }
+        return dp[sum];
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = new int[] { 10, 9, 2, 5, 3, 7, 101, 18 };
+        int[] nums2 = new int[] { 1, 2, 4, 8 };
+        System.out.println(solution.largestDivisibleSubset(nums2));
         System.out.println(solution.lengthOfLIS(nums));
         // int[][] num = { { 1, 3, 1 }, { 1, 5, 1 }, { 4, 2, 1 } };
         // dict.add("aaaa");

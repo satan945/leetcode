@@ -1081,8 +1081,63 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 392. Is Subsequence
+     * <p>
+     * https://leetcode.com/problems/is-subsequence
+     * <p>
+     * Given a string s and a string t, check if s is subsequence of t.
+     * 
+     * You may assume that there is only lower case English letters in both s and t. t is potentially a very long
+     * (length ~= 500,000) string, and s is a short string (<=100).
+     * 
+     * A subsequence of a string is a new string which is formed from the original string by deleting some (can be none)
+     * of the characters without disturbing the relative positions of the remaining characters. (ie, "ace" is a
+     * subsequence of "abcde" while "aec" is not).
+     * 
+     * Example 1: s = "abc", t = "ahbgdc"
+     * 
+     * Return true.
+     * 
+     * Example 2: s = "axc", t = "ahbgdc"
+     * 
+     * Return false.
+     * 
+     * Follow up: If there are lots of incoming S, say S1, S2, ... , Sk where k >= 1B, and you want to check one by one
+     * to see if T has its subsequence. In this scenario, how would you change your code?
+     * </p>
+     * https://discuss.leetcode.com/topic/67167/java-code-for-the-follow-up-question
+     * 
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isSubsequence(String s, String t) {
+        if (t == null || t.length() == 0 || s == null || s.length() == 0 || t.length() < s.length()) {
+            return false;
+        }
+        int sIndex = 0;
+        int tIndex = 0;
+        while (sIndex <= s.length() && tIndex <= t.length()) {
+            if (s.charAt(sIndex) == t.charAt(tIndex)) {
+                sIndex++;
+
+            }
+            if (sIndex == s.length()) {
+                return true;
+            }
+            tIndex++;
+        }
+        return false;
+    }
+
+
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
+        String[] strings = new String[] { "1110000", "0111100", "1000111", "0010101" };
+        System.out.println(solution.findMaxForm(strings, 1, 1));
         // String a =
         // "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
         // System.out.println(solution.nextGreaterElement(12));
@@ -1099,10 +1154,10 @@ public class Solution {
         // int hour = Integer.parseInt(timePoint.substring(0, timePoint.indexOf(":")));
         // int minute = Integer.parseInt(timePoint.substring(timePoint.indexOf(":") + 1));
         // System.out.println(hour + ":" + minute);
-        String addr = "2001:0db8:85a3:0:0:8A2E:0370:7334:";
-        String a = "1-1+1";
-        System.out.println(solution.calculate(a));
-        System.out.println(solution.isIPv6Address(addr));
+        // String addr = "2001:0db8:85a3:0:0:8A2E:0370:7334:";
+        // String a = "1-1+1";
+        // System.out.println(solution.calculate(a));
+        // System.out.println(solution.isIPv6Address(addr));
     }
 
 }

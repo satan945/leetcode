@@ -422,11 +422,43 @@ public class Solution {
         return res.toString();
     }
 
+    /**
+     * 311. Sparse Matrix Multiplication
+     * <p>
+     * https://leetcode.com/problems/sparse-matrix-multiplication
+     * <p>
+     * Given two sparse matrices A and B, return the result of AB.
+     *
+     * You may assume that A's column number is equal to B's row number.
+     * </p>
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public int[][] multiply(int[][] A, int[][] B) {
+        int m = A.length, p = A[0].length, n = B[0].length;
+        int[][] res = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < p; j++) {
+                if (A[i][j] != 0) {
+                    for (int k = 0; k < n; k++) {
+                        if (B[j][k] != 0) {
+                            res[i][k] += A[i][j] * B[j][k];
+                        }
+                    }
+                }
+            }
+
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // String a = "1+2+3x";
         // String[] b = a.split("(?=\\+)|(?=-)");
         System.out.println(solution.fractionToDecimal(4, 333));
-//        System.out.println(new Solution().complexNumberMultiply("1+1i", "1+1i"));
+        // System.out.println(new Solution().complexNumberMultiply("1+1i", "1+1i"));
     }
 }
