@@ -1121,44 +1121,76 @@ public class Solution {
     }
 
     /**
-     * 583. Delete Operation for Two Strings
-     *
+     * 376. Wiggle Subsequence
      * <p>
-     * https://leetcode.com/problems/delete-operation-for-two-strings
+     * https://leetcode.com/problems/wiggle-subsequence
      * <p>
-     * Given two words word1 and word2, find the minimum number of steps required to make word1 and word2 the same,
-     * where in each step you can delete one character in either string.
+     * A sequence of numbers is called a wiggle sequence if the differences between successive numbers strictly
+     * alternate between positive and negative. The first difference (if one exists) may be either positive or negative.
+     * A sequence with fewer than two elements is trivially a wiggle sequence.
+     * 
+     * For example, [1,7,4,9,2,5] is a wiggle sequence because the differences (6,-3,5,-7,3) are alternately positive
+     * and negative. In contrast, [1,4,7,2,5] and [1,7,4,5,5] are not wiggle sequences, the first because its first two
+     * differences are positive and the second because its last difference is zero.
+     * 
+     * Given a sequence of integers, return the length of the longest subsequence that is a wiggle sequence. A
+     * subsequence is obtained by deleting some number of elements (eventually, also zero) from the original sequence,
+     * leaving the remaining elements in their original order.
+     * 
+     * Follow up: Can you do it in O(n) time?
      * </p>
      * 
-     * @param word1
-     * @param word2
+     * 
+     * @param nums
      * @return
      */
-    public int minDistance(String word1, String word2) {
-        int[][] dp = new int[word1.length() + 1][word2.length() + 1];
-        for (int i = 0; i <= word1.length(); i++) {
-            for (int j = 0; j <= word2.length(); j++) {
-                if (i == 0 || j == 0) {
-                    dp[i][j] = 0;
-                } else {
-                    if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-                        dp[i][j] = dp[i - 1][j - 1] + 1;
-                    } else {
-                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-                    }
+    public int wiggleMaxLength(int[] nums) {
+        if (nums.length < 2)
+            return nums.length;
+        int[] up = new int[nums.length];
+        int[] down = new int[nums.length];
+        up[0] = down[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i - 1]) {
+                up[i] = down[i - 1] + 1;
+                down[i] = down[i - 1];
+            } else if (nums[i] < nums[i - 1]) {
+                down[i] = up[i - 1] + 1;
+                up[i] = up[i - 1];
+            } else {
+                down[i] = down[i - 1];
+                up[i] = up[i - 1];
+            }
+        }
+        return Math.max(down[nums.length - 1], up[nums.length - 1]);
+    }
+
+    public int wiggleMaxLength2(int[] nums) {
+        if (nums.length < 2) {
+            return nums.length;
+        }
+        int[] up = new int[nums.length];
+        int[] down = new int[nums.length];
+        up[0] = down[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    up[i] = Math.max(up[i], down[j] + 1);
+                } else if (nums[i] < nums[j]) {
+                    down[i] = Math.max(down[i], up[j] + 1);
                 }
             }
         }
-        int val = dp[word1.length()][word2.length()];
-        return word1.length() - val + word2.length() - val;
+        return Math.max(up[nums.length - 1], down[nums.length - 1]);
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
         String[] strings = new String[] { "1110000", "0111100", "1000111", "0010101" };
-//        System.out.println(solution.minDistance("bcad", "efbc"));
-        System.out.println(solution.minDistance("sea","eat"));
-        // String a =
+        // System.out.println(solution.minDistance("bcad", "efbc"));
+        int[] nums = new int[] { 1, 7, 4, 9, 2, 5 };
+        System.out.println(solution.wiggleMaxLength(nums));
+        // String a =102984580
         // "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
         // System.out.println(solution.nextGreaterElement(12));
         // String path = "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";

@@ -1114,6 +1114,81 @@ public class Solution {
         return false;
     }
 
+    /**
+     * 583. Delete Operation for Two Strings
+     *
+     * <p>
+     * https://leetcode.com/problems/delete-operation-for-two-strings
+     * <p>
+     * Given two words word1 and word2, find the minimum number of steps required to make word1 and word2 the same,
+     * where in each step you can delete one character in either string.
+     * </p>
+     *
+     * @param word1
+     * @param word2
+     * @return
+     */
+    public int minDistance(String word1, String word2) {
+        int[][] dp = new int[word1.length() + 1][word2.length() + 1];
+        for (int i = 0; i <= word1.length(); i++) {
+            for (int j = 0; j <= word2.length(); j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 0;
+                } else {
+                    if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                        dp[i][j] = dp[i - 1][j - 1] + 1;
+                    } else {
+                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                    }
+                }
+            }
+        }
+        int val = dp[word1.length()][word2.length()];
+        return word1.length() - val + word2.length() - val;
+    }
+
+    /**
+     * 576. Out of Boundary Paths
+     * <p>
+     * https://leetcode.com/problems/out-of-boundary-paths
+     * <p>
+     * There is an m by n grid with a ball. Given the start coordinate (i,j) of the ball, you can move the ball to
+     * adjacent cell or cross the grid boundary in four directions (up, down, left, right). However, you can at most
+     * move N times. Find out the number of paths to move the ball out of grid boundary. The answer may be very large,
+     * return it after mod 109 + 7.
+     *
+     * Note: Once you move the ball out of boundary, you cannot move it back. The length and height of the grid is in
+     * range [1,50]. N is in range [0,50].
+     * </p>
+     *
+     * @param m
+     * @param n
+     * @param N
+     * @param i
+     * @param j
+     * @return
+     */
+
+    int res = 0;
+    int[] moves = new int[] { 1, 0, -1, 0, 1 };
+
+    public int findPaths(int m, int n, int N, int i, int j) {
+        dfsFindPaths(m, n, N, i, j);
+        return res;
+    }
+
+    private void dfsFindPaths(int m, int n, int move, int y, int x) {
+        if (move >= 0 && (y >= m || y < 0 || x >= n || x < 0)) {
+            res++;
+            return;
+        }
+        if (move < 0) {
+            return;
+        }
+        for (int i = 0; i < moves.length - 1; i++) {
+            dfsFindPaths(m, n, move - 1, y + moves[i], x + moves[i + 1]);
+        }
+    }
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = new int[] { 10, 9, 2, 5, 3, 7, 101, 18 };
