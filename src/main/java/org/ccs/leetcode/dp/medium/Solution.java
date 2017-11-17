@@ -1162,19 +1162,65 @@ public class Solution {
     public int findLength(int[] A, int[] B) {
         int max = 0;
         int[][] dp = new int[A.length + 1][B.length + 1];
-        for (int i = 0; i <=A.length; i++) {
+        for (int i = 0; i <= A.length; i++) {
             for (int j = 0; j <= B.length; j++) {
                 if (i == 0 || j == 0) {
                     dp[0][0] = 0;
                 } else {
                     if (A[i - 1] == B[j - 1]) {
                         dp[i][j] = dp[i - 1][j - 1] + 1;
-                        max = Math.max(dp[i][j],max);
+                        max = Math.max(dp[i][j], max);
                     }
                 }
             }
         }
         return max;
+    }
+
+    /**
+     * 576. Out of Boundary Paths
+     * <p>
+     * https://leetcode.com/problems/out-of-boundary-paths
+     * <p>
+     * There is an m by n grid with a ball. Given the start coordinate (i,j) of the ball, you can move the ball to
+     * adjacent cell or cross the grid boundary in four directions (up, down, left, right). However, you can at most
+     * move N times. Find out the number of paths to move the ball out of grid boundary. The answer may be very large,
+     * return it after mod 109 + 7.
+     * </p>
+     * 
+     * @param m
+     * @param n
+     * @param N
+     * @param i
+     * @param j
+     * @return
+     */
+    public int findPaths(int m, int n, int N, int i, int j) {
+        final int M = 1000000007;
+        int[][] dp = new int[m][n];
+        int[] moves = new int[] { 1, 0, -1, 0, 1 };
+        dp[i][j] = 1;
+        int count = 0;
+
+        for (int step = 1; step <= N; step++) {
+            int[][] tmp = new int[m][n];
+            for (int y = 0; y < m; y++) {
+                for (int x = 0; x < n; x++) {
+                    for (int move = 0; move < moves.length - 1; move++) {
+                        int nx = x + moves[i];
+                        int ny = y + moves[i + 1];
+                        if (nx >= n || nx < 0 || ny >= m || ny < 0) {
+                            count = (count + dp[i][j]) % M;
+                        } else {
+                            tmp[ny][nx] = (tmp[ny][nx] + dp[y][x]) % M;
+                        }
+                    }
+                }
+            }
+            dp = tmp;
+        }
+
+        return count;
     }
 
     public static void main(String[] args) {

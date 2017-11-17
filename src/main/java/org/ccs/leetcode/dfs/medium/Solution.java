@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
-import java.util.function.BiPredicate;
 
 import org.ccs.leetcode.bean.ListNode;
 import org.ccs.leetcode.bean.NestedInteger;
@@ -811,17 +810,18 @@ public class Solution {
      * @param j
      * @return
      */
-    int res = 0;
+
+    int paths = 0;
     int[] moves = new int[] { 1, 0, -1, 0, 1 };
 
-    public int findPaths(int m, int n, int N, int i, int j) {
+    public int findPaths2(int m, int n, int N, int i, int j) {
         dfsFindPaths(m, n, N, i, j);
-        return res;
+        return paths;
     }
 
     private void dfsFindPaths(int m, int n, int move, int y, int x) {
         if (move >= 0 && (y >= m || y < 0 || x >= n || x < 0)) {
-            res++;
+            paths++;
             return;
         }
         if (move < 0) {
