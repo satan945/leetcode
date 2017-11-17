@@ -1148,53 +1148,44 @@ public class Solution {
     }
 
     /**
-     * 576. Out of Boundary Paths
+     * 718. Maximum Length of Repeated Subarray
      * <p>
-     * https://leetcode.com/problems/out-of-boundary-paths
+     * https://leetcode.com/problems/maximum-length-of-repeated-subarray
      * <p>
-     * There is an m by n grid with a ball. Given the start coordinate (i,j) of the ball, you can move the ball to
-     * adjacent cell or cross the grid boundary in four directions (up, down, left, right). However, you can at most
-     * move N times. Find out the number of paths to move the ball out of grid boundary. The answer may be very large,
-     * return it after mod 109 + 7.
-     *
-     * Note: Once you move the ball out of boundary, you cannot move it back. The length and height of the grid is in
-     * range [1,50]. N is in range [0,50].
+     * Given two integer arrays A and B, return the maximum length of an subarray that appears in both arrays.
      * </p>
      *
-     * @param m
-     * @param n
-     * @param N
-     * @param i
-     * @param j
+     * @param A
+     * @param B
      * @return
      */
-
-    int res = 0;
-    int[] moves = new int[] { 1, 0, -1, 0, 1 };
-
-    public int findPaths(int m, int n, int N, int i, int j) {
-        dfsFindPaths(m, n, N, i, j);
-        return res;
+    public int findLength(int[] A, int[] B) {
+        int max = 0;
+        int[][] dp = new int[A.length + 1][B.length + 1];
+        for (int i = 0; i <=A.length; i++) {
+            for (int j = 0; j <= B.length; j++) {
+                if (i == 0 || j == 0) {
+                    dp[0][0] = 0;
+                } else {
+                    if (A[i - 1] == B[j - 1]) {
+                        dp[i][j] = dp[i - 1][j - 1] + 1;
+                        max = Math.max(dp[i][j],max);
+                    }
+                }
+            }
+        }
+        return max;
     }
 
-    private void dfsFindPaths(int m, int n, int move, int y, int x) {
-        if (move >= 0 && (y >= m || y < 0 || x >= n || x < 0)) {
-            res++;
-            return;
-        }
-        if (move < 0) {
-            return;
-        }
-        for (int i = 0; i < moves.length - 1; i++) {
-            dfsFindPaths(m, n, move - 1, y + moves[i], x + moves[i + 1]);
-        }
-    }
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = new int[] { 10, 9, 2, 5, 3, 7, 101, 18 };
         int[] nums2 = new int[] { 1, 2, 4, 8 };
-        System.out.println(solution.largestDivisibleSubset(nums2));
-        System.out.println(solution.lengthOfLIS(nums));
+        int[] A = new int[] { 1, 2, 3, 2, 1 };
+        int[] B = new int[] { 3, 2, 1, 4, 7 };
+        // System.out.println(solution.largestDivisibleSubset(nums2));
+        // System.out.println(solution.lengthOfLIS(nums));
+        System.out.println(solution.findLength(A, B));
         // int[][] num = { { 1, 3, 1 }, { 1, 5, 1 }, { 4, 2, 1 } };
         // dict.add("aaaa");
         // dict.add("aaa");
