@@ -5,6 +5,7 @@ package org.ccs.leetcode.greedy.medium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Stack;
 
 /**
  * @author abel created on 2017/8/29 下午6:58
@@ -260,12 +261,61 @@ public class Solution {
      * can just announce the victory since he is the only guy in the senate who can vote.
      * </p>
      * todo
+     * 
      * @param senate
      * @return
      */
     public String predictPartyVictory(String senate) {
         return "";
+    }
 
+    /**
+     * 678. Valid Parenthesis String
+     * <p>
+     * Given a string containing only three types of characters: '(', ')' and '*', write a function to check whether
+     * this string is valid. We define the validity of a string by these rules:
+     * 
+     * Any left parenthesis '(' must have a corresponding right parenthesis ')'. Any right parenthesis ')' must have a
+     * corresponding left parenthesis '('. Left parenthesis '(' must go before the corresponding right parenthesis ')'.
+     * '*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string. An
+     * empty string is also valid.
+     * 
+     * Example 1: Input: "()" Output: True
+     * 
+     * Example 2: Input: "(*)" Output: True
+     * 
+     * Example 3: Input: "(*))" Output: True
+     * </p>
+     * 
+     * @param s
+     * @return
+     */
+    public boolean checkValidString(String s) {
+        Stack<Integer> leftStack = new Stack<>();
+        Stack<Integer> starStack = new Stack<>();
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            if (ch == '(') {
+                leftStack.push(i);
+            } else if (ch == '*') {
+                starStack.push(i);
+            } else {
+                if (!leftStack.isEmpty()) {
+                    leftStack.pop();
+                } else if (!starStack.isEmpty()) {
+                    starStack.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+        while (!leftStack.isEmpty() && !starStack.isEmpty()) {
+            if (leftStack.pop() > starStack.pop()) {
+                return false;
+            }
+        }
+        return leftStack.isEmpty();
     }
 
     public static void main(String[] args) {

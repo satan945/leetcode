@@ -149,17 +149,6 @@ public class Solution {
     }
 
     /**
-     * 583. Delete Operation for Two Strings
-     *
-     * @param word1
-     * @param word2
-     * @return
-     */
-    public int minDistance(String word1, String word2) {
-        return 0;
-    }
-
-    /**
      * 5. Longest Palindromic Substring
      * <p>
      *
@@ -1131,13 +1120,44 @@ public class Solution {
         return false;
     }
 
-
-
+    /**
+     * 583. Delete Operation for Two Strings
+     *
+     * <p>
+     * https://leetcode.com/problems/delete-operation-for-two-strings
+     * <p>
+     * Given two words word1 and word2, find the minimum number of steps required to make word1 and word2 the same,
+     * where in each step you can delete one character in either string.
+     * </p>
+     * 
+     * @param word1
+     * @param word2
+     * @return
+     */
+    public int minDistance(String word1, String word2) {
+        int[][] dp = new int[word1.length() + 1][word2.length() + 1];
+        for (int i = 0; i <= word1.length(); i++) {
+            for (int j = 0; j <= word2.length(); j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 0;
+                } else {
+                    if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                        dp[i][j] = dp[i - 1][j - 1] + 1;
+                    } else {
+                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                    }
+                }
+            }
+        }
+        int val = dp[word1.length()][word2.length()];
+        return word1.length() - val + word2.length() - val;
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
         String[] strings = new String[] { "1110000", "0111100", "1000111", "0010101" };
-        System.out.println(solution.findMaxForm(strings, 1, 1));
+//        System.out.println(solution.minDistance("bcad", "efbc"));
+        System.out.println(solution.minDistance("sea","eat"));
         // String a =
         // "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth";
         // System.out.println(solution.nextGreaterElement(12));

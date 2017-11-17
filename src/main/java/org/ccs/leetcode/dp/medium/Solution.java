@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * @author abel created on 2017/8/11 下午5:15
@@ -79,9 +80,7 @@ public class Solution {
         }
         int low = robNotCircle(nums, 0, nums.length - 2);
         int high = robNotCircle(nums, 1, nums.length - 1);
-
         return Math.max(low, high);
-
     }
 
     private int robNotCircle(int[] nums, int begin, int end) {
@@ -289,29 +288,6 @@ public class Solution {
     }
 
     /**
-     * 120. Triangle
-     * <p>
-     * https://leetcode.com/problems/triangle
-     * <p>
-     * Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the
-     * row below.
-     * 
-     * For example, given the following triangle [ [2], [3,4], [6,5,7], [4,1,8,3] ] The minimum path sum from top to
-     * bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
-     * 
-     * Note: Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in
-     * the triangle.
-     * </p>
-     * todo
-     * 
-     * @param triangle
-     * @return
-     */
-    public int minimumTotal(List<List<Integer>> triangle) {
-        return 0;
-    }
-
-    /**
      * 91. Decode Ways
      * <p>
      * https://leetcode.com/problems/decode-ways
@@ -326,7 +302,7 @@ public class Solution {
      *
      * The number of ways decoding "12" is 2.
      * </p>
-     * 
+     *
      * @param s
      * @return
      */
@@ -353,6 +329,29 @@ public class Solution {
         }
 
         return dp[len];
+    }
+
+    /**
+     * 120. Triangle
+     * <p>
+     * https://leetcode.com/problems/triangle
+     * <p>
+     * Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the
+     * row below.
+     * 
+     * For example, given the following triangle [ [2], [3,4], [6,5,7], [4,1,8,3] ] The minimum path sum from top to
+     * bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+     * 
+     * Note: Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in
+     * the triangle.
+     * </p>
+     * todo
+     * 
+     * @param triangle
+     * @return
+     */
+    public int minimumTotal(List<List<Integer>> triangle) {
+        return 0;
     }
 
     /**
@@ -934,7 +933,6 @@ public class Solution {
      * 
      * Result: [1,2,4,8]
      * </p>
-     * todo
      * 
      * @param nums
      * @return
@@ -1085,6 +1083,35 @@ public class Solution {
             }
         }
         return dp[sum];
+    }
+
+    /**
+     * 678. Valid Parenthesis String
+     * <p>
+     * Given a string containing only three types of characters: '(', ')' and '*', write a function to check whether
+     * this string is valid. We define the validity of a string by these rules:
+     *
+     * Any left parenthesis '(' must have a corresponding right parenthesis ')'. Any right parenthesis ')' must have a
+     * corresponding left parenthesis '('. Left parenthesis '(' must go before the corresponding right parenthesis ')'.
+     * '*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string. An
+     * empty string is also valid.
+     *
+     * Example 1: Input: "()" Output: True
+     *
+     * Example 2: Input: "(*)" Output: True
+     *
+     * Example 3: Input: "(*))" Output: True
+     * </p>
+     * todo
+     * 
+     * @param s
+     * @return
+     */
+    public boolean checkValidString(String s) {
+        if (s == null || s.length() < 2) {
+            return false;
+        }
+        return false;
     }
 
     public static void main(String[] args) {
