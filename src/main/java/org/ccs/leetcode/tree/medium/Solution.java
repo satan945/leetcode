@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
+import com.sun.corba.se.spi.presentation.rmi.IDLNameTranslator;
 import org.ccs.leetcode.bean.TreeLinkNode;
 import org.ccs.leetcode.bean.TreeNode;
 
@@ -831,26 +832,25 @@ public class Solution {
      */
 
     public List<Integer> largestValues(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
         if (root == null) {
-            return res;
+            return new ArrayList<>();
         }
+        List<Integer> res = new ArrayList<>();
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        int queueSize = 1;
-        while (queueSize > 0) {
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
             int max = Integer.MIN_VALUE;
-            for (int i = 0; i < queueSize; i++) {
+            for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
-                max = Math.max(max, node.val);
+                max = Math.max(node.val, max);
                 if (node.left != null) {
-                    queue.add(node.left);
+                    queue.offer(node.left);
                 }
                 if (node.right != null) {
-                    queue.add(node.right);
+                    queue.offer(node.right);
                 }
             }
-            queueSize = queue.size();
             res.add(max);
         }
         return res;
@@ -942,21 +942,33 @@ public class Solution {
      * @param root
      * @return
      */
+
     public int countUnivalSubtrees(TreeNode root) {
-        int count = 0;
         if (root == null) {
             return 0;
         }
-        int val = root.val;
-        if (root.left != null && root.left.val == val) {
-            count++;
+        int[] count = new int[1];
+        countUniTree(root, count);
+        return count[0];
+    }
+
+    private boolean countUniTree(TreeNode root, int[] count) {
+        if (root == null) {
+            return true;
         }
-        if (root.right != null && root.right.val == val) {
-            count++;
+        boolean left = countUniTree(root.left, count);
+        boolean right = countUniTree(root.right, count);
+        if (left && right) {
+            if (root.left != null && root.val != root.left.val) {
+                return false;
+            }
+            if (root.right != null && root.val != root.right.val) {
+                return false;
+            }
+            count[0]++;
+            return true;
         }
-        count += countUnivalSubtrees(root.left);
-        count += countUnivalSubtrees(root.right);
-        return count;
+        return false;
     }
 
     /**
@@ -1197,20 +1209,206 @@ public class Solution {
             }
         }
         return list;
+    }
 
+    /**
+     * 285. Inorder Successor in BST
+     * <p>
+     * https://leetcode.com/problems/inorder-successor-in-bst
+     * <p>
+     * Given a binary search tree and a node in it, find the in-order successor of that node in the BST.
+     * 
+     * Note: If the given node has no in-order successor in the tree, return null.
+     * 
+     * </p>
+     * 
+     * @param root
+     * @param p
+     * @return
+     */
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        TreeNode succ = null;
+        while (root != null) {
+            if (p.val < root.val) {
+                succ = root;
+                root = root.left;
+            } else {
+                root = root.right;
+            }
+        }
+        return succ;
+    }
+
+    /**
+     * 652. Find Duplicate Subtrees
+     * <p>
+     * https://leetcode.com/problems/find-duplicate-subtrees
+     * 
+     * @param root
+     * @return
+     */
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        HashMap<String, Integer> countMap = new HashMap<>();
+        List<TreeNode> res = new ArrayList<>();
+        serialize(root, countMap, res);
+        return res;
+    }
+
+    private String serialize(TreeNode node, HashMap<String, Integer> countMap, List<TreeNode> res) {
+        if (node == null) {
+            return "#";
+        }
+        String key = node.val + "," + serialize(node.left, countMap, res) + "," + serialize(node.right, countMap, res);
+        if (countMap.containsKey(key)) {
+            if (countMap.get(key) == 1) {
+                res.add(node);
+            }
+        }
+        countMap.put(key, countMap.getOrDefault(key, 0) + 1);
+        return key;
+    }
+
+    /**
+     * 298. Binary Tree Longest Consecutive Sequence
+     * <p>
+     * https://leetcode.com/problems/binary-tree-longest-consecutive-sequence
+     * <p>
+     * Given a binary tree, find the length of the longest consecutive sequence path.
+     * 
+     * The path refers to any sequence of nodes from some starting node to any node in the tree along the parent-child
+     * connections. The longest consecutive path need to be from parent to child (cannot be the reverse).
+     * 
+     * </p>
+     * dfs
+     * 
+     * @param root
+     * @return
+     */
+    private int longestCount = 0;
+
+    public int longestConsecutive(TreeNode root) {
+        dfsLongest(root, 0, root.val);
+        return longestCount;
+    }
+
+    private void dfsLongest(TreeNode root, int count, int value) {
+        if (root == null) {
+            return;
+        }
+        if (root.val == value) {
+            count++;
+        } else {
+            count = 1;
+        }
+        longestCount = Math.max(count, longestCount);
+        dfsLongest(root.left, count, root.val + 1);
+        dfsLongest(root.right, count, root.val + 1);
+    }
+
+    /**
+     * 582. Kill Process
+     * <p>
+     * https://leetcode.com/problems/kill-process
+     * <p>
+     * Given n processes, each process has a unique PID (process id) and its PPID (parent process id).
+     * 
+     * Each process only has one parent process, but may have one or more children processes. This is just like a tree
+     * structure. Only one process has PPID that is 0, which means this process has no parent process. All the PIDs will
+     * be distinct positive integers.
+     * 
+     * We use two list of integers to represent a list of processes, where the first list contains PID for each process
+     * and the second list contains the corresponding PPID.
+     * 
+     * Now given the two lists, and a PID representing a process you want to kill, return a list of PIDs of processes
+     * that will be killed in the end. You should assume that when a process is killed, all its children processes will
+     * be killed. No order is required for the final answer.
+     * </p>
+     * 
+     * @param pid
+     * @param ppid
+     * @param kill
+     * @return
+     */
+    public List<Integer> killProcess(List<Integer> pid, List<Integer> ppid, int kill) {
+        Map<Integer, List<Integer>> processMap = new HashMap<>();
+        for (int i = 0; i < pid.size(); i++) {
+            int process = pid.get(i);
+            int parent = ppid.get(i);
+            if (!processMap.containsKey(parent)) {
+                processMap.put(parent, new ArrayList<>());
+            }
+            processMap.get(parent).add(process);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(kill);
+        List<Integer> res = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int pro = queue.poll();
+            res.add(pro);
+            List<Integer> sub = processMap.get(pro);
+            if (sub != null) {
+                queue.addAll(sub);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 508. Most Frequent Subtree Sum
+     * <p>
+     * https://leetcode.com/problems/most-frequent-subtree-sum
+     * <p>
+     * Given the root of a tree, you are asked to find the most frequent subtree sum. The subtree sum of a node is
+     * defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself).
+     * So what is the most frequent subtree sum value? If there is a tie, return all the values with the highest
+     * frequency in any order.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    int maxFrequentSumCount = 0;
+
+    public int[] findFrequentTreeSum(TreeNode root) {
+        Map<Integer, Integer> countMap = new HashMap<>();
+        postOrderCalSumCount(root, countMap);
+        List<Integer> sumList = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : countMap.entrySet()) {
+            if (entry.getValue() == maxFrequentSumCount) {
+                sumList.add(entry.getKey());
+            }
+        }
+        int[] res = new int[sumList.size()];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = sumList.get(i);
+        }
+        return res;
+    }
+
+    private int postOrderCalSumCount(TreeNode root, Map<Integer, Integer> countMap) {
+        if (root == null) {
+            return 0;
+        }
+        int left = postOrderCalSumCount(root.left, countMap);
+        int right = postOrderCalSumCount(root.right, countMap);
+        int sum = root.val + left + right;
+        countMap.put(sum, countMap.getOrDefault(sum, 0) + 1);
+        maxFrequentSumCount = Math.max(countMap.get(sum), maxFrequentSumCount);
+        return sum;
     }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        TreeNode root = new TreeNode(1);
-        TreeNode l = new TreeNode(2);
+        TreeNode root = new TreeNode(2);
+        TreeNode l = new TreeNode(1);
         TreeNode r = new TreeNode(3);
         TreeNode rl = new TreeNode(4);
         TreeNode rr = new TreeNode(5);
         root.left = l;
-        root.right = r;
-        r.left = rl;
-        r.right = rr;
+        System.out.println(solution.inorderSuccessor(root, new TreeNode(1)));
+        // root.right = r;
+        // r.left = rl;
+        // r.right = rr;
         // root.right = new TreeNode(2);
         // root.right.right = new TreeNode(3);
         // System.out.println(solution.deleteNode(root, 2));

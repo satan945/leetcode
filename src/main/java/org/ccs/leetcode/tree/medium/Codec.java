@@ -5,6 +5,10 @@ package org.ccs.leetcode.tree.medium;
 
 import org.ccs.leetcode.bean.TreeNode;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 /**
  * 449. Serialize and Deserialize BST
  * <p>
@@ -26,14 +30,54 @@ import org.ccs.leetcode.bean.TreeNode;
  * @version $Id$
  */
 public class Codec {
+    private static final String SPLITTER = "#";
+    private static final String NULL = "null";
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        return "";
+        if (root == null) {
+            return NULL;
+        }
+        StringBuilder sb = new StringBuilder();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            sb.append(node.val).append(SPLITTER);
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+        return sb.toString();
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        return null;
+        if (NULL.equals(data)) {
+            return null;
+        }
+        String[] nodeStrings = data.split(SPLITTER);
+        Queue<Integer> queue = new LinkedList<>();
+        for (String node : nodeStrings) {
+            queue.offer(Integer.parseInt(node));
+        }
+        return getNodes(queue);
+    }
+
+    private TreeNode getNodes(Queue<Integer> queue) {
+        if (queue.isEmpty()) {
+            return null;
+        }
+        TreeNode root = new TreeNode(queue.poll());
+        Queue<Integer> smallQueue = new LinkedList<>();
+        while (!queue.isEmpty() && queue.peek() < root.val) {
+            smallQueue.offer(queue.poll());
+        }
+        root.left = getNodes(smallQueue);
+        root.right = getNodes(queue);
+        return root;
     }
 }
