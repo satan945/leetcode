@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.design.medium;
 
+import org.ccs.leetcode.trie.medium.TrieNode;
+
 /**
  * 211. Add and Search Word - Data structure design
  * <p>

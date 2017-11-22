@@ -8,6 +8,11 @@ package org.ccs.leetcode.design.medium;
  * @version $Id$
  */
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * This is a follow up of Shortest Word Distance.
@@ -30,11 +35,31 @@ package org.ccs.leetcode.design.medium;
  * </p>
  */
 public class WordDistance {
-    public WordDistance(String[] words) {
+    private Map<String, List<Integer>> indexMap;
 
+    public WordDistance(String[] words) {
+        indexMap = new HashMap<>();
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            if (!indexMap.containsKey(word)) {
+                indexMap.put(word, new ArrayList<>());
+            }
+            indexMap.get(word).add(i);
+        }
     }
 
     public int shortest(String word1, String word2) {
-        return 0;
+        List<Integer> index1List = indexMap.get(word1);
+        List<Integer> index2List = indexMap.get(word2);
+        int res = Integer.MAX_VALUE;
+        if (index1List == null || index2List == null) {
+            return -1;
+        }
+        for (int i = 0; i < index1List.size(); i++) {
+            for (int j = 0; j < index2List.size(); j++) {
+                res = Math.min(Math.abs(index1List.get(i) - index2List.get(j)), res);
+            }
+        }
+        return res;
     }
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
-package org.ccs.leetcode.design.medium;
+package org.ccs.leetcode.trie.medium;
 
 /**
  * 208. Implement Trie (Prefix Tree)

@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
-import com.sun.corba.se.spi.presentation.rmi.IDLNameTranslator;
 import org.ccs.leetcode.bean.TreeLinkNode;
 import org.ccs.leetcode.bean.TreeNode;
 
@@ -1121,12 +1120,14 @@ public class Solution {
      */
     public boolean verifyPreorder(int[] preorder) {
         int low = Integer.MIN_VALUE;
-        Stack<Integer> path = new Stack();
+        Stack<Integer> path = new Stack<>();
         for (int p : preorder) {
-            if (p < low)
+            if (p < low) {
                 return false;
-            while (!path.empty() && p > path.peek())
+            }
+            while (!path.empty() && p > path.peek()) {
                 low = path.pop();
+            }
             path.push(p);
         }
         return true;
@@ -1395,6 +1396,88 @@ public class Solution {
         countMap.put(sum, countMap.getOrDefault(sum, 0) + 1);
         maxFrequentSumCount = Math.max(countMap.get(sum), maxFrequentSumCount);
         return sum;
+    }
+
+    /**
+     * 366. Find Leaves of Binary Tree
+     * <p>
+     * https://leetcode.com/problems/find-leaves-of-binary-tree
+     * <p>
+     * Given a binary tree, collect a tree's nodes as if you were doing this: Collect and remove all leaves, repeat
+     * until the tree is empty.
+     * 
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> findLeaves(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        findLeavesHelper(res, root);
+        return res;
+    }
+
+    private int findLeavesHelper(List<List<Integer>> res, TreeNode node) {
+        if (node == null) {
+            return -1;
+        }
+        int leftLevel = findLeavesHelper(res, node.left);
+        int rightLevel = findLeavesHelper(res, node.right);
+        int curLevel = Math.max(leftLevel, rightLevel) + 1;
+        if (res.size() == curLevel) {
+            res.add(new ArrayList<>());
+        }
+        res.get(curLevel).add(node.val);
+        node.left = null;
+        node.right = null;
+        return curLevel;
+    }
+
+    /**
+     * 314. Binary Tree Vertical Order Traversal
+     * <p>
+     * https://leetcode.com/problems/binary-tree-vertical-order-traversal
+     * <p>
+     * Given a binary tree, return the vertical order traversal of its nodes' values. (ie, from top to bottom, column by
+     * column).
+     * 
+     * If two nodes are in the same row and column, the order should be from left to right.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        Queue<TreeNode> treeNodeQueue = new LinkedList<>();
+        Queue<Integer> colQueue = new LinkedList<>();
+        treeNodeQueue.offer(root);
+        colQueue.offer(0);
+        int minCol = Integer.MAX_VALUE;
+        int maxCol = Integer.MIN_VALUE;
+        while (!treeNodeQueue.isEmpty()) {
+            TreeNode node = treeNodeQueue.poll();
+            int col = colQueue.poll();
+            minCol = Math.min(minCol, col);
+            maxCol = Math.max(maxCol, col);
+            if (!map.containsKey(col)) {
+                map.put(col, new ArrayList<>());
+            }
+            map.get(col).add(node.val);
+            if (node.left != null) {
+                treeNodeQueue.offer(node.left);
+                colQueue.offer(col - 1);
+            }
+            if (node.right != null) {
+                treeNodeQueue.offer(node.right);
+                colQueue.offer(col + 1);
+            }
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = minCol; i <= maxCol; i++) {
+            res.add(map.get(i));
+        }
+        return res;
     }
 
     public static void main(String[] args) {
