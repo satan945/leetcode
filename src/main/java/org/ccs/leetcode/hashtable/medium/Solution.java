@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author abel created on 2017/8/29 下午4:43
@@ -171,13 +170,29 @@ public class Solution {
      * modified solution? What is the most time-consuming part and memory consuming part of it? How to optimize? How to
      * make sure the duplicated files you find are not false positive?
      * </p>
-     * todo
      * 
      * @param paths
      * @return
      */
     public List<List<String>> findDuplicate(String[] paths) {
         List<List<String>> res = new ArrayList<>();
+        Map<String, List<String>> map = new HashMap<>();
+        for (String path : paths) {
+            String[] strs = path.split(" ");
+            String dir = strs[0];
+            for (int i = 1; i < strs.length; i++) {
+                String str = strs[i];
+                String name = str.substring(0, str.indexOf("("));
+                String content = str.substring(str.indexOf("("), str.indexOf(")"));
+                map.computeIfAbsent(content, k -> new ArrayList<>());
+                map.get(content).add(dir + "/" + name);
+            }
+        }
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            if (entry.getValue().size() > 1) {
+                res.add(entry.getValue());
+            }
+        }
         return res;
     }
 
@@ -381,6 +396,47 @@ public class Solution {
             i++;
         }
         return i;
+    }
+
+    /**
+     * 325. Maximum Size Subarray Sum Equals k
+     * <p>
+     * https://leetcode.com/problems/maximum-size-subarray-sum-equals-k
+     * <p>
+     * Given an array nums and a target value k, find the maximum length of a subarray that sums to k. If there isn't
+     * one, return 0 instead.
+     * 
+     * Note: The sum of the entire nums array is guaranteed to fit within the 32-bit signed integer range.
+     * 
+     * Example 1: Given nums = [1, -1, 5, -2, 3], k = 3, return 4. (because the subarray [1, -1, 5, -2] sums to 3 and is
+     * the longest)
+     * 
+     * Example 2: Given nums = [-2, -1, 2, 1], k = 1, return 2. (because the subarray [-1, 2] sums to 1 and is the
+     * longest)
+     * 
+     * Follow Up: Can you do it in O(n) time?
+     * </p>
+     * 
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int maxSubArrayLen(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if (sum == k) {
+                res = i + 1;
+            } else if (map.containsKey(sum - k)) {
+                res = Math.max(res, i - map.get(sum - k));
+            }
+            if (!map.containsKey(sum)) {
+                map.put(sum, i);
+            }
+        }
+        return res;
     }
 
     public static void main(String[] args) {
