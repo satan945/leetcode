@@ -3,7 +3,11 @@
  */
 package org.ccs.leetcode.heap.medium;
 
+import org.ccs.leetcode.bean.Interval;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -69,6 +73,37 @@ public class Solution {
         public int compareTo(Num that) {
             return this.val - that.val;
         }
+    }
+
+    /**
+     * 253. Meeting Rooms II
+     * <p>
+     * Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find
+     * the minimum number of conference rooms required.
+     * 
+     * For example, Given [[0, 30],[5, 10],[15, 20]], return 2.
+     * </p>
+     * 
+     * @param intervals
+     * @return
+     */
+    public int minMeetingRooms(Interval[] intervals) {
+        if (intervals == null || intervals.length == 0) {
+            return 0;
+        }
+        Arrays.sort(intervals, Comparator.comparingInt(o -> o.start));
+        PriorityQueue<Interval> heap = new PriorityQueue<>(intervals.length, Comparator.comparingInt(o -> o.end));
+        heap.offer(intervals[0]);
+        for (int i = 1; i < intervals.length; i++) {
+            Interval interval = heap.poll();
+            if (intervals[i].start >= interval.end) {
+                interval.end = intervals[i].end;
+            } else {
+                heap.offer(intervals[i]);
+            }
+            heap.offer(interval);
+        }
+        return heap.size();
     }
 
     public static void main(String[] args) {

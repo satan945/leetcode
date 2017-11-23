@@ -4,6 +4,7 @@
 package org.ccs.leetcode.math.medium;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -211,24 +212,27 @@ public class Solution {
      * @return
      */
     public int nthUglyNumber(int n) {
-        int twoCount = 0, threeCount = 0, fiveCount = 0;
-        List<Integer> uglyNumberList = new ArrayList<>();
-        uglyNumberList.add(1);
+        int count2 = 0, count3 = 0, count5 = 0;
+        int[] ugly = new int[n];
+        ugly[0] = 1;
         for (int i = 1; i < n; i++) {
-            int nextUgly = Math.min(uglyNumberList.get(twoCount) * 2,
-                    Math.min(uglyNumberList.get(threeCount) * 3, uglyNumberList.get(fiveCount) * 5));
-            uglyNumberList.add(nextUgly);
-            if (uglyNumberList.get(twoCount) * 2 == nextUgly) {
-                twoCount++;
+            int m2 = ugly[count2] * 2;
+            int m3 = ugly[count3] * 3;
+            int m5 = ugly[count5] * 5;
+            int mn = Math.min(m2, Math.min(m3, m5));
+            if (mn == m2) {
+                count2++;
             }
-            if (uglyNumberList.get(threeCount) * 3 == nextUgly) {
-                threeCount++;
+            if (mn == m3) {
+                count3++;
             }
-            if (uglyNumberList.get(fiveCount) * 5 == nextUgly) {
-                fiveCount++;
+            if (mn == m5) {
+                count5++;
             }
+            ugly[i] = mn;
+
         }
-        return uglyNumberList.get(n - 1);
+        return ugly[n - 1];
     }
 
     /**
@@ -248,7 +252,8 @@ public class Solution {
      *
      * Credits: Special thanks to @dietpepsi for adding this problem and creating all test cases.
      * </p>
-     *
+     * https://leetcode.com/problems/super-ugly-number/discuss/
+     * 
      * @param n
      * @param primes
      * @return

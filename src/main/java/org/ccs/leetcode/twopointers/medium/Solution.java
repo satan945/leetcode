@@ -5,8 +5,6 @@ package org.ccs.leetcode.twopointers.medium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -513,6 +511,7 @@ public class Solution {
      * The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated 3 times.
      * </p>
      * todo
+     * 
      * @param s
      * @param k
      * @return
@@ -523,6 +522,7 @@ public class Solution {
         }
         char[] chars = s.toCharArray();
         int[] charCounts = new int[26];
+
         return 0;
 
     }
