@@ -11,6 +11,7 @@ public class TrieNode {
     private TrieNode[] links;
     private final int R = 26;
     private boolean isEnd = false;
+    private String word;
 
     public TrieNode() {
         links = new TrieNode[R];
@@ -38,6 +39,14 @@ public class TrieNode {
 
     public int getR() {
         return R;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
     }
 
     public TrieNode[] getLinks() {
