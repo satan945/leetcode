@@ -980,16 +980,61 @@ public class Solution {
      * Input: "23:59" Output: "22:22" Explanation: The next closest time choosing from digits 2, 3, 5, 9, is 22:22. It
      * may be assumed that the returned time is next day's time since it is smaller than the input time numerically.
      * </p>
-     * todo
-     * 
+     *
      * @param time
      * @return
      */
     public String nextClosestTime(String time) {
         Set<Integer> set = new HashSet<>();
         // add every digit to set
+        for (int i = 0; i < time.length(); i++) {
+            if (time.charAt(i) != ':') {
+                set.add(time.charAt(i) - '0');
+            }
+        }
+        if (set.size() == 1) {
+            return time;
+        }
         // add one min every time and check every digits is in the set
-        return "";
+        int colon = time.indexOf(":");
+        int[] times = new int[] { Integer.parseInt(time.substring(0, colon)),
+                Integer.parseInt(time.substring(colon + 1)) };
+        nextTime(times);
+        while (!containsDigits(times, set)) {
+            nextTime(times);
+        }
+        return validTime(times[0]) + ":" + validTime(times[1]);
+    }
+
+    private String validTime(int time) {
+        if (time >= 0 && time <= 9) {
+            return "0" + time;
+        }
+        return time + "";
+    }
+
+    private boolean containsDigits(int[] times, Set<Integer> set) {
+        for (int time : times) {
+            if (!set.contains(time / 10) || !set.contains(time % 10)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void nextTime(int[] times) {
+        int hour = times[0];
+        int min = times[1];
+        min++;
+        if (min == 60) {
+            hour++;
+            min = 0;
+            if (hour == 24) {
+                hour = 0;
+            }
+        }
+        times[0] = hour;
+        times[1] = min;
     }
 
     /**
@@ -1182,6 +1227,34 @@ public class Solution {
             }
         }
         return Math.max(up[nums.length - 1], down[nums.length - 1]);
+    }
+
+    /**
+     * 277. Find the Celebrity
+     * <p>
+     * https://leetcode.com/problems/find-the-celebrity
+     * <p>
+     * Suppose you are at a party with n people (labeled from 0 to n - 1) and among them, there may exist one celebrity.
+     * The definition of a celebrity is that all the other n - 1 people know him/her but he/she does not know any of
+     * them.
+     * 
+     * Now you want to find out who the celebrity is or verify that there is not one. The only thing you are allowed to
+     * do is to ask questions like: "Hi, A. Do you know B?" to get information of whether A knows B. You need to find
+     * out the celebrity (or verify there is not one) by asking as few questions as possible (in the asymptotic sense).
+     * 
+     * You are given a helper function bool knows(a, b) which tells you whether A knows B. Implement a function int
+     * findCelebrity(n), your function should minimize the number of calls to knows.
+     * 
+     * Note: There will be exactly one celebrity if he/she is in the party. Return the celebrity's label if there is a
+     * celebrity in the party. If there is no celebrity, return -1.
+     * </p>
+     * 
+     * @param n
+     * @return
+     */
+
+    public int findCelebrity(int n) {
+
     }
 
     public static void main(String[] args) {
