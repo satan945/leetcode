@@ -8,8 +8,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author abel created on 2017/8/29 下午4:43
@@ -405,18 +407,18 @@ public class Solution {
      * <p>
      * Given an array nums and a target value k, find the maximum length of a subarray that sums to k. If there isn't
      * one, return 0 instead.
-     * 
+     *
      * Note: The sum of the entire nums array is guaranteed to fit within the 32-bit signed integer range.
-     * 
+     *
      * Example 1: Given nums = [1, -1, 5, -2, 3], k = 3, return 4. (because the subarray [1, -1, 5, -2] sums to 3 and is
      * the longest)
-     * 
+     *
      * Example 2: Given nums = [-2, -1, 2, 1], k = 1, return 2. (because the subarray [-1, 2] sums to 1 and is the
      * longest)
-     * 
+     *
      * Follow Up: Can you do it in O(n) time?
      * </p>
-     * 
+     *
      * @param nums
      * @param k
      * @return
@@ -437,6 +439,95 @@ public class Solution {
             }
         }
         return res;
+    }
+
+    /**
+     * 336. Palindrome Pairs
+     * <p>
+     * https://leetcode.com/problems/palindrome-pairs
+     * <p>
+     * Given a list of unique words, find all pairs of distinct indices (i, j) in the given list, so that the
+     * concatenation of the two words, i.e. words[i] + words[j] is a palindrome.
+     *
+     * Example 1: Given words = ["bat", "tab", "cat"] Return [[0, 1], [1, 0]] The palindromes are ["battab", "tabbat"]
+     * Example 2: Given words = ["abcd", "dcba", "lls", "s", "sssll"] Return [[0, 1], [1, 0], [3, 2], [2, 4]] The
+     * palindromes are ["dcbaabcd", "abcddcba", "slls", "llssssll"]
+     * </p>
+     *
+     * @param words
+     * @return
+     */
+    public List<List<Integer>> palindromePairs(String[] words) {
+        List<List<Integer>> res = new LinkedList<>();
+        if (words == null || words.length == 0) {
+            return res;
+        }
+        Map<String, Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < words.length; i++) {
+            indexMap.put(words[i], i);
+        }
+
+        // "" case
+        if (indexMap.containsKey("")) {
+            int blankKey = indexMap.get("");
+            for (int i = 0; i < words.length; i++) {
+                if (isPalindrome(words[i])) {
+                    if (i == blankKey) {
+                        continue;
+                    }
+                    res.add(Arrays.asList(blankKey, i));
+                    res.add(Arrays.asList(i, blankKey));
+                }
+            }
+        }
+        // reverse case
+        for (int i = 0; i < words.length; i++) {
+            String reverse = reverseString(words[i]);
+            if (indexMap.containsKey(reverse)) {
+                int foundKey = indexMap.get(reverse);
+                if (foundKey == i) {
+                    continue;
+                }
+                res.add(Arrays.asList(i, foundKey));
+            }
+        }
+        // part palindrome case
+        for (int i = 0; i < words.length; i++) {
+            String cur = words[i];
+            for (int cut = 1; cut < cur.length(); cut++) {
+                if (isPalindrome(cur.substring(0, cut))) {
+                    String rest = cur.substring(cut);
+                    String restReverse = reverseString(rest);
+                    if (indexMap.containsKey(restReverse)) {
+                        int foundKey = indexMap.get(restReverse);
+                        if (foundKey == i) {
+                            continue;
+                        }
+                        res.add(Arrays.asList(indexMap.get(restReverse), i));
+                    }
+                }
+                if (isPalindrome(cur.substring(cut))) {
+                    String rest = cur.substring(0, cut);
+                    String restReverse = reverseString(rest);
+                    if (indexMap.containsKey(restReverse)) {
+                        int foundKey = indexMap.get(restReverse);
+                        if (foundKey == i) {
+                            continue;
+                        }
+                        res.add(Arrays.asList(i, indexMap.get(restReverse)));
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    private String reverseString(String word) {
+        return new StringBuilder(word).reverse().toString();
+    }
+
+    private boolean isPalindrome(String word) {
+        return new StringBuilder(word).reverse().toString().equals(word);
     }
 
     public static void main(String[] args) {
