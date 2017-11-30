@@ -468,8 +468,7 @@ public class Solution {
      * [[1,2,6], [1,3,5], [2,3,4]] Credits: Special thanks to @mithmatt for adding this problem and creating all test
      * cases.
      * </p>
-     * todo
-     * 
+     *
      * @param k
      * @param n
      * @return

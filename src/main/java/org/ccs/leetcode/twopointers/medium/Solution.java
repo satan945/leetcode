@@ -531,6 +531,70 @@ public class Solution {
         return a * num * num + b * num + c;
     }
 
+    /**
+     * 209. Minimum Size Subarray Sum
+     * <p>
+     * https://leetcode.com/problems/minimum-size-subarray-sum
+     * <p>
+     * Given an array of n positive integers and a positive integer s, find the minimal length of a contiguous subarray
+     * of which the sum ≥ s. If there isn't one, return 0 instead.
+     * 
+     * For example, given the array [2,3,1,2,4,3] and s = 7, the subarray [4,3] has the minimal length under the problem
+     * constraint.
+     * 
+     * click to show more practice.
+     * 
+     * More practice: If you have figured out the O(n) solution, try coding another solution of which the time
+     * complexity is O(n log n).
+     * </p>
+     * 
+     * @param s
+     * @param nums
+     * @return
+     */
+    public int minSubArrayLen(int s, int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int sum = 0, min = nums.length + 1;
+        int i = 0, j = 0;
+        while (j < nums.length) {
+            sum += nums[j++];
+            while (sum >= s) {
+                min = Math.min(min, j - i);
+                sum -= nums[i++];
+            }
+        }
+        return min < nums.length + 1 ? min : 0;
+    }
+
+    public int minSubArrayLenN2(int s, int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int[] sums = new int[nums.length];
+        int res = nums.length + 1;
+        sums[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            sums[i] = sums[i - 1] + nums[i];
+        }
+        for (int i = 0; i < sums.length; i++) {
+            if (sums[i] >= s) {
+                res = Math.min(res, i + 1);
+            }
+            if (sums[i] > s) {
+                for (int j = i - 1; j > 0; j--) {
+                    if (sums[i] - sums[j] >= s) {
+                        res = Math.min(i - j, res);
+                        break;
+                    }
+                }
+            }
+        }
+        return res <= nums.length ? res : 0;
+
+    }
+
     public static void main(String[] args) {
         int[] colors = new int[] { 0, 1 };
         Solution solution = new Solution();
