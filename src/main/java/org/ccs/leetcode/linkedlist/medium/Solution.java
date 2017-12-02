@@ -5,7 +5,6 @@ package org.ccs.leetcode.linkedlist.medium;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -658,16 +657,64 @@ public class Solution {
 
     }
 
+    /**
+     * 82. Remove Duplicates from Sorted List II
+     * <p>
+     * https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii
+     * <p>
+     * Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the
+     * original list.
+     * 
+     * For example, Given 1->2->3->3->4->4->5, return 1->2->5. Given 1->1->1->2->3, return 2->3.
+     * </p>
+     * 
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode fakeHead = new ListNode(-1);
+        fakeHead.next = head;
+        ListNode last = fakeHead;
+        ListNode node1 = head;
+        ListNode node2;
+        while (node1.next != null) {
+            node2 = node1.next;
+            if (node1.val != node2.val) {
+                last = node1;
+                node1 = node1.next;
+            } else {
+                while (node2 != null && node1.val == node2.val) {
+                    node2 = node2.next;
+                }
+                if (node2 != null) {
+                    last.next = node2;
+                    node1 = node2;
+                } else {
+                    last.next = null;
+                    break;
+                }
+
+            }
+        }
+        return fakeHead.next;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         ListNode l1 = new ListNode(1);
-        ListNode l2 = new ListNode(2);
-        ListNode l3 = new ListNode(3);
+        ListNode l2 = new ListNode(1);
+        ListNode l3 = new ListNode(2);
         ListNode l4 = new ListNode(2);
-        ListNode l5 = new ListNode(9);
-        ListNode l6 = new ListNode(2);
+        // ListNode l3 = new ListNode(3);
+        // ListNode l4 = new ListNode(2);
+        // ListNode l5 = new ListNode(9);
+        // ListNode l6 = new ListNode(2);
         l1.next = l2;
         l2.next = l3;
+//        l3.next = l4;
 
         // solution.oddEvenList(l1);
         // solution.reverseBetween(l1, 1, 2);
@@ -679,6 +726,7 @@ public class Solution {
         // solution.addTwoNumbers(l1, l2);
         // solution.removeNthFromEnd(l1, 2);
         // System.out.println(solution.partition(l1, 3));
-        solution.plusOne(l1);
+        // solution.plusOne(l1);
+        solution.deleteDuplicates(l1);
     }
 }
