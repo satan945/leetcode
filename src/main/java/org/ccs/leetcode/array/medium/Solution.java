@@ -1253,10 +1253,83 @@ public class Solution {
         return matrix[r / m][r % m] == target;
     }
 
+    /**
+     * 277. Find the Celebrity
+     * <p>
+     * https://leetcode.com/problems/find-the-celebrity
+     * <p>
+     * Suppose you are at a party with n people (labeled from 0 to n - 1) and among them, there may exist one celebrity.
+     * The definition of a celebrity is that all the other n - 1 people know him/her but he/she does not know any of
+     * them.
+     *
+     * Now you want to find out who the celebrity is or verify that there is not one. The only thing you are allowed to
+     * do is to ask questions like: "Hi, A. Do you know B?" to get information of whether A knows B. You need to find
+     * out the celebrity (or verify there is not one) by asking as few questions as possible (in the asymptotic sense).
+     *
+     * You are given a helper function bool knows(a, b) which tells you whether A knows B. Implement a function int
+     * findCelebrity(n), your function should minimize the number of calls to knows.
+     *
+     * Note: There will be exactly one celebrity if he/she is in the party. Return the celebrity's label if there is a
+     * celebrity in the party. If there is no celebrity, return -1.
+     * </p>
+     *
+     * @param n
+     * @return
+     */
+
+    public int findCelebrity(int n) {
+        return 0;
+    }
+
+    /**
+     * 498. Diagonal Traverse
+     * <p>
+     * https://leetcode.com/problems/diagonal-traverse
+     * 
+     * <p>
+     * Given a matrix of M x N elements (M rows, N columns), return all elements of the matrix in diagonal order as
+     * shown in the below image.
+     * 
+     * </p>
+     * 
+     * @param matrix
+     * @return
+     */
+    public int[] findDiagonalOrder(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return new int[0];
+        }
+        int r = 0, c = 0, m = matrix.length, n = matrix[0].length, arr[] = new int[m * n];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = matrix[r][c];
+            if ((r + c) % 2 == 0) { // moving up
+                if (c == n - 1) {
+                    r++;
+                } else if (r == 0) {
+                    c++;
+                } else {
+                    r--;
+                    c++;
+                }
+            } else { // moving down
+                if (r == m - 1) {
+                    c++;
+                } else if (c == 0) {
+                    r++;
+                } else {
+                    r++;
+                    c--;
+                }
+            }
+        }
+        return arr;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] array = new int[] { 3, 2, 4 };
         int[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+        solution.findDiagonalOrder(matrix);
         // solution.rotate(matrix);
         // System.out.println(solution.spiralOrder(matrix));
         // System.out.println(solution.generateMatrix(3));

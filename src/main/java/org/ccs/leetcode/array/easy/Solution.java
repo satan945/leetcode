@@ -881,7 +881,49 @@ public class Solution {
         return maxLength;
     }
 
-
+    /**
+     * 724. Find Pivot Index
+     * <p>
+     * Given an array of integers nums, write a method that returns the "pivot" index of this array.
+     * 
+     * We define the pivot index as the index where the sum of the numbers to the left of the index is equal to the sum
+     * of the numbers to the right of the index.
+     * 
+     * If no such index exists, we should return -1. If there are multiple pivot indexes, you should return the
+     * left-most pivot index.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int pivotIndex(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        int[] sums = new int[nums.length];
+        int left;
+        int right;
+        sums[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            sums[i] = sums[i - 1] + nums[i];
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0) {
+                left = 0;
+            } else {
+                left = sums[i - 1];
+            }
+            if (i == nums.length - 1) {
+                right = 0;
+            } else {
+                right = sums[nums.length - 1] - sums[i];
+            }
+            if (left == right) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public static void main(String[] args) {
         Solution solution = new Solution();
