@@ -1116,7 +1116,44 @@ public class Solution {
             }
         }
         return diff ? res : -1;
+    }
 
+    /**
+     * 687. Longest Univalue Path
+     * <p>
+     * https://leetcode.com/problems/longest-univalue-path
+     * <p>
+     * Given a binary tree, find the length of the longest path where each node in the path has the same value. This
+     * path may or may not pass through the root.
+     * 
+     * Note: The length of path between two nodes is represented by the number of edges between them.
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
+    private int univalLength;
+
+    public int longestUnivaluePath(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        calUnivalPath(root, root.val);
+        return univalLength;
+
+    }
+
+    private int calUnivalPath(TreeNode root, int val) {
+        if (root == null) {
+            return 0;
+        }
+        int left = calUnivalPath(root.left, root.val);
+        int right = calUnivalPath(root.right, root.val);
+        univalLength = Math.max(univalLength, left + right);
+        if (val == root.val) {
+            return Math.max(left, right) + 1;
+        }
+        return 0;
     }
 
     public static void main(String[] args) {

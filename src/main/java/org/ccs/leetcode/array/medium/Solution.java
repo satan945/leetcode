@@ -1325,11 +1325,102 @@ public class Solution {
         return arr;
     }
 
+    /**
+     * 245. Shortest Word Distance III
+     * <p>
+     * https://leetcode.com/problems/shortest-word-distance-iii
+     * <p>
+     * This is a follow up of Shortest Word Distance. The only difference is now word1 could be the same as word2.
+     * 
+     * Given a list of words and two words word1 and word2, return the shortest distance between these two words in the
+     * list.
+     * 
+     * word1 and word2 may be the same and they represent two individual words in the list.
+     * 
+     * For example, Assume that words = ["practice", "makes", "perfect", "coding", "makes"].
+     * 
+     * Given word1 = “makes”, word2 = “coding”, return 1. Given word1 = "makes", word2 = "makes", return 3.
+     * 
+     * Note: You may assume word1 and word2 are both in the list.
+     * 
+     * </p>
+     * 
+     * @param words
+     * @param word1
+     * @param word2
+     * @return
+     */
+    public int shortestWordDistance(String[] words, String word1, String word2) {
+        if (words == null || words.length < 2) {
+            return -1;
+        }
+        int index1 = -1;
+        int index2 = -1;
+        boolean same = word1.equals(word2);
+        int res = words.length + 1;
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            if (word.equals(word1)) {
+                if (same) {
+                    if (index1 < 0) {
+                        index1 = i;
+                    } else if (index2 > 0) {
+                        index1 = index2;
+                        index2 = i;
+                    } else {
+                        index2 = i;
+                    }
+                } else {
+                    index1 = i;
+                }
+            }
+            if (word.equals(word2) && !same) {
+                index2 = i;
+            }
+            if (index1 >= 0 && index2 >= 0) {
+                res = Math.min(res, Math.abs(index1 - index2));
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 495. Teemo Attacking
+     * <p>
+     * https://leetcode.com/problems/teemo-attacking
+     * 
+     * <p>
+     * In LOL world, there is a hero called Teemo and his attacking can make his enemy Ashe be in poisoned condition.
+     * Now, given the Teemo's attacking ascending time series towards Ashe and the poisoning time duration per Teemo's
+     * attacking, you need to output the total time that Ashe is in poisoned condition.
+     * 
+     * You may assume that Teemo attacks at the very beginning of a specific time point, and makes Ashe be in poisoned
+     * condition immediately.
+     * </p>
+     * 
+     * @param timeSeries
+     * @param duration
+     * @return
+     */
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+        if (timeSeries == null || timeSeries.length == 0 || duration == 0) {
+            return 0;
+        }
+        int totalDuration = 0;
+        for (int i = 1; i < timeSeries.length; i++) {
+            totalDuration += Math.min(duration, timeSeries[i] - timeSeries[i - 1]);
+        }
+        totalDuration += duration;
+        return totalDuration;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] array = new int[] { 3, 2, 4 };
         int[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
         solution.findDiagonalOrder(matrix);
+        String[] str = new String[] { "a", "b" };
+        System.out.println(solution.shortestWordDistance(str, "a", "b"));
         // solution.rotate(matrix);
         // System.out.println(solution.spiralOrder(matrix));
         // System.out.println(solution.generateMatrix(3));

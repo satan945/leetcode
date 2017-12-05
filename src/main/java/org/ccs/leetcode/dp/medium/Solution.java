@@ -1258,7 +1258,79 @@ public class Solution {
             }
         }
         return false;
+    }
 
+    /**
+     * 646. Maximum Length of Pair Chain
+     * <p>
+     * https://leetcode.com/problems/maximum-length-of-pair-chain
+     * <p>
+     * You are given n pairs of numbers. In every pair, the first number is always smaller than the second number.
+     * 
+     * Now, we define a pair (c, d) can follow another pair (a, b) if and only if b < c. Chain of pairs can be formed in
+     * this fashion.
+     * 
+     * Given a set of pairs, find the length longest chain which can be formed. You needn't use up all the given pairs.
+     * You can select pairs in any order.
+     * </p>
+     * 
+     * @param pairs
+     * @return
+     */
+    public int findLongestChain(int[][] pairs) {
+        if (pairs == null || pairs.length == 0) {
+            return 0;
+        }
+        Arrays.sort(pairs, (o1, o2) -> (o1[0] - o2[0]));
+        int[] dp = new int[pairs.length];
+        Arrays.fill(dp, 1);
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < i; j++) {
+                dp[i] = Math.max(dp[i], pairs[i][0] > pairs[j][0] ? dp[j] + 1 : dp[j]);
+            }
+        }
+        return dp[dp.length - 1];
+    }
+
+    /**
+     * 651. 4 Keys Keyboard
+     * <p>
+     * https://leetcode.com/problems/4-keys-keyboard
+     * <p>
+     * Imagine you have a special keyboard with the following keys:
+     * 
+     * Key 1: (A): Print one 'A' on screen.
+     * 
+     * Key 2: (Ctrl-A): Select the whole screen.
+     * 
+     * Key 3: (Ctrl-C): Copy selection to buffer.
+     * 
+     * Key 4: (Ctrl-V): Print buffer on screen appending it after what has already been printed.
+     * 
+     * Now, you can only press the keyboard for N times (with the above four keys), find out the maximum numbers of 'A'
+     * you can print on screen.
+     * 
+     * Example 1: Input: N = 3 Output: 3 Explanation: We can at most get 3 A's on screen by pressing following key
+     * sequence: A, A, A Example 2: Input: N = 7 Output: 9 Explanation: We can at most get 9 A's on screen by pressing
+     * following key sequence: A, A, A, Ctrl A, Ctrl C, Ctrl V, Ctrl V Note: 1 <= N <= 50 Answers will be in the range
+     * of 32-bit signed integer.
+     * </p>
+     * 
+     * @param N
+     * @return
+     */
+    public int maxA(int N) {
+        if (N <= 6) {
+            return N;
+        }
+        int[] dp = new int[N + 1];
+        for (int i = 1; i <= 6; i++) {
+            dp[i] = i;
+        }
+        for (int j = 7; j < N; j++) {
+            dp[j] = Math.max(dp[j - 4] * 3, dp[j - 5] * 4);
+        }
+        return dp[N];
     }
 
     public static void main(String[] args) {

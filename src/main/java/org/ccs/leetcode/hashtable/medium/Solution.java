@@ -530,6 +530,39 @@ public class Solution {
         return new StringBuilder(word).reverse().toString().equals(word);
     }
 
+    /**
+     * 525. Contiguous Array
+     * <p>
+     * https://leetcode.com/problems/contiguous-array
+     * <p>
+     * Given a binary array, find the maximum length of a contiguous subarray with equal number of 0 and 1.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public int findMaxLength(int[] nums) {
+        int zeroCount = 0;
+        int oneCount = 0;
+        int len = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                zeroCount++;
+            } else {
+                oneCount++;
+            }
+            int sub = zeroCount - oneCount;
+            if (map.containsKey(sub)) {
+                len = Math.max(len, i - map.get(sub));
+            } else {
+                map.put(sub, i);
+            }
+        }
+        return len;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] nums = { -3, -2, -1, 0, 0, 1, 2, 3 };

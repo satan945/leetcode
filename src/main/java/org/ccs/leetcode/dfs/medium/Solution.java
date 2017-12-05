@@ -4,9 +4,12 @@
 package org.ccs.leetcode.dfs.medium;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
 import org.ccs.leetcode.bean.ListNode;
@@ -870,6 +873,45 @@ public class Solution {
             if (m[i][j] == 1) {
                 visited[j] = true;
                 dfsVisit(m, j, visited);
+            }
+        }
+    }
+
+    /**
+     * 491. Increasing Subsequences
+     * <p>
+     * https://leetcode.com/problems/increasing-subsequences
+     * <p>
+     * Given an integer array, your task is to find all the different possible increasing subsequences of the given
+     * array, and the length of an increasing subsequence should be at least 2 .
+     * 
+     * Example: Input: [4, 6, 7, 7] Output: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7,7]]
+     * Note: The length of the given array will not exceed 15. The range of integer in the given array is [-100,100].
+     * The given array may contain duplicates, and two equal integers should also be considered as a special case of
+     * increasing sequence.
+     * </p>
+     * 
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        Set<List<Integer>> res = new HashSet<>();
+        if (nums == null || nums.length == 0) {
+            return new ArrayList<>();
+        }
+        dfsIncresing(nums, 0, new ArrayList<>(), res);
+        return new ArrayList<>(res);
+    }
+
+    private void dfsIncresing(int[] nums, int start, List<Integer> list, Set<List<Integer>> res) {
+        if (list.size() > 1) {
+            res.add(new ArrayList<>(list));
+        }
+        for (int i = start; i < nums.length; i++) {
+            if (list.size() == 0 || list.get(list.size() - 1) <= nums[i]) {
+                list.add(nums[i]);
+                dfsIncresing(nums, i + 1, list, res);
+                list.remove(list.size() - 1);
             }
         }
     }
