@@ -4,6 +4,7 @@
 package org.ccs.leetcode.linkedlist.medium;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -702,20 +703,97 @@ public class Solution {
         return fakeHead.next;
     }
 
+    /**
+     * 725. Split Linked List in Parts
+     * <p>
+     * https://leetcode.com/problems/split-linked-list-in-parts
+     * <p>
+     * Given a (singly) linked list with head node root, write a function to split the linked list into k consecutive
+     * linked list "parts".
+     * 
+     * The length of each part should be as equal as possible: no two parts should have a size differing by more than 1.
+     * This may lead to some parts being null.
+     * 
+     * The parts should be in order of occurrence in the input list, and parts occurring earlier should always have a
+     * size greater than or equal parts occurring later.
+     * 
+     * Return a List of ListNode's representing the linked list parts that are formed.
+     * 
+     * Examples 1->2->3->4, k = 5 // 5 equal parts [ [1], [2], [3], [4], null ]
+     * </p>
+     * 
+     * @param root
+     * @param k
+     * @return
+     */
+    public ListNode[] splitListToParts(ListNode root, int k) {
+        ListNode[] res = new ListNode[k];
+        Arrays.fill(res, null);
+        if (root == null) {
+            return res;
+        }
+        int length = 0;
+        ListNode node = root;
+        while (node != null) {
+            length++;
+            node = node.next;
+        }
+        int eachL = length / k;
+        int rest = length % k;
+        int i = 0;
+        if (eachL < 1) {
+            ListNode cur = root;
+            while (cur != null) {
+                ListNode tmp = cur.next;
+                res[i++] = cur;
+                cur.next = null;
+                cur = tmp;
+            }
+        } else {
+            ListNode cur = root;
+            int count = 0;
+            ListNode tmp;
+            while (cur != null) {
+                res[i] = cur;
+                while (count < eachL-1 && cur != null) {
+                    cur = cur.next;
+                    count++;
+                }
+                if (rest > 0) {
+                    cur = cur.next;
+                    rest--;
+                }
+                tmp = cur == null ? null : cur.next;
+                cur.next = null;
+                cur = tmp;
+                count = 0;
+                i++;
+            }
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         ListNode l1 = new ListNode(1);
-        ListNode l2 = new ListNode(1);
-        ListNode l3 = new ListNode(2);
-        ListNode l4 = new ListNode(2);
+        ListNode l2 = new ListNode(2);
+        ListNode l3 = new ListNode(3);
+        ListNode l4 = new ListNode(4);
+        ListNode l5 = new ListNode(5);
+        ListNode l6 = new ListNode(6);
+        ListNode l7 = new ListNode(7);
         // ListNode l3 = new ListNode(3);
         // ListNode l4 = new ListNode(2);
         // ListNode l5 = new ListNode(9);
         // ListNode l6 = new ListNode(2);
         l1.next = l2;
         l2.next = l3;
-//        l3.next = l4;
-
+        l3.next = l4;
+        l4.next = l5;
+        l5.next = l6;
+        l6.next = l7;
+        // l3.next = l4;
+        solution.splitListToParts(l1, 3);
         // solution.oddEvenList(l1);
         // solution.reverseBetween(l1, 1, 2);
         // System.out.println(solution.rotateRight(l1, 2));

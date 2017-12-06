@@ -521,6 +521,24 @@ public class Solution {
                 && dist(p3, p4) == dist(p4, p1) && dist(p1, p3) == dist(p2, p4);
     }
 
+    /**
+     * 670. Maximum Swap
+     * <p>
+     * https://leetcode.com/problems/maximum-swap
+     * <p>
+     * Given a non-negative integer, you could swap two digits at most once to get the maximum valued number. Return the
+     * maximum valued number you could get.
+     * </p>
+     * todo
+     * 
+     * @param num
+     * @return
+     */
+    public int maximumSwap(int num) {
+        return 0;
+
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // String a = "1+2+3x";

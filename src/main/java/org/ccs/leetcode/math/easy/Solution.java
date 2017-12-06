@@ -998,6 +998,43 @@ public class Solution {
         return 0;
     }
 
+    /**
+     * 728. Self Dividing Numbers
+     * <p>
+     * https://leetcode.com/problems/self-dividing-numbers
+     * <p>
+     * A self-dividing number is a number that is divisible by every digit it contains.
+     * 
+     * For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.
+     * 
+     * Also, a self-dividing number is not allowed to contain the digit zero.
+     * 
+     * Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds
+     * if possible.
+     * </p>
+     * 
+     * @param left
+     * @param right
+     * @return
+     */
+    public List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = left; i <= right; i++) {
+            int j = i;
+            while (j > 0) {
+                if (j % 10 == 0 || i % (j % 10) != 0) {
+                    break;
+                }
+                j /= 10;
+            }
+            if (j == 0) {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[] { 9 };
         Solution solution = new Solution();
