@@ -963,6 +963,67 @@ public class Solution {
         return true;
     }
 
+    /**
+     * 417. Pacific Atlantic Water Flow
+     * <p>
+     * Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent, the
+     * "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and
+     * bottom edges.
+     *
+     * Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or
+     * lower.
+     *
+     * Find the list of grid coordinates where water can flow to both the Pacific and Atlantic ocean.
+     *
+     * Note: The order of returned grid coordinates does not matter. Both m and n are less than 150.
+     * </p>
+     *
+     * @param matrix
+     * @return
+     */
+    public List<int[]> pacificAtlantic(int[][] matrix) {
+        List<int[]> res = new LinkedList<>();
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return res;
+        }
+        int m = matrix.length;
+        int n = matrix[0].length;
+        boolean[][] pReach = new boolean[m][n];
+        boolean[][] aReach = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            dfsReachOcean(matrix, pReach, Integer.MIN_VALUE, i, 0);
+            dfsReachOcean(matrix, aReach, Integer.MIN_VALUE, i, n - 1);
+        }
+        for (int j = 0; j < n; j++) {
+            dfsReachOcean(matrix, pReach, Integer.MIN_VALUE, 0, j);
+            dfsReachOcean(matrix, aReach, Integer.MIN_VALUE, m - 1, j);
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (pReach[i][j] && aReach[i][j]) {
+                    res.add(new int[] { i, j });
+                }
+            }
+        }
+        return res;
+    }
+
+    private void dfsReachOcean(int[][] matrix, boolean[][] reach, int height, int y, int x) {
+        int[] move = new int[] { 1, 0, -1, 0, 1 };
+        reach[y][x] = true;
+        int m = matrix.length;
+        int n = matrix[0].length;
+        for (int i = 0; i < move.length - 1; i++) {
+            int newY = y + move[i];
+            int newX = x + move[i + 1];
+            if (newY > m - 1 || newY < 0 || newX > n - 1 || newX < 0 || reach[newY][newX]
+                    || matrix[newY][newX] < matrix[y][x]) {
+                continue;
+            }
+            dfsReachOcean(matrix, reach, matrix[y][x], newY, newX);
+        }
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[][] maze = { //

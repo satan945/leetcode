@@ -318,6 +318,77 @@ public class Solution {
         return true;
     }
 
+    /**
+     * 417. Pacific Atlantic Water Flow
+     * <p>
+     * Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent, the
+     * "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and
+     * bottom edges.
+     * 
+     * Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or
+     * lower.
+     * 
+     * Find the list of grid coordinates where water can flow to both the Pacific and Atlantic ocean.
+     * 
+     * Note: The order of returned grid coordinates does not matter. Both m and n are less than 150.
+     * </p>
+     * 
+     * @param matrix
+     * @return
+     */
+    public List<int[]> pacificAtlantic(int[][] matrix) {
+        List<int[]> res = new ArrayList<>();
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return res;
+        }
+        int m = matrix.length;
+        int n = matrix[0].length;
+        boolean[][] pReach = new boolean[m][n];
+        boolean[][] aReach = new boolean[m][n];
+        Queue<int[]> pQueue = new LinkedList<>();
+        Queue<int[]> aQueue = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            pQueue.offer(new int[] { i, 0 });
+            aQueue.offer(new int[] { i, n - 1 });
+            pReach[i][0] = true;
+            aReach[i][n - 1] = true;
+        }
+        for (int j = 0; j < n; j++) {
+            pQueue.offer(new int[] { 0, j });
+            aQueue.offer(new int[] { m - 1, j });
+            pReach[0][j] = true;
+            aReach[m - 1][j] = true;
+        }
+        bfsReachOcean(pQueue, pReach, matrix);
+        bfsReachOcean(aQueue, aReach, matrix);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (pReach[i][j] && aReach[i][j]) {
+                    res.add(new int[] { i, j });
+                }
+            }
+        }
+        return res;
+    }
+
+    private void bfsReachOcean(Queue<int[]> queue, boolean[][] reach, int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        int[] move = new int[] { 1, 0, -1, 0, 1 };
+        while (!queue.isEmpty()) {
+            int[] pos = queue.poll();
+            for (int i = 0; i < move.length - 1; i++) {
+                int newY = pos[0] + move[i];
+                int newX = pos[1] + move[i + 1];
+                if (newY < 0 || newY > m - 1 || newX < 0 || newX > n - 1 || matrix[newY][newX] > matrix[pos[0]][pos[1]]
+                        || reach[newY][newX]) {
+                    continue;
+                }
+                reach[newY][newX] = true;
+                queue.offer(new int[] { newY, newX });
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         Integer a = 0;
