@@ -258,6 +258,66 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 
+     * 286. Walls and Gates
+     * <p>
+     * https://leetcode.com/problems/walls-and-gates
+     * <p>
+     * You are given a m x n 2D grid initialized with these three possible values.
+     * 
+     * -1 - A wall or an obstacle. 0 - A gate. INF - Infinity means an empty room. We use the value 231 - 1 = 2147483647
+     * to represent INF as you may assume that the distance to a gate is less than 2147483647. Fill each empty room with
+     * the distance to its nearest gate. If it is impossible to reach a gate, it should be filled with INF.
+     * 
+     * </p>
+     * 
+     * @param rooms
+     */
+    public void wallsAndGates(int[][] rooms) {
+        if (rooms == null || rooms.length == 0 || rooms[0].length == 0) {
+            return;
+        }
+        for (int i = 0; i < rooms.length; i++) {
+            for (int j = 0; j < rooms.length; j++) {
+                if (rooms[i][j] == 0) {
+                    bfsCalDis(rooms, i, j);
+                }
+            }
+        }
+    }
+
+    private void bfsCalDis(int[][] rooms, int i, int j) {
+        int[] move = new int[] { 1, 0, -1, 0, 1 };
+        Queue<int[]> queue = new LinkedList<>();
+        int distance = 0;
+        queue.offer(new int[] { i, j });
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int k = 0; k < size; k++) {
+                int[] pos = queue.poll();
+                int y = pos[0];
+                int x = pos[1];
+                rooms[y][x] = distance;
+                for (int m = 0; m < move.length - 1; m++) {
+                    if (canMove(rooms, y + move[m], x + move[m + 1], distance)) {
+                        queue.offer(new int[] { y + move[m], x + move[m + 1] });
+                    }
+                }
+            }
+            distance++;
+        }
+    }
+
+    private boolean canMove(int[][] rooms, int nY, int nX, int distance) {
+        int m = rooms.length;
+        int n = rooms[0].length;
+        if (nY < 0 || nY > m - 1 || nX < 0 || nX > n - 1 || rooms[nY][nX] == -1 || rooms[nY][nX] <= distance) {
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         Integer a = 0;
