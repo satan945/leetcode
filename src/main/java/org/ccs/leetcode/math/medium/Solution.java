@@ -539,11 +539,42 @@ public class Solution {
 
     }
 
+    /**
+     * 625. Minimum Factorization
+     * 
+     * <p>
+     * https://leetcode.com/problems/minimum-factorization
+     * <p>
+     * Given a positive integer a, find the smallest positive integer b whose multiplication of each digit equals to a.
+     * 
+     * If there is no answer or the answer is not fit in 32-bit signed integer, then return 0.
+     * </p>
+     * 
+     * @param a
+     * @return
+     */
+    public int smallestFactorization(int a) {
+        if (a < 2) {
+            return a;
+        }
+        int res = 0;
+        int multi = 1;
+        for (int i = 9; i >= 2; i--) {
+            while (a % i == 0) {
+                a /= i;
+                res = i * multi + res;
+                multi *= 10;
+            }
+        }
+        return a < 2 && res <= Integer.MAX_VALUE ? (int)res : 0;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         // String a = "1+2+3x";
         // String[] b = a.split("(?=\\+)|(?=-)");
         System.out.println(solution.fractionToDecimal(4, 333));
+        System.out.println(solution.smallestFactorization(48));
         // System.out.println(new Solution().complexNumberMultiply("1+1i", "1+1i"));
     }
 }
