@@ -1414,6 +1414,7 @@ public class Solution {
         return totalDuration;
     }
 
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] array = new int[] { 3, 2, 4 };

@@ -1055,11 +1055,66 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 443. String Compression
+     * <p>
+     * https://leetcode.com/problems/string-compression
+     * <p>
+     * Given an array of characters, compress it in-place.
+     * 
+     * The length after compression must always be smaller than or equal to the original array.
+     * 
+     * Every element of the array should be a character (not int) of length 1.
+     * 
+     * After you are done modifying the input array in-place, return the new length of the array.
+     * 
+     * 
+     * Follow up: Could you solve it using only O(1) extra space?
+     * </p>
+     * 
+     * @param chars
+     * @return
+     */
+    public int compress(char[] chars) {
+        if (chars == null || chars.length == 0) {
+            return 0;
+        }
+        if (chars.length == 1) {
+            return 1;
+        }
+        int repeat = 1;
+        char cur = chars[0];
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i < chars.length; i++) {
+            while (i < chars.length && chars[i] == cur) {
+                repeat++;
+                i++;
+            }
+            sb.append(cur);
+            if (repeat > 1) {
+                sb.append(repeat);
+            }
+            if (i < chars.length) {
+                cur = chars[i];
+                repeat = 1;
+            }
+        }
+        if (repeat == 1) {
+            sb.append(cur);
+        }
+        String res = sb.toString();
+        for (int i = 0; i < res.length(); i++) {
+            chars[i] = res.charAt(i);
+        }
+        return res.length();
+    }
+
     public static void main(String[] args) {
         String a = "123456  123123";
         String b = "123123123";
-        String c = "cupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupucu";
+        String c = "aabbccdd";
         Solution solution = new Solution();
+        System.out.println(solution.compress(c.toCharArray()));
         // System.out.println(solution.reverseString(a));
         // System.out.println(solution.lengthOfLastWord(a));
         String move = "UD";
