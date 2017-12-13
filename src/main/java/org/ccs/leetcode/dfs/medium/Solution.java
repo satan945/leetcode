@@ -5,9 +5,12 @@ package org.ccs.leetcode.dfs.medium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -1090,6 +1093,85 @@ public class Solution {
             }
         }
         return board;
+    }
+
+    /**
+     * 332. Reconstruct Itinerary
+     * <p>
+     * https://leetcode.com/problems/reconstruct-itinerary
+     * <p>
+     * Given a list of airline tickets represented by pairs of departure and arrival airports [from, to], reconstruct
+     * the itinerary in order. All of the tickets belong to a man who departs from JFK. Thus, the itinerary must begin
+     * with JFK.
+     * 
+     * Note: If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical
+     * order when read as a single string. For example, the itinerary ["JFK", "LGA"] has a smaller lexical order than
+     * ["JFK", "LGB"]. All airports are represented by three capital letters (IATA code). You may assume all tickets
+     * form at least one valid itinerary. Example 1: tickets = [["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR",
+     * "SFO"]] Return ["JFK", "MUC", "LHR", "SFO", "SJC"]. Example 2: tickets =
+     * [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]] Return
+     * ["JFK","ATL","JFK","SFO","ATL","SFO"]. Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"].
+     * But it is larger in lexical order.
+     * </p>
+     * 
+     * @param tickets
+     * @return
+     */
+    public List<String> findItinerary(String[][] tickets) {
+        LinkedList<String> res = new LinkedList<>();
+        if (tickets == null || tickets.length == 0) {
+            return res;
+        }
+        Map<String, PriorityQueue<String>> flights = new HashMap<>();
+        for (String[] ticket : tickets) {
+            flights.putIfAbsent(ticket[0], new PriorityQueue<>());
+            flights.get(ticket[0]).add(ticket[1]);
+        }
+        dfsFly("JFK", res, flights);
+        return res;
+    }
+
+    private void dfsFly(String departure, LinkedList<String> res, Map<String, PriorityQueue<String>> flights) {
+        PriorityQueue<String> arrivals = flights.get(departure);
+        while (arrivals != null && !arrivals.isEmpty()) {
+            dfsFly(arrivals.poll(), res, flights);
+        }
+        res.addFirst(departure);
+    }
+
+    /**
+     * 721. Accounts Merge
+     * <p>
+     * https://leetcode.com/problems/accounts-merge
+     * <p>
+     * Given a list accounts, each element accounts[i] is a list of strings, where the first element accounts[i][0] is a
+     * name, and the rest of the elements are emails representing emails of the account.
+     * 
+     * Now, we would like to merge these accounts. Two accounts definitely belong to the same person if there is some
+     * email that is common to both accounts. Note that even if two accounts have the same name, they may belong to
+     * different people as people could have the same name. A person can have any number of accounts initially, but all
+     * of their accounts definitely have the same name.
+     * 
+     * After merging the accounts, return the accounts in the following format: the first element of each account is the
+     * name, and the rest of the elements are emails in sorted order. The accounts themselves can be returned in any
+     * order.
+     *
+     * Note:
+     * 
+     * The length of accounts will be in the range [1, 1000].
+     * 
+     * The length of accounts[i] will be in the range [1, 10].
+     * 
+     * The length of accounts[i][j] will be in the range [1, 30].
+     * </p>
+     * 
+     * todo
+     * 
+     * @param accounts
+     * @return
+     */
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+
     }
 
     public static void main(String[] args) {
