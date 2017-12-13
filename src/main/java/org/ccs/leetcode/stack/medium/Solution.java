@@ -5,6 +5,7 @@ package org.ccs.leetcode.stack.medium;
 
 import org.ccs.leetcode.bean.NestedInteger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -309,11 +310,46 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 739. Daily Temperatures
+     * <p>
+     * Given a list of daily temperatures, produce a list that, for each day in the input, tells you how many days you
+     * would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0
+     * instead.
+     * 
+     * For example, given the list temperatures = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2,
+     * 1, 1, 0, 0].
+     * 
+     * Note: The length of temperatures will be in the range [1, 30000]. Each temperature will be an integer in the
+     * range [30, 100].
+     * 
+     * </p>
+     * 
+     * @param temperatures
+     * @return
+     */
+    public int[] dailyTemperatures(int[] temperatures) {
+        if (temperatures == null || temperatures.length == 0) {
+            return new int[0];
+        }
+        Stack<int[]> stack = new Stack<>();
+        int[] res = new int[temperatures.length];
+        for (int i = 0; i < temperatures.length; i++) {
+            while (!stack.isEmpty() && stack.peek()[0] < temperatures[i]) {
+                int[] pair = stack.pop();
+                res[pair[1]] = i - pair[1];
+            }
+            stack.push(new int[] { temperatures[i], i });
+        }
+        while (!stack.isEmpty()) {
+            int[] pair = stack.pop();
+            res[pair[1]] = 0;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] array = new int[] { 1, 0, 1, -4, -3 };
-        // System.out.println(solution.nextGreaterElements(array));
-        // System.out.println(solution.removeKdigits("112", 1));
-        System.out.println(solution.find132pattern(array));
+        solution.dailyTemperatures(new int[] { 89, 62, 70, 58, 47, 47, 46, 76, 100, 70 });
     }
 }
