@@ -3,7 +3,12 @@
  */
 package org.ccs.leetcode.dfs.hard;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * @author abel created on 2017/12/12 下午5:21
@@ -27,6 +32,6 @@ public class Solution {
      * @return
      */
     public List<String> removeInvalidParentheses(String s) {
-
+        return null;
     }
 }

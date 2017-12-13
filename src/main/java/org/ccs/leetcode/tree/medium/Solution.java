@@ -1513,7 +1513,7 @@ public class Solution {
      * @return
      */
     public TreeNode str2tree(String s) {
-
+        return null;
     }
 
     public static void main(String[] args) {

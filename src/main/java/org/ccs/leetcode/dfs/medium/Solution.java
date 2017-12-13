@@ -1171,7 +1171,7 @@ public class Solution {
      * @return
      */
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
-
+        return null;
     }
 
     public static void main(String[] args) {

@@ -490,6 +490,68 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 490. The Maze
+     * <p>
+     * https://leetcode.com/problems/the-maze
+     * <p>
+     * There is a ball in a maze with empty spaces and walls. The ball can go through empty spaces by rolling up, down,
+     * left or right, but it won't stop rolling until hitting a wall. When the ball stops, it could choose the next
+     * direction.
+     * 
+     * Given the ball's start position, the destination and the maze, determine whether the ball could stop at the
+     * destination.
+     * 
+     * The maze is represented by a binary 2D array. 1 means the wall and 0 means the empty space. You may assume that
+     * the borders of the maze are all walls. The start and destination coordinates are represented by row and column
+     * indexes.
+     * </p>
+     * 
+     * @param maze
+     * @param start
+     * @param destination
+     * @return
+     */
+    public boolean hasPath(int[][] maze, int[] start, int[] destination) {
+        if (maze == null || maze.length == 0 || maze[0].length == 0) {
+            return false;
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[maze.length][maze[0].length];
+        queue.offer(start);
+        visited[start[0]][start[1]] = true;
+        int[] move = new int[] { 1, 0, -1, 0, 1 };
+        while (!queue.isEmpty()) {
+            int[] pos = queue.poll();
+            if (pos[0] == destination[0] && pos[1] == destination[1]) {
+                return true;
+            }
+            for (int i = 0; i < move.length - 1; i++) {
+                int y = pos[0];
+                int x = pos[1];
+                while (canRoll(y + move[i], x + move[i + 1], maze)) {
+                    y += move[i];
+                    x += move[i + 1];
+                }
+                if (visited[y][x]) {
+                    continue;
+                }
+                visited[y][x] = true;
+                queue.offer(new int[] { y, x });
+            }
+        }
+        return false;
+    }
+
+    private boolean canRoll(int y, int x, int[][] maze) {
+        int m = maze.length;
+        int n = maze[0].length;
+        if (y < 0 || y > m - 1 || x < 0 || x > n - 1 || maze[y][x] == 1) {
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         Integer a = 0;
@@ -511,6 +573,9 @@ public class Solution {
                 { 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 }, { 0, 1, 1, 1, 1, 1, 1, 0, 0, 1 }, { 1, 1, 1, 1, 1, 0, 0, 1, 1, 1 },
                 { 0, 1, 0, 1, 1, 0, 1, 1, 1, 1 }, { 1, 1, 1, 0, 1, 0, 1, 1, 1, 1 } };
 
-        solution.updateMatrix(matrix);
+        int[][] maze = { { 0, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 1, 0 }, { 1, 1, 0, 1, 1 },
+                { 0, 0, 0, 0, 0 } };
+        System.out.println(solution.hasPath(maze, new int[] { 0, 4 }, new int[] { 3, 2 }));
+        // solution.updateMatrix(matrix);
     }
 }
