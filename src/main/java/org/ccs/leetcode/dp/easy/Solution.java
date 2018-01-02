@@ -285,12 +285,33 @@ public class Solution {
         return second;
     }
 
+    /**
+     *746. Min Cost Climbing Stairs
+     * @param cost
+     * @return
+     */
+    public int minCostClimbingStairs(int[] cost) {
+        int n = cost.length;
+        int[] dp = new int[n+1];
+        dp[0] = 0;
+        dp[1] = 0;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = Math.min(dp[i - 2] + cost[i - 2], dp[i - 1] + cost[i - 1]);
+        }
+        return dp[n];
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] prices = new int[] { 1, 3, 1 };
         // System.out.println(solution.maxSubArray(prices));
-        System.out.println(solution.rob(prices));
-        System.out.println(solution.numWays(2, 1));
+        // System.out.println(solution.rob(prices));
+        // System.out.println(solution.numWays(2, 1));
+        int[] cost = new int[] { 10, 15, 20 };
+        int[] cost2 = new int[] { 1, 100, 1, 1, 1, 100, 1, 1, 100, 1 };
+        int[] cost3 = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        int[] cost4 = new int[] { 1,1,100,100,1,100};
+        System.out.println(solution.minCostClimbingStairs(cost4));
     }
 
 }
