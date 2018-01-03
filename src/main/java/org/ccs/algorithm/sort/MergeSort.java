@@ -3,6 +3,8 @@
  */
 package org.ccs.algorithm.sort;
 
+import java.util.LinkedList;
+
 /**
  * Implementation of MergeSort
  * 
@@ -18,6 +20,7 @@ package org.ccs.algorithm.sort;
 public class MergeSort {
 
     public void sort(int[] nums) {
+        LinkedList<Integer> linkedList =new LinkedList<>();
         if (nums.length <= 1) {
             return;
         }
