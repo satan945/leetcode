@@ -51,7 +51,8 @@ public class PermutationSequence {
 
     public static void main(String[] args) {
         PermutationSequence solution = new PermutationSequence();
-        System.out.println(solution.getPermutation(3, 6));
+        System.out.println(solution.getPermutation(4, 8));
+        System.out.println(6%8);
     }
 
 }
