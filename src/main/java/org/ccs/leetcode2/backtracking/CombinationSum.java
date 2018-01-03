@@ -8,6 +8,17 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 39. Combination Sum
+ * <p>
+ * Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations in C
+ * where the candidate numbers sums to T.
+ * 
+ * The same repeated number may be chosen from C unlimited number of times.
+ * 
+ * Note: All numbers (including target) will be positive integers. The solution set must not contain duplicate
+ * combinations.
+ * </p>
+ * 
  * @author abel created on 2018/1/2 上午10:50
  * @version $Id$
  */
