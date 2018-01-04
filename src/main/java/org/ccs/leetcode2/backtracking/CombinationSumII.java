@@ -53,6 +53,8 @@ public class CombinationSumII {
 
     public static void main(String[] args) {
         CombinationSumII solution = new CombinationSumII();
-        System.out.println(solution.combinationSum2(new int[] { 10, 1, 2, 7, 6, 1, 5 }, 8));
+//        System.out.println(solution.combinationSum2(new int[] { 10, 1, 2, 7, 6, 1, 5 }, 8));
+        List<List<Integer>> res = solution.combinationSum2(new int[] { 9, 7, 0, 3, 9, 8, 6, 5, 7, 6 }, 29);
+        System.out.println(res.size()+":\n"+res);
     }
 }
