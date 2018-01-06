@@ -6,8 +6,10 @@ package org.ccs.leetcode.contest.weekly.contest65;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Weekly Contest 65
@@ -111,20 +113,24 @@ public class Solution {
         }
         String a = level.substring(index, index + 2);
         if (!indexMap.containsKey(a)) {
-            state = false;
             return false;
         }
         for (String str : indexMap.get(a)) {
             if (helper(level, nextLevel + str, index + 1, indexMap)) {
                 return true;
-            } else {
-                if (!state) {
-                    state = true;
-                    return false;
-                }
             }
         }
         return false;
+    }
+
+    /**
+     * 757. Set Intersection Size At Least Two
+     * 
+     * @param intervals
+     * @return
+     */
+    public int intersectionSizeTwo(int[][] intervals) {
+        return 0;
     }
 
     public static void main(String[] args) {
@@ -155,15 +161,5 @@ public class Solution {
                 "ABF", "EFE", "FAG", "ECG", "EBD", "EBA", "EBC", "CFD", "CFE", "CFB", "CFC", "CFA", "GFB", "GFC", "GFG",
                 "GFD" };
         System.out.println(solution.pyramidTransition(bottom2, Arrays.asList(allowed2)));
-    }
-
-    /**
-     * 757. Set Intersection Size At Least Two
-     * 
-     * @param intervals
-     * @return
-     */
-    public int intersectionSizeTwo(int[][] intervals) {
-        return 0;
     }
 }
