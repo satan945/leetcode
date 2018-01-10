@@ -6,8 +6,10 @@ package org.ccs.leetcode2.bfs;
 import org.ccs.leetcode.bean.UndirectedGraphNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -32,7 +34,27 @@ import java.util.Queue;
  * @version $Id$
  */
 public class CloneGraph {
+
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
-        return null;
+        if (node == null) {
+            return null;
+        }
+        Map<Integer, UndirectedGraphNode> alreadyCopy = new HashMap<>();
+        Queue<UndirectedGraphNode> queue = new LinkedList<>();
+        UndirectedGraphNode copyRoot = new UndirectedGraphNode(node.label);
+        alreadyCopy.put(copyRoot.label, copyRoot);
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            UndirectedGraphNode cur = queue.poll();
+            List<UndirectedGraphNode> neighbors = cur.neighbors;
+            for (UndirectedGraphNode neighbor : neighbors) {
+                if (!alreadyCopy.containsKey(neighbor.label)) {
+                    alreadyCopy.put(neighbor.label, new UndirectedGraphNode(neighbor.label));
+                    queue.offer(neighbor);
+                }
+                alreadyCopy.get(node.label).neighbors.add(alreadyCopy.get(neighbor.label));
+            }
+        }
+        return copyRoot;
     }
 }

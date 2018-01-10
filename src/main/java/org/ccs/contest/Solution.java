@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.leetcode.contest;
+package org.ccs.contest;
 
 /**
  * Weekly Contest 63

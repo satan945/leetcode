@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.leetcode.contest.weekly.contest65;
+package org.ccs.contest.weekly.contest65;
 
 import java.util.ArrayList;
 import java.util.Arrays;

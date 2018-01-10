@@ -5,6 +5,9 @@ package org.ccs.leetcode2.dfs;
 
 import org.ccs.leetcode.bean.UndirectedGraphNode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 
  * 133. Clone Graph
@@ -29,11 +32,23 @@ import org.ccs.leetcode.bean.UndirectedGraphNode;
 public class CloneGraph {
 
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        Map<Integer, UndirectedGraphNode> mapping = new HashMap<>();
+        return cloneNode(node, mapping);
+    }
+
+    private UndirectedGraphNode cloneNode(UndirectedGraphNode node, Map<Integer, UndirectedGraphNode> mapping) {
         if (node == null) {
             return null;
         }
-        UndirectedGraphNode copy = new UndirectedGraphNode(node.label);
-        return null;
+        if (mapping.containsKey(node.label)) {
+            return mapping.get(node.label);
+        }
+        UndirectedGraphNode cloneNode = new UndirectedGraphNode(node.label);
+        mapping.put(cloneNode.label, cloneNode);
+        for (UndirectedGraphNode neighbor : node.neighbors) {
+            cloneNode.neighbors.add(cloneNode(neighbor, mapping));
+        }
+        return cloneNode;
     }
 
 }
