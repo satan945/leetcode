@@ -6,49 +6,57 @@ package org.ccs.algorithm.tree.travel;
 import org.ccs.leetcode.bean.TreeNode;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 
 /**
- * @author abel created on 2017/8/25 下午3:51
+ * @author abel created on 2018/1/11 上午11:41
  * @version $Id$
  */
-public class PostOrderTraversal {
+public class Traversal {
 
-    // Recursive
-    public List<Integer> travelR(TreeNode root) {
+    public List<Integer> preOrder(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
         List<Integer> res = new ArrayList<>();
-        if (root == null) {
-            return res;
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+            res.add(node.val);
         }
-        postOrderTravelOneStack(root, res);
         return res;
     }
 
-    private void postOrderTravelRecursive(TreeNode root, List<TreeNode> res) {
-        if (root == null) {
-            return;
+    public List<Integer> inOrder(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> res = new ArrayList<>();
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            if (!stack.isEmpty()) {
+                node = stack.pop();
+                res.add(node.val);
+                node = node.right;
+            }
         }
-        postOrderTravelRecursive(root.left, res);
-        postOrderTravelRecursive(root.right, res);
-        res.add(root);
+        return res;
     }
 
-    // NonRecursive
-    // using two stack
-
-    // using linked list
-
-    // using one stack and reverse
-    private void postOrderTravelOneStack(TreeNode root, List<Integer> res) {
+    public List<Integer> postOrder(TreeNode root) {
         Stack<TreeNode> stack = new Stack<>();
+        List<Integer> res = new ArrayList<>();
         stack.push(root);
         stack.push(root);
-        TreeNode node;
         while (!stack.isEmpty()) {
-            node = stack.pop();
+            TreeNode node = stack.pop();
             if (!stack.isEmpty() && node == stack.peek()) {
                 if (node.right != null) {
                     stack.push(node.right);
@@ -58,10 +66,12 @@ public class PostOrderTraversal {
                     stack.push(node.left);
                     stack.push(node.left);
                 }
+
             } else {
                 res.add(node.val);
             }
         }
+        return res;
     }
 
     public static void main(String[] args) {
@@ -78,8 +88,9 @@ public class PostOrderTraversal {
         l.right = lr;
         r.left = rl;
         r.right = rr;
-        PostOrderTraversal postOrderTraversal = new PostOrderTraversal();
-        System.out.println(postOrderTraversal.travelR(root));
+        Traversal traversal = new Traversal();
+        System.out.println(traversal.preOrder(root));
+        System.out.println(traversal.inOrder(root));
+        System.out.println(traversal.postOrder(root));
     }
-
 }
