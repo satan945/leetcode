@@ -30,25 +30,21 @@ public class QuickSort {
 
     public void sort(int[] nums, int begin, int end) {
         int i = begin, j = end;
-        int pivot = nums[begin];
         if (begin < end) {
+            int pivot = nums[begin];
             while (i < j) {
                 while (i < j && nums[j] >= pivot) {
                     j--;
                 }
                 if (i < j) {
                     swap(nums, i, j);
-                    nums[j] = nums[i];
-                    i++;
                 }
 
                 while (i < j && nums[i] < pivot) {
                     i++;
                 }
                 if (i < j) {
-                    swap(nums,i,j);
-                    nums[i] = nums[j];
-                    j--;
+                    swap(nums, i, j);
                 }
             }
             nums[i] = pivot;
@@ -65,9 +61,10 @@ public class QuickSort {
 
     public static void main(String[] args) {
         QuickSort sort = new QuickSort();
-        int[] abc = new int[] { 3, 2, 1, 5, 4, 1 };
-        sort.quickSort(abc);
-        System.out.println(abc);
+        int[] abc = new int[] { 6, 1, 2, 7, 9, 3, 4, 5, 10, 8 };
+        int[] abc2 = new int[] { 1, 3, 2, 2, 5, 6, 7, 9, 8 };
+        sort.quickSort(abc2);
+        System.out.println(abc2);
     }
 
 }
