@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
+ * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
 package org.ccs.contest.weekly.contest65;
 
@@ -10,79 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Weekly Contest 65
+ * 756. Pyramid Transition Matrix
  * 
- * @author Abel created on 2017/12/30 18:28
+ * @author abel created on 2018/1/30 下午4:40
  * @version $Id$
  */
-public class Solution {
-    /**
-     * 754. Reach a Number
-     * 
-     * @param target
-     * @return
-     */
-    public int reachNumber(int target) {
-        if (target < 0) {
-            target = -target;
-        }
-        long sq = (long) Math.floor(Math.sqrt(target * 2));
-        long sum = sq * (sq + 1) / 2;
-        while (sum < target || (sum - target) % 2 != 0) {
-            sq++;
-            sum = (sq) * (sq + 1) / 2;
-        }
-        return (int) sq;
-    }
-
-    /**
-     * 755. Pour Water
-     * 
-     * @param heights
-     * @param V
-     * @param K
-     * @return
-     */
-    public int[] pourWater(int[] heights, int V, int K) {
-        if (heights == null || heights.length == 0 || V == 0) {
-            return heights;
-        }
-        int index;
-        while (V > 0) {
-            index = K;
-            for (int i = K - 1; i >= 0; i--) {
-                if (heights[i] > heights[index]) {
-                    break;
-                } else if (heights[i] < heights[index]) {
-                    index = i;
-                }
-            }
-            if (index != K) {
-                heights[index]++;
-                V--;
-                continue;
-            }
-            for (int i = K + 1; i < heights.length; i++) {
-                if (heights[i] > heights[index]) {
-                    break;
-                } else if (heights[i] < heights[index]) {
-                    index = i;
-                }
-            }
-            heights[index]++;
-            V--;
-        }
-        return heights;
-    }
-
-    /**
-     * 756. Pyramid Transition Matrix
-     * 
-     * @param bottom
-     * @param allowed
-     * @return
-     */
-    private boolean state = true;
+public class PyramidTransitionMatrix {
 
     public boolean pyramidTransition(String bottom, List<String> allowed) {
         Map<String, List<String>> indexMap = new HashMap<>();
@@ -121,18 +54,8 @@ public class Solution {
         return false;
     }
 
-    /**
-     * 757. Set Intersection Size At Least Two
-     * 
-     * @param intervals
-     * @return
-     */
-    public int intersectionSizeTwo(int[][] intervals) {
-        return 0;
-    }
-
     public static void main(String[] args) {
-        Solution solution = new Solution();
+        PyramidTransitionMatrix solution = new PyramidTransitionMatrix();
         int[] heights = new int[] { 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1 };
         String bottom = "XYZ";
         List<String> allowed = new ArrayList<>();

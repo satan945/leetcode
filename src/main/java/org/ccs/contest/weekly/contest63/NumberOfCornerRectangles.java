@@ -1,22 +1,17 @@
 /*
- * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
+ * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
-package org.ccs.contest;
+package org.ccs.contest.weekly.contest63;
 
 /**
- * Weekly Contest 63
  * 
- * @author Abel created on 2017/12/16 18:51
+ * 750. Number Of Corner Rectangles
+ *
+ *
+ * @author abel created on 2018/1/30 下午4:37
  * @version $Id$
  */
-public class Solution {
-    /**
-     * 750. Number Of Corner Rectangles
-     * 
-     * @param grid
-     * @return
-     */
-
+public class NumberOfCornerRectangles {
     public int countCornerRectangles(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -86,52 +81,12 @@ public class Solution {
         }
     }
 
-    /**
-     * 748. Shortest Completing Word
-     * 
-     * @param licensePlate
-     * @param words
-     * @return
-     */
-    public String shortestCompletingWord(String licensePlate, String[] words) {
-        String target = licensePlate.toLowerCase();
-        String res = null;
-        int[] targetCount = buildCount(target);
-        for (String word : words) {
-            int[] wordCount = buildCount(word);
-            if (match(wordCount, targetCount) && (res == null || res.length() > word.length())) {
-                res = word;
-            }
-        }
-        return res;
-    }
-
-    private int[] buildCount(String target) {
-        int[] count = new int[26];
-        for (int i = 0; i < target.length(); i++) {
-            char ch = target.charAt(i);
-            if (ch >= 'a' && ch <= 'z') {
-                count[ch - 'a']++;
-            }
-        }
-        return count;
-    }
-
-    private boolean match(int[] wordCount, int[] targetCount) {
-        for (int i = 0; i < 26; i++) {
-            if (wordCount[i] < targetCount[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static void main(String[] args) {
         int[][] grid = { { 1, 0, 0, 1, 0 }, { 0, 0, 1, 0, 1 }, { 0, 0, 0, 1, 0 }, { 1, 0, 1, 0, 1 } };
         int[][] grid1 = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
         int[][] grid2 = { { 0, 1, 0, 0 }, { 1, 1, 1, 0 }, { 0, 1, 1, 1 }, { 0, 0, 0, 0 } };
         int[][] grid3 = { { 1, 0, 1 }, { 0, 1, 1 }, { 1, 1, 1 }, { 1, 0, 1 } };
-        Solution solution = new Solution();
+        NumberOfCornerRectangles solution = new NumberOfCornerRectangles();
         System.out.println(solution.countCornerRectangles(grid3));
     }
 }

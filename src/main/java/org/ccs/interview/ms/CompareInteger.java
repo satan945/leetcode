@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
-package org.ccs.ms;
+package org.ccs.interview.ms;
 
 /**
  * OTS-01

@@ -20,8 +20,38 @@ package org.ccs.leetcode2.backtracking;
  */
 public class AndroidUnlockPatterns {
 
-    //todo
     public int numberOfPatterns(int m, int n) {
-        return 0;
+        int[][] jump = new int[10][10];
+        jump[1][3] = jump[3][1] = 2;
+        jump[1][7] = jump[7][1] = 4;
+        jump[3][9] = jump[9][3] = 6;
+        jump[7][9] = jump[9][7] = 8;
+        jump[1][9] = jump[9][1] = jump[3][7] = jump[7][3] = jump[2][8] = jump[8][2] = jump[4][6] = jump[6][4] = 5;
+        boolean[] visited = new boolean[10];
+        int res = 0;
+        for (int i = m; i <= n; i++) {
+            res += calPath(1, jump, visited, i - 1) * 4; // 1,3,7,9 same
+            res += calPath(2, jump, visited, i - 1) * 4;// 2,4,6,8 same
+            res += calPath(5, jump, visited, i - 1);// 5
+        }
+        return res;
+    }
+
+    private int calPath(int start, int[][] jump, boolean[] visited, int count) {
+        if (count < 0) {
+            return 0;
+        }
+        if (count == 0) {
+            return 1;
+        }
+        int res = 0;
+        visited[start] = true;
+        for (int i = 1; i <= 9; i++) {
+            if (!visited[i] && (jump[start][i] == 0 || visited[jump[start][i]])) {
+                res += calPath(i, jump, visited, count - 1);
+            }
+        }
+        visited[start] = false;
+        return res;
     }
 }
