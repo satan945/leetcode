@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
-package org.ccs.amazon;
+package org.ccs.interview.amazon;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2017 Liqiang Fang. All Rights Reserved.
  */
-package org.ccs.amazon;
+package org.ccs.interview.amazon;
 
 import org.ccs.leetcode.bean.TreeNode;
 import org.ccs.leetcode.design.hard.DoubleLinkedNode;

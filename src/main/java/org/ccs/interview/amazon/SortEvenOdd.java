@@ -1,11 +1,9 @@
 /*
  * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
-package org.ccs.amazon;
+package org.ccs.interview.amazon;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * @author abel created on 2018/1/17 下午12:23
