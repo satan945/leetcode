@@ -3,9 +3,6 @@
  */
 package org.ccs.leetcode2.dp;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 /**
  * 351. Android Unlock Patterns
  * <p>
@@ -17,6 +14,7 @@ import java.util.Comparator;
  * @version $Id$
  */
 public class AndroidUnlockPatterns {
+
     public int numberOfPatterns(int m, int n) {
         return 0;
     }
