@@ -30,6 +30,7 @@ public class MovieNetwork {
             ratingMap.put(i, rating[i]);
         }
         Set<Integer> allMovies = getAllMovies(S, relationMap);
+        allMovies.remove(S);
         PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>((o1, o2) -> o2.getValue() - o1.getValue());
         for (Map.Entry<Integer, Integer> entry : ratingMap.entrySet()) {
             if (allMovies.contains(entry.getKey())) {
@@ -41,7 +42,6 @@ public class MovieNetwork {
             res[i] = pq.poll().getKey();
         }
         return res;
-        // Write your code here
     }
 
     private Set<Integer> getAllMovies(int s, Map<Integer, List<Integer>> relationMap) {
@@ -54,8 +54,7 @@ public class MovieNetwork {
                 continue;
             }
             res.add(movie);
-            List<Integer> relationMovies = relationMap.get(movie);
-            queue.addAll(relationMovies);
+            queue.addAll(relationMap.get(movie));
         }
         return res;
     }
@@ -70,7 +69,11 @@ public class MovieNetwork {
 
     public static void main(String[] args) {
         MovieNetwork solution = new MovieNetwork();
-        int[] res = solution.topKMovie(new int[]{10,20,30,40},new int[][]{{1,3},{0,2},{1},{0}},0,2);
-        System.out.println(res);
+        int[] res = solution.topKMovie(new int[] { 10, 20, 30, 40 }, new int[][] { { 1, 3 }, { 0, 2 }, { 1 }, { 0 } },
+                0, 2);
+        int[] res1 = solution.topKMovie(new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 },
+                new int[][] { { 1, 4, 5 }, { 0, 2, 3 }, { 1, 7 }, { 1, 6, 7 }, { 0 }, { 0 }, { 3 }, { 2, 3 }, {} }, 5,
+                3);
+        System.out.println(res1);
     }
 }
