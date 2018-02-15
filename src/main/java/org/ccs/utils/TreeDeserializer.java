@@ -35,6 +35,9 @@ public class TreeDeserializer {
 
     // Use queue to simplify position move
     private TreeNode deserial(Queue<String> q) {
+        if(q.isEmpty()){
+            return null;
+        }
         String val = q.poll();
         if ("#".equals(val))
             return null;
