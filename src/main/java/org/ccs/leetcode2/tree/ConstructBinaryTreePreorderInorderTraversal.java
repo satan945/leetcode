@@ -28,10 +28,10 @@ public class ConstructBinaryTreePreorderInorderTraversal {
         for (int i = 0; i < inorder.length; i++) {
             inorderMap.put(inorder[i], i);
         }
-        return dfsBuildTree(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, inorderMap);
+        return dfsBuildTree(preorder, 0, preorder.length - 1, 0, inorder.length - 1, inorderMap);
     }
 
-    private TreeNode dfsBuildTree(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd,
+    private TreeNode dfsBuildTree(int[] preorder, int preStart, int preEnd, int inStart, int inEnd,
             Map<Integer, Integer> inorderMap) {
         if (preStart > preEnd || inStart > inEnd) {
             return null;
@@ -39,13 +39,13 @@ public class ConstructBinaryTreePreorderInorderTraversal {
         TreeNode root = new TreeNode(preorder[preStart]);
         int inRoot = inorderMap.get(preorder[preStart]);
         int nodes = inRoot - inStart;
-        root.left = dfsBuildTree(preorder, preStart + 1, preStart + nodes, inorder, inStart, inRoot - 1, inorderMap);
-        root.right = dfsBuildTree(preorder, preStart + nodes + 1, preEnd, inorder, inRoot+1, inEnd, inorderMap);
+        root.left = dfsBuildTree(preorder, preStart + 1, preStart + nodes, inStart, inRoot - 1, inorderMap);
+        root.right = dfsBuildTree(preorder, preStart + nodes + 1, preEnd, inRoot + 1, inEnd, inorderMap);
         return root;
     }
 
     public static void main(String[] args) {
         ConstructBinaryTreePreorderInorderTraversal solution = new ConstructBinaryTreePreorderInorderTraversal();
-        solution.buildTree(new int[]{1,2},new int[]{1,2});
+        solution.buildTree(new int[] { 1, 2 }, new int[] { 1, 2 });
     }
 }

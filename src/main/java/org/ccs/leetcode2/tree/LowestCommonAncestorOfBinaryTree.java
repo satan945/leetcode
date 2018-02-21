@@ -12,6 +12,12 @@ import java.util.Set;
 import java.util.Stack;
 
 /**
+ * 236. Lowest Common Ancestor of a Binary Tree
+ * <p>
+ * Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+ * 
+ * </p>
+ * 
  * @author abel created on 2018/1/10 下午6:37
  * @version $Id$
  */
