@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 Qunar.com. All Rights Reserved.
  */
-package org.ccs.leetcode2.twopointer;
+package org.ccs.leetcode2.slidingwindow;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +30,59 @@ public class MinimumWindowSubstring {
         if (s == null || s.length() < t.length() || s.length() == 0) {
             return "";
         }
-        Map<Character, Integer> cntMap = new HashMap<>();
+        int[] tCnt = new int[256];
+        String res = "";
+
         for (int i = 0; i < t.length(); i++) {
-            cntMap.put(t.charAt(i), cntMap.getOrDefault(t.charAt(i), 0) + 1);
+            tCnt[t.charAt(i)]++;
         }
-        
+        int left = findNext(s, 0, tCnt);
+        if (left == s.length()) {
+            return "";
+        }
+        int[] sCnt = new int[256];
+        int right = left;
+        int match = 0;
+        while (right < s.length()) {
+            char rChar = s.charAt(right);
+            if (sCnt[rChar] < tCnt[rChar]) {
+                match++;
+            }
+            sCnt[rChar]++;
+            while (left < s.length() && match == t.length()) {
+                int curLen = right - left + 1;
+                if (res.isEmpty() || res.length() > curLen) {
+                    res = s.substring(left, left + curLen);
+                    if (curLen == t.length()) {
+                        return res;
+                    }
+                }
+                char lChar = s.charAt(left);
+                if (sCnt[lChar] <= tCnt[lChar]) {
+                    match--;
+                }
+                sCnt[lChar]--;
+                left = findNext(s, left + 1, tCnt);
+            }
+            right = findNext(s, right + 1, tCnt);
+        }
+        return res;
+
+    }
+
+    private int findNext(String s, int pos, int[] tCnt) {
+        while (pos < s.length()) {
+            char ch = s.charAt(pos);
+            if (tCnt[ch] > 0) {
+                return pos;
+            }
+            pos++;
+        }
+        return pos;
+    }
+
+    public static void main(String[] args) {
+        MinimumWindowSubstring solution= new MinimumWindowSubstring();
+        solution.minWindow("a","a");
     }
 }
