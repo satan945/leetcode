@@ -53,7 +53,7 @@ public class MedianOfTwoSortedArrays {
         }
         int k = (len1 + len2 + 1) / 2;
         int l = 0, r = nums1.length;
-        while (l < r) {
+        while (l <= r) {
             int mid1 = l + (r - l) / 2;
             int mid2 = k - mid1;
             int leftMax1 = mid1 <= 0 ? Integer.MIN_VALUE : nums1[mid1 - 1];
@@ -67,7 +67,7 @@ public class MedianOfTwoSortedArrays {
                     return (double) (Math.max(leftMax1, leftMax2));
                 }
             } else if (leftMax1 > rightMin2) {
-                r = mid1;
+                r = mid1 -1;
             } else {
                 l = mid1 + 1;
             }
