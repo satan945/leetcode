@@ -42,8 +42,6 @@ public class MaxStack {
     }
 
     public int popMax() {
-        LinkedList<Integer> linkedList = new LinkedList<>();
-        linkedList.ad
         int max = maxStack.peek();
         Stack<Integer> cache = new Stack<>();
         while (stack.peek() != max) {

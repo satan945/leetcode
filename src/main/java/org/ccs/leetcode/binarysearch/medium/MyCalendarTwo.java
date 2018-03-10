@@ -3,6 +3,8 @@
  */
 package org.ccs.leetcode.binarysearch.medium;
 
+import java.util.TreeMap;
+
 /**
  * 731. My Calendar II
  * <p>
@@ -29,11 +31,15 @@ package org.ccs.leetcode.binarysearch.medium;
  */
 public class MyCalendarTwo {
 
+    private TreeMap<Integer, Integer> treeMap;
+
     public MyCalendarTwo() {
+        treeMap = new TreeMap<>();
 
     }
 
     public boolean book(int start, int end) {
+
         return false;
     }
 }
