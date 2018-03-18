@@ -41,4 +41,34 @@ public class UglyNumberII {
         }
         return ugly[n - 1];
     }
+
+    public int nthUglyNumber2(int n) {
+        int[] res = new int[n];
+        res[0] = 1;
+        int cnt2 = 0, cnt3 = 0, cnt5 = 0;
+        int fac2 = 2, fac3 = 3, fac5 = 5;
+        for (int i = 1; i < n; i++) {
+            int min = Math.min(Math.min(fac2, fac3), fac5);
+            res[i] = min;
+            if (fac2 == min) {
+                cnt2++;
+                fac2 = 2 * res[cnt2];
+            }
+            if (fac3 == min) {
+                cnt3++;
+                fac3 = 3 * res[cnt3];
+            }
+            if (fac5 == min) {
+                cnt5++;
+                fac5 = 5 * res[cnt5];
+            }
+        }
+        return res[n - 1];
+    }
+
+    public static void main(String[] args) {
+        UglyNumberII uglyNumberII = new UglyNumberII();
+        System.out.println(uglyNumberII.nthUglyNumber(7));
+        System.out.println(uglyNumberII.nthUglyNumber2(7));
+    }
 }

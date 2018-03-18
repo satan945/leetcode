@@ -3,8 +3,10 @@
  */
 package org.ccs.leetcode.dfs.medium;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -994,12 +996,12 @@ public class Solution {
         boolean[][] pReach = new boolean[m][n];
         boolean[][] aReach = new boolean[m][n];
         for (int i = 0; i < m; i++) {
-            dfsReachOcean(matrix, pReach, Integer.MIN_VALUE, i, 0);
-            dfsReachOcean(matrix, aReach, Integer.MIN_VALUE, i, n - 1);
+            dfsReachOcean(matrix, pReach, i, 0);
+            dfsReachOcean(matrix, aReach, i, n - 1);
         }
         for (int j = 0; j < n; j++) {
-            dfsReachOcean(matrix, pReach, Integer.MIN_VALUE, 0, j);
-            dfsReachOcean(matrix, aReach, Integer.MIN_VALUE, m - 1, j);
+            dfsReachOcean(matrix, pReach, 0, j);
+            dfsReachOcean(matrix, aReach, m - 1, j);
         }
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
@@ -1011,7 +1013,7 @@ public class Solution {
         return res;
     }
 
-    private void dfsReachOcean(int[][] matrix, boolean[][] reach, int height, int y, int x) {
+    private void dfsReachOcean(int[][] matrix, boolean[][] reach, int y, int x) {
         int[] move = new int[] { 1, 0, -1, 0, 1 };
         reach[y][x] = true;
         int m = matrix.length;
@@ -1023,7 +1025,7 @@ public class Solution {
                     || matrix[newY][newX] < matrix[y][x]) {
                 continue;
             }
-            dfsReachOcean(matrix, reach, matrix[y][x], newY, newX);
+            dfsReachOcean(matrix, reach, newY, newX);
         }
     }
 
@@ -1190,7 +1192,7 @@ public class Solution {
                 { 1, 1, 0, 1, 1 }, //
                 { 0, 0, 0, 0, 0 } };
         // System.out.println(solution.hasPath(maze, new int[] { 0, 4 }, new int[] { 3, 2 }));
-        System.out.println(solution.hasPath(maze2, new int[] { 0, 4 }, new int[] { 4, 4 }));
+        // System.out.println(solution.hasPath(maze2, new int[] { 0, 4 }, new int[] { 4, 4 }));
         // ListNode head = new ListNode(1);
         // head.next = new ListNode(3);
         // System.out.println(new Solution().sortedListToBST(head));
@@ -1216,5 +1218,9 @@ public class Solution {
         node5.left = node8;
         node5.right = node9;
         // System.out.println(solution.pathSum(root, 22));
+
+        int[][] matrix = { { 1, 2, 2, 3, 5 }, { 3, 2, 3, 4, 4 }, { 2, 4, 5, 3, 1 }, { 6, 7, 1, 4, 5 },
+                { 5, 1, 1, 2, 4 } };
+        solution.pacificAtlantic(matrix);
     }
 }

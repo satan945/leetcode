@@ -1518,13 +1518,22 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        TreeNode root = new TreeNode(2);
-        TreeNode l = new TreeNode(1);
-        TreeNode r = new TreeNode(3);
-        TreeNode rl = new TreeNode(4);
-        TreeNode rr = new TreeNode(5);
+        TreeNode root = new TreeNode(6);
+        TreeNode l = new TreeNode(8);
+        TreeNode r = new TreeNode(15);
+        TreeNode ll = new TreeNode(7);
+        TreeNode lr = new TreeNode(9);
+        TreeNode rl = new TreeNode(10);
+        TreeNode rr = new TreeNode(18);
         root.left = l;
-        System.out.println(solution.inorderSuccessor(root, new TreeNode(1)));
+        root.right = r;
+        l.left = ll;
+        l.right = lr;
+        r.left = rl;
+        r.right = rr;
+        int[] nums=  new int[]{8,6,7,9,15,10,18};
+        System.out.println(solution.verifyPreorder(nums));
+//        System.out.println(solution.inorderSuccessor(root, new TreeNode(1)));
         // root.right = r;
         // r.left = rl;
         // r.right = rr;
@@ -1533,6 +1542,6 @@ public class Solution {
         // System.out.println(solution.deleteNode(root, 2));
         // System.out.println(solution.kthSmallest(root, 1));
         // System.out.println(solution.isValidBST(root));
-        System.out.println(solution.sumNumbers(root));
+//        System.out.println(solution.sumNumbers(root));
     }
 }
