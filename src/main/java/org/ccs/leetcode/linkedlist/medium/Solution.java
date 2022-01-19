@@ -68,10 +68,58 @@ public class Solution {
     }
 
     public ListNode addTwoNumbersWithoutBigDecimal(ListNode l1, ListNode l2) {
-        ListNode result = new ListNode(0);
+            ListNode cur1 = l1;
+            ListNode cur2 = l2;
+            int length = 0;
+            while(cur1 != null){
+                length ++;
+                cur1 = cur1.next;
+            }
 
-        return null;
+            while(cur2 != null){
+                length --;
+                cur2 = cur2.next;
+            }
+
+            ListNode ret;
+            ListNode other;
+            if(length >= 0){
+                ret = l1;
+                other = l2;
+            }else{
+                ret = l2;
+                other = l1;
+            }
+
+            ListNode curP = ret;
+            cur1 = ret;
+            cur2 = other;
+            boolean over = false;
+            while(cur2 != null){
+                cur1.val += cur2.val;
+                cur1.val += (over ? 1 : 0);
+                over = cur1.val >= 10;
+                cur1.val %= 10;
+                curP = cur1;
+                cur1 = cur1.next;
+                cur2 = cur2.next;
+            }
+
+            while(cur1 != null){
+                cur1.val += over ? 1 : 0;
+                over = cur1.val >= 10;
+                cur1.val %= 10;
+                curP = cur1;
+                cur1 = cur1.next;
+            }
+
+            if(over && cur1 == null){
+                curP.next = new ListNode(1);
+            }
+
+            return ret;
     }
+
 
     /**
      * 445. Add Two Numbers II
